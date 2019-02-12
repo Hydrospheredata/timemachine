@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package timemachine;
+
+message Empty{
+
+}
+
+message ID {
+    bytes uuid = 1;
+    string folder = 2;
+}
+
+message Data{
+    ID id = 1;
+    bytes data = 2;
+}
+
+message Range{
+    string folder = 1;
+    bytes from = 2;
+    bytes till = 3;
+}
+
+service Timemachine {
+    rpc Save(Data) returns (Empty) {}
+    rpc Get(ID) returns (Data) {}
+    rpc GetRange(Range) returns (stream Data) {}
+}
+

@@ -1,0 +1,7 @@
+.idea
+scalaClient/.idea
+scalaClient/target
+src/cmake-build-debug
+src/CMakeFiles
+scalaClient/project/target
+scalaClient/project/project/target
