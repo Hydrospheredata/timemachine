@@ -43,6 +43,8 @@ namespace timemachine{
 
     public:
 
+        virtual ~TSServer();
+
         DBCloud* db;
 
         Status Save(ServerContext *context, const Data *request, Empty *response) override;

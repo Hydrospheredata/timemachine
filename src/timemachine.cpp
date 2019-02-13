@@ -40,17 +40,47 @@ void RunServer() {
     try {
         DBCloud *db;
 
-        auto baseName = "timemachine";
-
         CloudEnvOptions cloud_env_options;
         std::unique_ptr<CloudEnv> cloud_env;
 
         char *keyid = getenv("AWS_ACCESS_KEY_ID");
         char *secret = getenv("AWS_SECRET_ACCESS_KEY");
-        char *bucketName = getenv("AWS_BUCKET_NAME");
         char *kRegion = getenv("AWS_DEFAULT_REGION");
+        char *walProvider = getenv("WAL_PROVIDER");
+        char *sourceLocalDir = getenv("SRC_LOCAL_DIR");
+        char *destinationLocalDir = getenv("DST_LOCAL_DIR");
+        char *sourceBucket = getenv("SRC_BUCKET");
+        char *destBucket = getenv("DST_BUCKET");
+        char *dbName = getenv("DB_NAME");
 
-        if (keyid == nullptr || secret == nullptr || bucketName == nullptr || kRegion == nullptr) {
+        if(sourceLocalDir == nullptr){
+            sourceLocalDir = (char *)"default-timemachine";
+        }
+
+        if(destinationLocalDir == nullptr){
+            destinationLocalDir = (char *)"default-timemachine";
+        }
+
+        if(sourceBucket == nullptr){
+            sourceBucket = (char *)"default-timemachine";
+        }
+
+        if(destBucket == nullptr){
+            destBucket = (char *)"default-timemachine";
+        }
+
+        bool useKinesis = false;
+
+        auto kinesisString = "kinesis";
+
+        if(walProvider != nullptr && strcmp(walProvider, kinesisString) == 0){
+            useKinesis = true;
+            std::cout << "starting with kinesis WAL" << std::endl;
+        } else {
+            std::cout << "starting with local WAL" << std::endl;
+        }
+
+        if (keyid == nullptr || secret == nullptr  || kRegion == nullptr || dbName == nullptr) {
             fprintf(
                     stderr,
                     "Please set env variables "
@@ -59,17 +89,21 @@ void RunServer() {
         }
         cloud_env_options.credentials.access_key_id.assign(keyid);
         cloud_env_options.credentials.secret_key.assign(secret);
-        cloud_env_options.log_type = rocksdb::LogType::kLogKinesis;
+        if(useKinesis){
+            cloud_env_options.keep_local_log_files = false;
+            cloud_env_options.log_type = LogType::kLogKinesis;
+        }
+
 
         CloudEnv *cenv;
         rocksdb::Status s =
                 CloudEnv::NewAwsEnv(Env::Default(),
-                                    bucketName, baseName, kRegion,
-                                    bucketName, baseName, kRegion,
+                                    sourceBucket, sourceLocalDir, kRegion,
+                                    destBucket, destinationLocalDir, kRegion,
                                     cloud_env_options, nullptr, &cenv);
         if (!s.ok()) {
             fprintf(stderr, "Unable to create cloud env in bucket %s. %s\n",
-                    bucketName, s.ToString().c_str());
+                    sourceBucket, s.ToString().c_str());
             throw;
         }
         cloud_env.reset(cenv);
@@ -83,21 +117,17 @@ void RunServer() {
         std::string persistent_cache = "";
 
 
-        options.IncreaseParallelism();
-        options.OptimizeLevelStyleCompaction();
-        options.create_if_missing = true;
-
-        s = DBCloud::Open(options, baseName, persistent_cache, 0, &db);
+        s = DBCloud::Open(options, dbName, persistent_cache, 0, &db);
 
         std::cout << "caching connection" << std::endl;
 
         if (!s.ok()) {
             fprintf(stderr, "Unable to open db at path %s with bucket %s. %s\n",
-                    baseName, bucketName, s.ToString().c_str());
+                    dbName, sourceBucket, s.ToString().c_str());
             throw;
         }
 
-        std::cout << "DB is opened: " << s.ToString() << std::endl;
+        std::cout << "DB is opened: " << dbName << " - " << s.ToString() << std::endl;
         std::string server_address("0.0.0.0:8080");
         TSServer service;
         ServerBuilder builder;
@@ -109,7 +139,7 @@ void RunServer() {
         server->Wait();
         std::cout << "Server is down: " << server_address << std::endl;
     } catch (...) {
-        std::cerr << "SOmething went wrong. Closing server" << std::endl;
+        std::cerr << "Something went wrong. Closing server" << std::endl;
     }
 }
 

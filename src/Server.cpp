@@ -58,6 +58,7 @@ namespace timemachine {
     grpc::Status TSServer::Get(ServerContext *context, const ID *request, Data *response) {
         auto status = Perform(request->folder(), [&](DBCloud& db) -> grpc::Status {
             try {
+                db.Savepoint();
                 std::cout << "Get data by key" << request->uuid() << std::endl;
                 std::string data;
                 rocksdb::Status getStatus = db.Get(ReadOptions(), request->uuid(), &data);
@@ -81,6 +82,7 @@ namespace timemachine {
     grpc::Status TSServer::GetRange(ServerContext *context, const Range *request, DataWriter *writer) {
         auto status = Perform(request->folder(), [&](DBCloud& db) -> grpc::Status {
             try {
+                db.Savepoint();
                 std::cout << "Get range " << request << std::endl;
                 std::string key;
                 request->SerializePartialToString(&key);
@@ -97,8 +99,10 @@ namespace timemachine {
                 }
 
                 for (; it->Valid(); it->Next()) {
-                    auto keyString = it->key().ToString();
 
+                    if(context->IsCancelled()) break;
+
+                    auto keyString = it->key().ToString();
                     if (keyString < request->from()) break;
 
                     std::cout << "Reading key " << keyString << std::endl;
@@ -106,11 +110,8 @@ namespace timemachine {
                     auto val = it->value().ToString();
                     auto data = Data();
                     data.ParseFromString(val);
-                    it->Next();
-                    auto nextKeyString = it->key().ToString();
                     std::cout << "writing value " << keyString << std::endl;
                     writer->Write(data);
-
                 }
 
                 delete it;
@@ -126,6 +127,13 @@ namespace timemachine {
         });
 
         return status;
+    }
+
+    TSServer::~TSServer() {
+        std::cout << "Trying to flush and stop db" << std::endl;
+        db->Flush(FlushOptions());
+        delete db;
+        std::cout << "db stopped" << std::endl;
     }
 
 }
