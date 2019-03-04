@@ -5,6 +5,7 @@ import java.util.UUID
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import java.nio.ByteBuffer
+import java.util.concurrent.atomic.AtomicLong
 
 import io.grpc.stub.StreamObserver
 
@@ -47,9 +48,12 @@ class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
 
   import TimeMachineClient._
 
+  private val inc = new AtomicLong()
+
   def save(folder:String, data: Array[Byte]): UUID = {
     val uuid = UUID.randomUUID();
-    val id = ID(uuid.toByteString(), folder)
+
+    val id = ID(System.currentTimeMillis, inc.incrementAndGet(),  folder)
     val r = stub.save(Data(Some(id), ByteString.copyFrom(data)))
 
     import scala.concurrent.duration._
@@ -59,17 +63,17 @@ class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
     uuid
   }
 
-  def get(folder:String, uUID: UUID): Future[Data] = {
-    val id = ID(uUID.toByteString(), folder)
+  def get(folder:String, ts: Long, inc:Long): Future[Data] = {
+    val id = ID(ts, inc, folder)
     stub.get(id)
   }
 
-  def getRange(folder:String, from: Option[UUID], till:Option[UUID], so:StreamObserver[Data]):Unit = {
-    val range = Range(folder)
+  def getRange(folder:String, from: Option[ID], till:Option[ID], so:StreamObserver[Data]):Unit = {
+    val range = Range(None, None, folder)
 
     val r = for{
-      r1 <- from.map(f => range.withFrom(f.toByteString())).orElse(Some(range))
-      r2 <- till.map(t => r1.withTill(t.toByteString())).orElse(Some(r1))
+      r1 <- from.map(f => range.withFrom(f)).orElse(Some(range))
+      r2 <- till.map(t => r1.withTill(t)).orElse(Some(r1))
     } yield r2
 
     stub.getRange(r.getOrElse(range), so)

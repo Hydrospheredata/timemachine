@@ -2,18 +2,9 @@
 // Created by Dmitry Isaev on 2019-01-30.
 //
 
-
-
-
-
-// Created by Dmitry Isaev on 2019-01-30.
-//
-
 #include "timeMachine.grpc.pb.h"
-#include "rocksdb/db.h"
-#include "rocksdb/options.h"
-#include "rocksdb/cloud/db_cloud.h"
 #include <functional>
+#include "DbClient.h"
 
 using timemachine::Empty;
 using timemachine::Timemachine;
@@ -33,8 +24,6 @@ using grpc::ServerWriter;
 using rocksdb::DBCloud;
 using rocksdb::Options;
 
-
-
 using DataWriter = ServerWriter<Data>;
 
 namespace timemachine{
@@ -42,19 +31,17 @@ namespace timemachine{
     class TSServer : public Timemachine::Service {
 
     public:
-
-        virtual ~TSServer();
-
-        DBCloud* db;
-
-        Status Save(ServerContext *context, const Data *request, Empty *response) override;
-
-        Status Get(ServerContext *context, const ID *request, Data *response) override;
-
-        Status GetRange(ServerContext *context, const Range *request, DataWriter *writer) override;
-
-        Status Perform(std::string basename, std::function<Status (DBCloud&)> fn);
-
+        TSServer();
+        grpc::Status Save(ServerContext*, const Data*, Empty*) override;
+        grpc::Status Get(ServerContext*, const ID*, Data*) override;
+        grpc::Status GetRange(ServerContext*, const Range*, DataWriter*) override;
+        grpc::Status Perform(std::string, std::function<grpc::Status (rocksdb::ColumnFamilyHandle*)>);
+        void Init(std::shared_ptr<timemachine::DbClient>);
+        
+    private:
+        std::shared_ptr<timemachine::DbClient> client;
+        rocksdb::WriteOptions wopt;
+        rocksdb::ReadOptions ropt;
 
     };
 }

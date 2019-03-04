@@ -11,6 +11,19 @@
 
 #include "rocksdb/options.h"
 #include "rocksdb/cloud/db_cloud.h"
+#include "Config.h"
+
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/async.h"
+
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 
 using namespace rocksdb;
 
@@ -36,115 +49,65 @@ using timemachine::TSServer;
 
 using DataWriter = ServerWriter<Data>;
 
+void initLogger(spdlog::level::level_enum logLevel)
+{
+        spdlog::init_thread_pool(8192, 1);
+        auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt >();
+        stdout_sink->set_level(logLevel);
+        auto rotating_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("timemachine.log", 1024*1024*10, 3);
+        rotating_sink->set_level(logLevel);
+        std::vector<spdlog::sink_ptr> sinks {stdout_sink, rotating_sink};
+        auto logger = std::make_shared<spdlog::async_logger>("log", sinks.begin(), sinks.end(), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
+        logger->set_level(logLevel);
+        logger->set_pattern("%^[%l][%H:%M:%S %z] [thread %t] %v");
+        spdlog::register_logger(logger);
+        spdlog::set_default_logger(logger);
+}
+
+void handler(int sig) {
+  void *array[10];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+  size = backtrace(array, 10);
+
+  // print out all the frames to stderr
+  fprintf(stderr, "Error: signal %d:\n", sig);
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  exit(1);
+}
+
 void RunServer() {
     try {
-        DBCloud *db;
-
-        CloudEnvOptions cloud_env_options;
-        std::unique_ptr<CloudEnv> cloud_env;
-
-        char *keyid = getenv("AWS_ACCESS_KEY_ID");
-        char *secret = getenv("AWS_SECRET_ACCESS_KEY");
-        char *kRegion = getenv("AWS_DEFAULT_REGION");
-        char *walProvider = getenv("WAL_PROVIDER");
-        char *sourceLocalDir = getenv("SRC_LOCAL_DIR");
-        char *destinationLocalDir = getenv("DST_LOCAL_DIR");
-        char *sourceBucket = getenv("SRC_BUCKET");
-        char *destBucket = getenv("DST_BUCKET");
-        char *dbName = getenv("DB_NAME");
-
-        if(sourceLocalDir == nullptr){
-            sourceLocalDir = (char *)"default-timemachine";
-        }
-
-        if(destinationLocalDir == nullptr){
-            destinationLocalDir = (char *)"default-timemachine";
-        }
-
-        if(sourceBucket == nullptr){
-            sourceBucket = (char *)"default-timemachine";
-        }
-
-        if(destBucket == nullptr){
-            destBucket = (char *)"default-timemachine";
-        }
-
-        bool useKinesis = false;
-
-        auto kinesisString = "kinesis";
-
-        if(walProvider != nullptr && strcmp(walProvider, kinesisString) == 0){
-            useKinesis = true;
-            std::cout << "starting with kinesis WAL" << std::endl;
-        } else {
-            std::cout << "starting with local WAL" << std::endl;
-        }
-
-        if (keyid == nullptr || secret == nullptr  || kRegion == nullptr || dbName == nullptr) {
-            fprintf(
-                    stderr,
-                    "Please set env variables "
-                    "AWS_BUCKET_NAME, AWS_DEFAULT_REGION, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY with cloud credentials");
-            throw;
-        }
-        cloud_env_options.credentials.access_key_id.assign(keyid);
-        cloud_env_options.credentials.secret_key.assign(secret);
-        if(useKinesis){
-            cloud_env_options.keep_local_log_files = false;
-            cloud_env_options.log_type = LogType::kLogKinesis;
-        }
-
-
-        CloudEnv *cenv;
-        rocksdb::Status s =
-                CloudEnv::NewAwsEnv(Env::Default(),
-                                    sourceBucket, sourceLocalDir, kRegion,
-                                    destBucket, destinationLocalDir, kRegion,
-                                    cloud_env_options, nullptr, &cenv);
-        if (!s.ok()) {
-            fprintf(stderr, "Unable to create cloud env in bucket %s. %s\n",
-                    sourceBucket, s.ToString().c_str());
-            throw;
-        }
-        cloud_env.reset(cenv);
-
-        Options options;
-        options.IncreaseParallelism();
-        options.OptimizeLevelStyleCompaction();
-        options.env = cloud_env.get();
-        options.create_if_missing = true;
-
-        std::string persistent_cache = "";
-
-
-        s = DBCloud::Open(options, dbName, persistent_cache, 0, &db);
-
-        std::cout << "caching connection" << std::endl;
-
-        if (!s.ok()) {
-            fprintf(stderr, "Unable to open db at path %s with bucket %s. %s\n",
-                    dbName, sourceBucket, s.ToString().c_str());
-            throw;
-        }
-
-        std::cout << "DB is opened: " << dbName << " - " << s.ToString() << std::endl;
+        auto conf = timemachine::Config();
+        auto cfg = std::make_shared<timemachine::Config>(conf);
+        initLogger(cfg->debug ? spdlog::level::debug : spdlog::level::info);
+        spdlog::info("Initializing config: {}", cfg->ToString());
+        auto dbClient = std::make_shared<timemachine::DbClient>(timemachine::DbClient(cfg));
+        spdlog::info("dbClient initialized sucessfully");
         std::string server_address("0.0.0.0:8080");
         TSServer service;
         ServerBuilder builder;
         builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
         builder.RegisterService(&service);
         std::unique_ptr<Server> server(builder.BuildAndStart());
-        service.db = db;
-        std::cout << "Server listening on " << server_address << std::endl;
+        service.Init(dbClient);
+        spdlog::info("Server listening on {0}", server_address);
         server->Wait();
-        std::cout << "Server is down: " << server_address << std::endl;
-    } catch (...) {
-        std::cerr << "Something went wrong. Closing server" << std::endl;
+        spdlog::info("Server is down: {0}", server_address);
+    } catch (const std::exception &e) {
+        spdlog::error("Something went wrong: {}. Closing server", e.what());
+    }
+    catch (...) {
+        spdlog::error("Something went wrong. Closing server");
     }
 }
 
 int main() {
+    signal(SIGSEGV, handler); 
     RunServer();
     return 0;
 };
+
+
 

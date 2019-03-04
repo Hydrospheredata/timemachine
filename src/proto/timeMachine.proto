@@ -7,8 +7,9 @@ message Empty{
 }
 
 message ID {
-    bytes uuid = 1;
-    string folder = 2;
+    int64 timestamp = 1;
+    int64 incremental = 2;
+    string folder = 3;
 }
 
 message Data{
@@ -17,9 +18,9 @@ message Data{
 }
 
 message Range{
-    string folder = 1;
-    bytes from = 2;
-    bytes till = 3;
+    ID from = 1;
+    ID till = 2;
+    string folder = 3;
 }
 
 service Timemachine {

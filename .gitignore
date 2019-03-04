@@ -1,7 +1,10 @@
 .idea
+.vscode
 scalaClient/.idea
 scalaClient/target
 src/cmake-build-debug
 src/CMakeFiles
+CMakeFiles
 scalaClient/project/target
 scalaClient/project/project/target
+.DS_Store

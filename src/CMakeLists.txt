@@ -21,7 +21,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(timemachine C CXX)
 
-SET(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD 14)
 
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -51,6 +51,12 @@ message(STATUS "Using gRPC ${gRPC_VERSION}")
 
 find_package(BZip2 REQUIRED)
 find_package(Snappy REQUIRED)
+
+message(STATUS "Looking for spdlog")
+find_package(spdlog REQUIRED)
+
+set(SPBLOG spdlog::spblog)
+#set(SPBLOG_SINKS_COLOR spdlog)
 
 
 find_program(GRPC_PLUGIN NAMES "grpc_cpp_plugin")
@@ -86,15 +92,18 @@ add_custom_command(
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
+include_directories("${spdlog_INCLUDE_DIR}")
+
 # Targets greeter_[async_](client|server)
 
 find_library(ROCKSDB_LIBRARY rocksdb)
 
-add_executable(timemachine "timemachine.cpp" Server.cpp Server.h
+add_executable(timemachine "timemachine.cpp" Server.cpp Server.h Config.cpp Config.h IDComparator.h IDComparator.cpp DbClient.h DbClient.cpp
         ${tm_proto_srcs}
         ${tm_grpc_srcs})
 target_link_libraries(timemachine
         ${BZIP2_LIBRARIES}
+#        spdlog
         ${SNAPPY_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${AWSSDK_LINK_LIBRARIES}
