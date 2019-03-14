@@ -49,6 +49,14 @@ set(_PROTOBUF_PROTOC $<TARGET_FILE:protobuf::protoc>)
 find_package(gRPC REQUIRED)
 message(STATUS "Using gRPC ${gRPC_VERSION}")
 
+message(STATUS "Looking for POCO")
+find_library(POCO_FOUNDATION PocoFoundation)
+find_library(POCO_UTIL PocoUtil)
+find_library(POCO_NET PocoNet)
+find_library(POCO_JSON PocoJSON)
+find_library(POCO_XML PocoXML)
+
+
 find_package(BZip2 REQUIRED)
 find_package(Snappy REQUIRED)
 
@@ -96,14 +104,31 @@ include_directories("${spdlog_INCLUDE_DIR}")
 
 # Targets greeter_[async_](client|server)
 
+
 find_library(ROCKSDB_LIBRARY rocksdb)
 
-add_executable(timemachine "timemachine.cpp" Server.cpp Server.h Config.cpp Config.h IDComparator.h IDComparator.cpp DbClient.h DbClient.cpp
+add_executable(timemachine "timemachine.cpp" 
+        GRPCServer.cpp GRPCServer.h 
+        Config.cpp Config.h 
+        IDComparator.h IDComparator.cpp 
+        DbClient.h DbClient.cpp
+        HTTPServer.h HTTPServer.cpp
+        handlers/HandlerFactory.h handlers/HandlerFactory.cpp
         ${tm_proto_srcs}
-        ${tm_grpc_srcs})
+        ${tm_grpc_srcs} handlers/HealthHandler.cpp handlers/HealthHandler.h
+        handlers/InfoHandler.cpp handlers/InfoHandler.h
+        handlers/SaveHandler.cpp handlers/SaveHandler.h
+        utils/RepositoryUtils.cpp utils/RepositoryUtils.h
+        handlers/NotFoundHandler.cpp handlers/NotFoundHandler.h
+        handlers/GetRangeHandler.cpp handlers/GetRangeHandler.h DbId.cpp DbId.h)
 target_link_libraries(timemachine
         ${BZIP2_LIBRARIES}
-#        spdlog
+        ${POCO_UTIL}
+        ${POCO_NET}
+        ${POCO_JSON}
+        ${POCO_XML}
+        ${POCO_FOUNDATION}
+        ${CMAKE_THREAD_LIBS_INIT}
         ${SNAPPY_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${AWSSDK_LINK_LIBRARIES}

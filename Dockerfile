@@ -19,8 +19,11 @@ COPY --from=build1 /usr/local/bin/grpc_cpp_plugin  /usr/local/bin
 RUN apt-get update \
     && apt-get install -y \
        bzip2 build-essential autoconf git pkg-config zlib1g zlib1g-dev openssl libssl-dev libgtk-3-dev autogen libsnappy-dev \
-       automake libtool curl make g++ unzip cmake libgtest-dev libcurl4-openssl-dev golang \
-    && cp /local_tmp/lib/lib* /usr/local/lib && ls /usr/local/lib && ldconfig 
+       automake libtool curl make g++ unzip cmake libgtest-dev libcurl4-openssl-dev golang libiodbc2 libiodbc2-dev \
+    && cp /local_tmp/lib/lib* /usr/local/lib && ls /usr/local/lib && ldconfig \
+    && mkdir /usr/src/poco && cd /usr/src/poco && wget http://pocoproject.org/releases/poco-1.9.0/poco-1.9.0-all.tar.gz \
+    && tar -zxvf poco-1.9.0-all.tar.gz && cd poco-1.9.0-all && ./configure --static --no-tests && make -j$(nproc) && make install
+
 
 ADD ./src /app/src
 ADD ./src/spdlog /app/external/spdlog
@@ -34,4 +37,4 @@ RUN cmake -E env LDFLAGS="-lcurl -lssl -lcrypto -lz -lrt" cmake ../src \
 
 WORKDIR /app
 
-ENTRYPOINT ["/app/build/timemachine"]
+#ENTRYPOINT ["/app/build/timemachine"]

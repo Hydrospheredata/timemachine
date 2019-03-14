@@ -53,7 +53,7 @@ class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
   def save(folder:String, data: Array[Byte]): UUID = {
     val uuid = UUID.randomUUID();
 
-    val id = ID(System.currentTimeMillis, inc.incrementAndGet(),  folder)
+    val id = ID(folder =  folder)
     val r = stub.save(Data(Some(id), ByteString.copyFrom(data)))
 
     import scala.concurrent.duration._

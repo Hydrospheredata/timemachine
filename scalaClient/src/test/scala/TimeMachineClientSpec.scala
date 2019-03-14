@@ -24,18 +24,18 @@ class TimeMachineClientSpec extends FlatSpec with Matchers {
   "TimeMachine" should "save data to storage" in {
 
 
-
-    val data1 = for (i <- Range(0, 10)) yield {
-      val data = fixture(1)
-      val uuid = service.save("second", data)
-
-      TimeUnit.MILLISECONDS.sleep(1)
-
-//      val data2 = Await.result(service.get("first", uuid), 30 second)
-//      data2
-
-      uuid
-    }
+//
+//    val data1 = for (i <- Range(0, 10)) yield {
+//      val data = fixture(1)
+//      val uuid = service.save("second", data)
+//
+//      TimeUnit.MILLISECONDS.sleep(1)
+//
+////      val data2 = Await.result(service.get("first", uuid), 30 second)
+////      data2
+//
+//      uuid
+//    }
 
     def fallback(future: Future[Data]) = future.map(Some(_)).fallbackTo(Future.successful(None))
 //
@@ -46,7 +46,7 @@ class TimeMachineClientSpec extends FlatSpec with Matchers {
 
   //  val uuid = new UUID(-1273898908248420814l, -4843414857704647621l)
 
-    service.getRange("second", None, None, new StreamObserver[Data] {
+    service.getRange("four", None, None, new StreamObserver[Data] {
 
       var list = List[Data]()
 

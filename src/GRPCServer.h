@@ -4,7 +4,13 @@
 
 #include "timeMachine.grpc.pb.h"
 #include <functional>
+
 #include "DbClient.h"
+#include "utils/RepositoryUtils.h"
+
+#ifndef TIMEMACHINE_GRPC_SERVER_H
+#define TIMEMACHINE_GRPC_SERVER_H
+
 
 using timemachine::Empty;
 using timemachine::Timemachine;
@@ -25,19 +31,25 @@ using rocksdb::DBCloud;
 using rocksdb::Options;
 
 using DataWriter = ServerWriter<Data>;
+using timemachine::utils::RepositoryUtils;
 
-namespace timemachine{
+namespace timemachine {
 
-    class TSServer : public Timemachine::Service {
+    class GRPCServer : public Timemachine::Service, RepositoryUtils {
 
     public:
-        TSServer();
-        grpc::Status Save(ServerContext*, const Data*, Empty*) override;
-        grpc::Status Get(ServerContext*, const ID*, Data*) override;
-        grpc::Status GetRange(ServerContext*, const Range*, DataWriter*) override;
-        grpc::Status Perform(std::string, std::function<grpc::Status (rocksdb::ColumnFamilyHandle*)>);
+        GRPCServer();
+
+        grpc::Status Save(ServerContext *, const Data *, ID *) override;
+
+        grpc::Status Get(ServerContext *, const ID *, Data *) override;
+
+        grpc::Status GetRange(ServerContext *, const Range *, DataWriter *) override;
+
+        grpc::Status Perform(std::string, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)>);
+
         void Init(std::shared_ptr<timemachine::DbClient>);
-        
+
     private:
         std::shared_ptr<timemachine::DbClient> client;
         rocksdb::WriteOptions wopt;
@@ -45,6 +57,8 @@ namespace timemachine{
 
     };
 }
+
+#endif
 
 
 

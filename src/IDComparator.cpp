@@ -14,18 +14,19 @@ namespace timemachine {
         auto k2 = ID();
         k2.ParseFromString(b.ToString());
 
-        spdlog::debug("comparing ({}, {}) and ({}, {})", k1.timestamp(),  k1.incremental(), k2.timestamp(), k2.incremental());
+        spdlog::debug("comparing ({}, {}) and ({}, {})", k1.timestamp(), k1.unique(), k2.timestamp(),
+                      k2.unique());
 
-        if(k1.timestamp() < k2.timestamp()) result = -1;
-        else if(k1.timestamp() > k2.timestamp()) result = 1;
-        else if(k1.incremental() < k2.incremental()) result = -1;
-        else if(k1.incremental() > k2.incremental()) result = 1;
+        if (k1.timestamp() < k2.timestamp()) result = -1;
+        else if (k1.timestamp() > k2.timestamp()) result = 1;
+        else if (k1.unique() < k2.unique()) result = -1;
+        else if (k1.unique() > k2.unique()) result = 1;
         spdlog::debug("result is {}", result);
         return result;
     }
 
     const char *IDComparator::Name() const {
-            return "IDComparator";
+        return "IDComparator";
     }
 
     void IDComparator::FindShortestSeparator(std::string *start, const rocksdb::Slice &limit) const {

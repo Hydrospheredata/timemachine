@@ -8,8 +8,13 @@ message Empty{
 
 message ID {
     int64 timestamp = 1;
-    int64 incremental = 2;
+    int64 unique = 2;
     string folder = 3;
+}
+
+message DbID {
+    fixed64 timestamp = 1;
+    fixed64 unique = 2;
 }
 
 message Data{
@@ -24,7 +29,7 @@ message Range{
 }
 
 service Timemachine {
-    rpc Save(Data) returns (Empty) {}
+    rpc Save(Data) returns (ID) {}
     rpc Get(ID) returns (Data) {}
     rpc GetRange(Range) returns (stream Data) {}
 }

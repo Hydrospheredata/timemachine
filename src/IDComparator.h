@@ -1,7 +1,10 @@
 #include "rocksdb/db.h"
 
+#ifndef TIMEMACHINE_ID_COMPARATOR_H
+#define TIMEMACHINE_ID_COMPARATOR_H
+
 namespace timemachine {
-    
+
     class IDComparator : public rocksdb::Comparator {
     public:
         virtual int Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
@@ -17,4 +20,6 @@ namespace timemachine {
     };
 
 }
+
+#endif
 
