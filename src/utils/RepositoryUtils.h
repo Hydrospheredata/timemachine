@@ -3,6 +3,7 @@
 //
 
 #include "timeMachine.grpc.pb.h"
+#include "rocksdb/db.h"
 #include <random>
 
 #ifndef TIMEMACHINE_REPOSITORYUTILS_H
@@ -14,11 +15,9 @@ namespace timemachine {
 
         class RepositoryUtils {
         public:
-            static timemachine::ID GenerateId(const std::string&);
+            static void SerializeID(const timemachine::ID*, char*);
+            static timemachine::ID DeserializeID(const rocksdb::Slice&, std::string&);
 
-        private:
-            static std::default_random_engine generator;
-            static std::uniform_int_distribution<int> distribution;
         };
 
     }

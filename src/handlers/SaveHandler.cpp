@@ -18,7 +18,7 @@ namespace timemachine {
         SaveHandler::SaveHandler(std::shared_ptr<timemachine::DbClient>_client, std::string&& _name):
                 client(_client), name(_name), timemachine::utils::RepositoryUtils() {
             wopt = rocksdb::WriteOptions();
-            wopt.disableWAL = false;
+            wopt.disableWAL = true;
         }
 
         void SaveHandler::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) {
@@ -27,7 +27,7 @@ namespace timemachine {
             std::ostream &ostr = response.send();
 
             try {
-                auto id = GenerateId(name);
+                auto id = client->GenerateId(name);
 
                 timemachine::Data data;
 
@@ -39,8 +39,11 @@ namespace timemachine {
                 data.mutable_id()->set_unique(id.unique());
 
                 auto cf = client->GetOrCreateColumnFamily(name);
-
-                rocksdb::Status putStatus = client->db->Put(wopt, cf, id.SerializeAsString(), data.SerializeAsString());
+                char bytes[16];
+                SerializeID(&id, bytes);
+                auto bynaryId = rocksdb::Slice(bytes, 16);
+                spdlog::debug("id serialized");
+                rocksdb::Status putStatus = client->db->Put(wopt, cf, bynaryId, data.SerializeAsString());
                 spdlog::debug("PUT status is {0}, id({1}, {2}, {3})",
                               putStatus.ToString(),
                               id.folder(),

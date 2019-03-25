@@ -7,6 +7,7 @@
 #include "spdlog/spdlog.h"
 #include "Config.h"
 #include "IDComparator.h"
+#include "timeMachine.grpc.pb.h"
 
 #ifndef TIMEMACHINE_DB_CLIENT_H
 #define TIMEMACHINE_DB_CLIENT_H
@@ -18,13 +19,14 @@ namespace timemachine {
     public:
         DbClient(DbClient &&);
 
-        //DbClient(DbClient &);
-
         DbClient(std::shared_ptr<Config>);
+
+        timemachine::ID GenerateId(const std::string&);
 
         std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
 
         rocksdb::DBCloud *db;
+
         std::shared_ptr<Config> cfg;
 
         rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
@@ -32,6 +34,8 @@ namespace timemachine {
         rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name);
 
         rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
+
+        bool useWAL;
 
     private:
         rocksdb::Options options;
@@ -43,6 +47,8 @@ namespace timemachine {
         timemachine::IDComparator cmp;
         rocksdb::CloudEnv *cenv;
         std::string persistent_cache;
+        std::atomic<long> uniqueGenerator;
+
 
     };
 

@@ -27,7 +27,7 @@ class TimeMachineClientSpec extends FlatSpec with Matchers {
 //
 //    val data1 = for (i <- Range(0, 10)) yield {
 //      val data = fixture(1)
-//      val uuid = service.save("second", data)
+//      val uuid = service.save("156", data)
 //
 //      TimeUnit.MILLISECONDS.sleep(1)
 //
@@ -46,7 +46,7 @@ class TimeMachineClientSpec extends FlatSpec with Matchers {
 
   //  val uuid = new UUID(-1273898908248420814l, -4843414857704647621l)
 
-    service.getRange("four", None, None, new StreamObserver[Data] {
+    service.getRange("156", None, None, new StreamObserver[Data] {
 
       var list = List[Data]()
 

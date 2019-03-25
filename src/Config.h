@@ -25,6 +25,7 @@ namespace timemachine {
         char *destBucket = nullptr;
         char *dbName = nullptr;
         bool useKinesis = false;
+        bool useWAL = true;
         bool debug = false;
 
         char *gprc_port = nullptr;

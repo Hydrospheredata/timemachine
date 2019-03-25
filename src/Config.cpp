@@ -33,6 +33,7 @@ namespace timemachine {
            " sourceBucket: " << sourceBucket << std::endl <<
            " destBucket: " << destBucket << std::endl <<
            " dbName: " << dbName << std::endl <<
+           " useWal: " << useWAL << std::endl <<
            " useKinesis: " << useKinesis << std::endl <<
            " )";
 
@@ -56,7 +57,7 @@ namespace timemachine {
         destinationLocalDir = getEnvironmentVariableOrDefault("DST_LOCAL_DIR", (char *) "default-timemachine");
         sourceBucket = getEnvironmentVariableOrDefault("SRC_BUCKET", (char *) "default-timemachine");
         destBucket = getEnvironmentVariableOrDefault("DST_BUCKET", (char *) "default-timemachine");
-        walProvider = getEnvironmentVariableOrDefault("WAL_PROVIDER", (char *) "localFile");
+        walProvider = getEnvironmentVariableOrDefault("WAL_PROVIDER", (char *) "none");
         http_port = getEnvironmentVariableOrDefault("HTTP_PORT", (char *) "8080");
         gprc_port = getEnvironmentVariableOrDefault("GRPC_PORT", (char *) "8081");
         http_max_queued = getEnvironmentVariableOrDefaultInt("HTTP_MAX_QUEUED", 100);
@@ -64,6 +65,7 @@ namespace timemachine {
         http_timeout = getEnvironmentVariableOrDefaultInt("HTTP_TIMEOUTS", 100000);
 
         useKinesis = walProvider != nullptr && (strcmp(walProvider, "kinesis") == 0);
+        useWAL = walProvider != nullptr && (strcmp(walProvider, "none") != 0);
 
         if (keyid == nullptr || secret == nullptr || kRegion == nullptr || dbName == nullptr) {
             fprintf(

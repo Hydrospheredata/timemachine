@@ -13,7 +13,7 @@ namespace timemachine {
 
     GRPCServer::GRPCServer() : timemachine::utils::RepositoryUtils() {
         wopt = WriteOptions();
-        wopt.disableWAL = false;
+        wopt.disableWAL = true;
 
         ropt = ReadOptions();
     }
@@ -40,7 +40,7 @@ namespace timemachine {
 
         std::function<grpc::Status(ColumnFamilyHandle *cf)> action = [&](ColumnFamilyHandle *cf) -> grpc::Status {
 
-            auto id = GenerateId(request->id().folder());
+            auto id = client->GenerateId(request->id().folder());
             timemachine::Data data;
 
             timemachine::ID* id_ptr = &id;
@@ -49,9 +49,10 @@ namespace timemachine {
             data.mutable_id()->set_unique(id.unique());
             //TODO: Do you really need folder field?
             data.mutable_id()->set_folder(id.folder());
-
-            rocksdb::Status putStatus = client->db->Put(wopt, cf, id.SerializeAsString(),
-                                                        data.SerializeAsString());
+            char bytes[16];
+            SerializeID(id_ptr, bytes);
+            auto bynaryId = rocksdb::Slice(bytes, 16);
+            rocksdb::Status putStatus = client->db->Put(wopt, cf, bynaryId, data.data());
             spdlog::debug("PUT status is {0}", putStatus.ToString());
 
             if (!putStatus.ok()) {
@@ -82,12 +83,20 @@ namespace timemachine {
                           request->folder());
 
             std::string data;
-            rocksdb::Status getStatus = client->db->Get(ropt, cf, request->SerializeAsString(), &data);
+            char bytes[16];
+            SerializeID(request, bytes);
+            auto bynaryId = rocksdb::Slice(bytes, 16);
+            rocksdb::Status getStatus = client->db->Get(ropt, cf, bynaryId, &data);
             spdlog::debug("GET status is  {0}", getStatus.ToString());
             if (!getStatus.ok()) {
                 spdlog::error("GET status is  {0}", getStatus.ToString());
                 return grpc::Status(grpc::StatusCode::INTERNAL, "Something wrong :( " + getStatus.ToString());
             }
+            timemachine::Data result;
+            result.set_data(data);
+            result.mutable_id()->set_folder(request->folder());
+            result.mutable_id()->set_timestamp(request->timestamp());
+            result.mutable_id()->set_unique(request->unique());
             response->ParseFromString(data);
             return grpc::Status::OK;
         });
@@ -99,10 +108,7 @@ namespace timemachine {
         auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
             spdlog::debug("Get range from {0} to {1}", request->from().timestamp(), request->till().timestamp());
 
-            std::string key;
             std::string data;
-
-            //request->SerializePartialToString(&key);
 
             spdlog::debug("getting iterator from {0} to {1}", request->from().timestamp(), request->till().timestamp());
 
@@ -112,24 +118,23 @@ namespace timemachine {
                 spdlog::debug("seek from start");
                 it->SeekToFirst();
             } else {
+                auto keyFrom = request->from();
+                char bytes[16];
+                SerializeID(&keyFrom, bytes);
+                auto keyFromSlice = rocksdb::Slice(bytes, 16);
                 spdlog::debug("seek from {}", request->from().timestamp());
-                it->SeekForPrev(request->from().SerializeAsString());
+                it->SeekForPrev(keyFromSlice);
             }
-
-            timemachine::IDComparator comparator;
 
             for (; it->Valid(); it->Next()) {
 
                 if (context->IsCancelled()) break;
+                auto keyString = it->key();
+                auto folder = request->folder();
+                auto key = DeserializeID(keyString, folder);
 
-                auto keyString = it->key().ToString();
-                auto key = ID();
-                key.ParseFromString(keyString);
-
-                auto slice = rocksdb::Slice(request->from().SerializeAsString());
                 spdlog::debug("request->till().timestamp() is {}", request->till().timestamp());
-                // TODO: No need for comparator...
-                if (request->till().timestamp() != 0 && comparator.Compare(slice, it->key()) < 0) break;
+                if (request->till().timestamp() != 0 && request->till().timestamp() < key.timestamp()) break;
 
                 spdlog::debug("iterating key ({0}, {1}, {2})",
                               key.timestamp(),

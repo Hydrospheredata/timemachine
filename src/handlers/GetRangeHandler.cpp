@@ -19,8 +19,8 @@ namespace timemachine {
         GetRangeHandler::GetRangeHandler(
                 std::shared_ptr<timemachine::DbClient>_client,
                 std::string&& _name,
-                int _from,
-                int _till) :
+                unsigned long int _from,
+                unsigned long int _till) :
         client(_client), name(_name), from(_from), till(_till), timemachine::utils::RepositoryUtils(){
             readOptions = rocksdb::ReadOptions();
         }
@@ -42,38 +42,46 @@ namespace timemachine {
             ID keyFrom;
             keyFrom.set_folder(name);
             keyFrom.set_timestamp(from);
-            auto keyFromString = keyFrom.SerializeAsString();
+
+            char bytes[16];
+            SerializeID(&keyFrom, bytes);
+            auto keyFromSlice = rocksdb::Slice(bytes, 16);
 
             if (from == 0) {
                 spdlog::debug("seek from start");
                 it->SeekToFirst();
             } else {
-                spdlog::debug("seek from {}", from);
-                it->SeekForPrev(keyFrom.SerializeAsString());
+                spdlog::debug("seek from {}", keyFrom.timestamp());
+                it->SeekForPrev(keyFromSlice);
             }
-
-            timemachine::IDComparator comparator;
-
-
 
             for (; it->Valid(); it->Next()) {
 
-                auto keyString = it->key().ToString();
-                auto key = ID();
-                key.ParseFromString(keyString);
+                auto idSlice = it->key();
+                auto key = DeserializeID(idSlice, name);
 
                 spdlog::debug("till is {}", till);
-                if (till != 0 && comparator.Compare(keyFromString, it->key()) < 0) break;
+                if (till != 0 && till < key.timestamp()) break;
 
-                spdlog::debug("iterating key ({0}, {1}, {2})",
+                spdlog::debug("iterating key ({}, {}, {})",
                               key.timestamp(),
                               key.unique(),
                               key.folder()
                 );
 
-                auto val = it->value().ToString();
-                ostr << val;
+                auto val = it->value();
 
+                char header[20];
+
+                unsigned long int ts_ = key.timestamp();
+                unsigned long int unique_ = key.unique();
+                unsigned int size_ = it->value().size();
+
+                std::memcpy(&ts_, header, 8);
+                std::memcpy(&unique_, header + 8, 8);
+                std::memcpy(&size_, header + 16, 4);
+
+                ostr << header << val.data();
             }
 
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);

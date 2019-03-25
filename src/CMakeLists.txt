@@ -109,8 +109,8 @@ find_library(ROCKSDB_LIBRARY rocksdb)
 
 add_executable(timemachine "timemachine.cpp" 
         GRPCServer.cpp GRPCServer.h 
-        Config.cpp Config.h 
-        IDComparator.h IDComparator.cpp 
+        Config.cpp Config.h
+        IDComparator.h IDComparator.cpp
         DbClient.h DbClient.cpp
         HTTPServer.h HTTPServer.cpp
         handlers/HandlerFactory.h handlers/HandlerFactory.cpp
@@ -120,7 +120,7 @@ add_executable(timemachine "timemachine.cpp"
         handlers/SaveHandler.cpp handlers/SaveHandler.h
         utils/RepositoryUtils.cpp utils/RepositoryUtils.h
         handlers/NotFoundHandler.cpp handlers/NotFoundHandler.h
-        handlers/GetRangeHandler.cpp handlers/GetRangeHandler.h DbId.cpp DbId.h)
+        handlers/GetRangeHandler.cpp handlers/GetRangeHandler.h)
 target_link_libraries(timemachine
         ${BZIP2_LIBRARIES}
         ${POCO_UTIL}

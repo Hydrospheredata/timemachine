@@ -8,20 +8,15 @@ namespace timemachine {
 
     int IDComparator::Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const {
         int result = 0;
-        auto k1 = ID();
-        k1.ParseFromString(a.ToString());
+        std::string name = "";
+        auto k1 = DeserializeID(a, name);
 
-        auto k2 = ID();
-        k2.ParseFromString(b.ToString());
-
-        spdlog::debug("comparing ({}, {}) and ({}, {})", k1.timestamp(), k1.unique(), k2.timestamp(),
-                      k2.unique());
+        auto k2 = DeserializeID(b, name);
 
         if (k1.timestamp() < k2.timestamp()) result = -1;
         else if (k1.timestamp() > k2.timestamp()) result = 1;
         else if (k1.unique() < k2.unique()) result = -1;
         else if (k1.unique() > k2.unique()) result = 1;
-        spdlog::debug("result is {}", result);
         return result;
     }
 

@@ -34,18 +34,18 @@ namespace timemachine {
                 spdlog::debug("handler:  GetRangeHandler, depth: {}, path: {} -> {}", path.depth(), path[0], path[1]);
                 auto name = path[0];
                 auto query = uri.getQueryParameters();
-                auto from = 0;
-                //TODO: unsigned long???
-                auto till = std::numeric_limits<int>::max();
-
+                unsigned long int from = 0;
+                unsigned long int till = std::numeric_limits<unsigned long int>::max();
                 for (std::pair < std::string, std::string > &kv: query) {
                     if(kv.first == "from"){
-                        //TODO: stoul!
-                        from = std::stoi(kv.second);
+                        spdlog::debug("kv: {} -> {}", kv.first, kv.second);
+                        auto from_ = std::stoul(kv.second);
+                        if(from_ != -1) from = from_;
                     }
-                    if(kv.second == "to"){
-                        //TODO: stoul!
-                        till = std::stoi(kv.second);
+                    if(kv.first == "to"){
+                        spdlog::debug("kv: {} -> {}", kv.first, kv.second);
+                        auto till_ = std::stoul(kv.second);
+                        if(till_ != -1) till = till_;
                     }
                 }
 

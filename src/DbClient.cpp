@@ -20,7 +20,7 @@ namespace timemachine {
     using ReadLock  = std::shared_lock<MutexType>;
     using WriteLock = std::unique_lock<MutexType>;
 
-    DbClient::DbClient(DbClient &&other) {
+    DbClient::DbClient(DbClient &&other):uniqueGenerator(0) {
         spdlog::info("DbClient move constructor");
         WriteLock rhs_lock(other.lock);
         cloud_env = std::move(other.cloud_env);
@@ -32,25 +32,27 @@ namespace timemachine {
         cmp = std::move(other.cmp);
     }
 
-//    DbClient::DbClient(DbClient &other) {
-//        spdlog::info("DbClient copy constructor");
-//        WriteLock rhs_lock(other.lock);
-//        cloud_env = other.cloud_env;
-//        handles = other.handles;
-//        options = other.options;
-//        cfg = other.cfg;
-//        columnFamalies = other.columnFamalies;
-//        db = other.db;
-//        cmp = other.cmp;
-//    }
+    timemachine::ID DbClient::GenerateId(const std::string& folder) {
+        auto ms = std::chrono::system_clock::now().time_since_epoch().count();
+
+        timemachine::ID id;
+
+        id.set_timestamp(ms);
+        id.set_folder(folder);
+        unsigned long int unique = uniqueGenerator.fetch_add(1, std::memory_order_release);
+        id.set_unique(unique);
+
+        return id;
+    }
 
 
-    DbClient::DbClient(std::shared_ptr<Config> _cfg) {
+    DbClient::DbClient(std::shared_ptr<Config> _cfg): uniqueGenerator(0) {
         cfg = _cfg;
         options.comparator = &cmp;
         options.IncreaseParallelism();
         options.OptimizeLevelStyleCompaction();
         options.create_if_missing = true;
+        useWAL = _cfg->useWAL;
 
         rocksdb::Env *base_env_ = rocksdb::Env::Default();
         base_env_->NewLogger("./rocksdb-cloud.log", &options.info_log);
@@ -160,16 +162,26 @@ namespace timemachine {
 
         rocksdb::Status s = db->CreateColumnFamily(cfOptions, name, &cf);
         if (s.OK) {
-            spdlog::debug("trying to cache ColumnFamilyHandler with name: {}", name, cf->GetName());
-            handles.push_back(cf);
-            columnFamalies[name] = cf;
-            spdlog::debug("ColumnFamilyHandler with name: {} cache ", name, cf->GetName());
-            spdlog::debug("columnFamalies map size is: {}", columnFamalies.size());
-
+            spdlog::info("trying to cache ColumnFamilyHandler with name: {}", name, cf->GetName());
             auto cfDescriptors = GetColumnFamalies();
+
+            for(auto it = handles.begin(); it != handles.end(); ++it){
+                delete *it;
+            }
+
+            delete db;
 
             rocksdb::Status dbStatus = rocksdb::DBCloud::Open(options, cfg->dbName, cfDescriptors, persistent_cache, 0,
                                                               &handles, &db);
+
+            if (handles.size() > 0) {
+                spdlog::debug("Adding handles to columnFamalies cache. handles size is: {}", handles.size());
+                for (auto it = handles.begin(); it != handles.end(); ++it) {
+                    auto cfHandle = *it;
+                    spdlog::debug("Adding {}", cfHandle->GetName());
+                    columnFamalies[cfHandle->GetName()] = cfHandle;
+                }
+            }
 
             if (!dbStatus.ok()) {
                 spdlog::error("Unable to open db at path {0} with bucket {1}. {2}", cfg->dbName, cfg->sourceBucket,

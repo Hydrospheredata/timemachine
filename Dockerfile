@@ -1,6 +1,6 @@
 FROM lerrox/grpc-aws-sdk-cpp:0.0.1 as build1
 
-FROM lerrox/aws-cpp-sdk-rocksdb-cloud:0.0.2
+FROM lerrox/aws-cpp-sdk-rocksdb-cloud:0.0.2 as build2
 
 
 
@@ -35,6 +35,38 @@ RUN cmake -E env LDFLAGS="-lcurl -lssl -lcrypto -lz -lrt" cmake ../src \
     && CTEST_OUTPUT_ON_FAILURE=TRUE cmake --build . --target \
     && groupadd -r timemachine && useradd -r -g timemachine timemachine
 
+FROM ubuntu:latest
+
+# COPY --from=build2 /usr/lib/x86_64-linux-gnu/libssl.so.1.1 /usr/lib/x86_64-linux-gnu
+COPY --from=build1 /usr/local/share/grpc /usr/local/share/grpc
+COPY --from=build1 /usr/local/include/google  /usr/local/include/google
+COPY --from=build1 /usr/local/include/grpc  /usr/local/include/grpc
+COPY --from=build1 /usr/local/include/'grpc++'  /usr/local/include/'grpc++'
+COPY --from=build1 /usr/local/include/grpcpp  /usr/local/include/grpcpp
+
+RUN  mkdir app
+
+COPY --from=build2 /app/build/timemachine /app
+COPY --from=build2 /usr/local/lib/libaws-c-* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/aws-checksums* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/aws-c-* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-core.so /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-kinesis.so /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-s3.so /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libgpr* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libgrpc* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libproto* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libPoco* /usr/local/lib/
+COPY --from=build2 /usr/local/lib/libaws-checksums.so /usr/local/lib/
+# COPY --from=build2 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu
+
+
+RUN apt-get update \
+    && apt-get install -y \
+       libssl-dev libgtk-3-dev libsnappy-dev \
+       libtool libgtest-dev libcurl3 libiodbc2 libiodbc2-dev \
+    && ls /usr/local/lib && ldconfig 
+
 WORKDIR /app
 
-#ENTRYPOINT ["/app/build/timemachine"]
+ENTRYPOINT ["./timemachine"]

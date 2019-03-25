@@ -42,6 +42,7 @@ namespace timemachine {
         http_server.start();
         spdlog::info("http server started on port {}", client->cfg->http_port);
         waitForTerminationRequest();
+        spdlog::info("http server stopped on port {}", client->cfg->http_port);
         http_server.stopAll();
 
     }
