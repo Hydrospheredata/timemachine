@@ -15,10 +15,10 @@
 namespace timemachine {
     namespace handlers {
 
-        SaveHandler::SaveHandler(std::shared_ptr<timemachine::DbClient>_client, std::string&& _name):
+        SaveHandler::SaveHandler(std::shared_ptr<timemachine::DbClient>_client, std::string&& _name, bool useWAL):
                 client(_client), name(_name), timemachine::utils::RepositoryUtils() {
             wopt = rocksdb::WriteOptions();
-            wopt.disableWAL = true;
+            wopt.disableWAL = !useWAL;
         }
 
         void SaveHandler::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) {
@@ -27,14 +27,13 @@ namespace timemachine {
             std::ostream &ostr = response.send();
 
             try {
-                auto id = client->GenerateId(name);
+                auto id = client->GenerateId();
 
                 timemachine::Data data;
 
                 std::istream& stream = request.stream();
                 std::string string(std::istreambuf_iterator<char>(stream), {});
                 data.set_data(string);
-                data.mutable_id()->set_folder(id.folder());
                 data.mutable_id()->set_timestamp(id.timestamp());
                 data.mutable_id()->set_unique(id.unique());
 
@@ -43,25 +42,33 @@ namespace timemachine {
                 SerializeID(&id, bytes);
                 auto bynaryId = rocksdb::Slice(bytes, 16);
                 spdlog::debug("id serialized");
-                rocksdb::Status putStatus = client->db->Put(wopt, cf, bynaryId, data.SerializeAsString());
-                spdlog::debug("PUT status is {0}, id({1}, {2}, {3})",
+                rocksdb::Status putStatus = client->Put(wopt, cf, bynaryId, data.SerializeAsString());
+                Poco::JSON::Object json;
+                std::ostringstream oss;
+                Poco::UInt64 ts_p = id.timestamp();
+                json.set("ts", ts_p);
+                Poco::UInt64 u_p = id.unique();
+                json.set("uniq", u_p);
+                json.stringify(oss);
+                 auto r = oss.str();
+
+                spdlog::debug("PUT status is {0}, id({1}, {2}) to folder",
                               putStatus.ToString(),
-                              id.folder(),
                               id.timestamp(),
-                              id.unique());
+                              id.unique(),
+                              name);
+
+
+                ostr << r;                    
+                response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
 
                 if (!putStatus.ok()) {
                     spdlog::error("PUT status is {0}", putStatus.ToString());
-                    std::ostream& ostr = response.send();
-                    Poco::JSON::Object::Ptr obj;
-                    obj->set("ts", id.timestamp());
-                    obj->set("uniq", id.unique());
-                    Poco::JSON::Stringifier::stringify(obj, ostr);
                     response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
-                    spdlog::debug("Saved data  with key ({0}, {1}, {2})",
+                    spdlog::debug("Saved data  with key ({0}, {1}) to folder {2}",
                                   id.timestamp(),
                                   id.unique(),
-                                  id.folder()
+                                  name
                     );
                 }
             } catch (const std::exception &e) {

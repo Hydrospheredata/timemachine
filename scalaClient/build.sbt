@@ -7,7 +7,13 @@ scalaVersion := "2.12.8"
 libraryDependencies ++= Seq(
   "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+//  "io.hydrosphere" %% "serving-grpc-scala" % "2.0.0rc5",
+  "com.softwaremill.sttp" %% "core" % "1.5.11" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "com.whisk" %% "docker-testkit-scalatest" % "0.9.8" % "test",
+  "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.8" % "test",
+  "ch.qos.logback" % "logback-classic" % "1.1.3" % "test",
+  "io.spray" %%  "spray-json" % "1.3.5" % "test"
 )
 
 

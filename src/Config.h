@@ -11,22 +11,22 @@ namespace timemachine {
 
     public:
 
-        Config();
-
         std::string ToString();
+        Config ();
 
-        char *keyid = nullptr;
-        char *secret = nullptr;
-        char *kRegion = nullptr;
-        char *walProvider = nullptr;
-        char *sourceLocalDir = nullptr;
-        char *destinationLocalDir = nullptr;
-        char *sourceBucket = nullptr;
-        char *destBucket = nullptr;
-        char *dbName = nullptr;
-        bool useKinesis = false;
-        bool useWAL = true;
-        bool debug = false;
+        void Init();
+
+        char *keyid;
+        char *secret;
+        char *kRegion;
+        char *walProvider;
+        char *sourceLocalDir;
+        char *destinationLocalDir;
+        char *sourceBucket;
+        char *destBucket;
+        char *dbName;
+        bool useKinesis;
+        bool debug;
 
         char *gprc_port = nullptr;
         char *http_port = nullptr;

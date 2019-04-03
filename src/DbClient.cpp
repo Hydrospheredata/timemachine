@@ -32,19 +32,33 @@ namespace timemachine {
         cmp = std::move(other.cmp);
     }
 
-    timemachine::ID DbClient::GenerateId(const std::string& folder) {
+    timemachine::ID DbClient::GenerateId() {
         auto ms = std::chrono::system_clock::now().time_since_epoch().count();
 
         timemachine::ID id;
 
         id.set_timestamp(ms);
-        id.set_folder(folder);
         unsigned long int unique = uniqueGenerator.fetch_add(1, std::memory_order_release);
         id.set_unique(unique);
 
         return id;
     }
 
+    rocksdb::Status DbClient::Get(const rocksdb::ReadOptions& options, rocksdb::ColumnFamilyHandle* handle, const rocksdb::Slice& key, std::string* data){
+        std::shared_lock<std::shared_timed_mutex> readLock(lock);
+        return db->Get(options, handle, key, data);
+    }
+
+    rocksdb::Status DbClient::Put(const rocksdb::WriteOptions& wopt, rocksdb::ColumnFamilyHandle* handle, const rocksdb::Slice& key, const rocksdb::Slice& val){
+        std::shared_lock<std::shared_timed_mutex> readLock(lock);
+        return db->Put(wopt, handle, key, val);
+    }
+
+    void DbClient::Iter(const rocksdb::ReadOptions& ropt, rocksdb::ColumnFamilyHandle* handle, std::function<void(rocksdb::Iterator*)> fn){
+        std::shared_lock<std::shared_timed_mutex> readLock(lock);
+        auto iter = db->NewIterator(ropt, handle);
+        fn(iter);
+    }
 
     DbClient::DbClient(std::shared_ptr<Config> _cfg): uniqueGenerator(0) {
         cfg = _cfg;
@@ -52,7 +66,6 @@ namespace timemachine {
         options.IncreaseParallelism();
         options.OptimizeLevelStyleCompaction();
         options.create_if_missing = true;
-        useWAL = _cfg->useWAL;
 
         rocksdb::Env *base_env_ = rocksdb::Env::Default();
         base_env_->NewLogger("./rocksdb-cloud.log", &options.info_log);

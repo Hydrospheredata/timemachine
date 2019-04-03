@@ -46,37 +46,21 @@ object TimeMachineClient {
 
 class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
 
-  import TimeMachineClient._
+  def save(folder:String, data: Array[Byte], useWAL:Boolean = false): Future[ID] = {
 
-  private val inc = new AtomicLong()
+    val request = SaveRequest(folder=folder, useWAL = useWAL, data = ByteString.copyFrom(data))
+    stub.save(request)
 
-  def save(folder:String, data: Array[Byte]): UUID = {
-    val uuid = UUID.randomUUID();
-
-    val id = ID(folder =  folder)
-    val r = stub.save(Data(Some(id), ByteString.copyFrom(data)))
-
-    import scala.concurrent.duration._
-
-    val response = Await.result(r, 100 seconds)
-
-    uuid
   }
 
   def get(folder:String, ts: Long, inc:Long): Future[Data] = {
-    val id = ID(ts, inc, folder)
-    stub.get(id)
+    val request = GetRequest(ts, inc, folder)
+    stub.get(request)
   }
 
-  def getRange(folder:String, from: Option[ID], till:Option[ID], so:StreamObserver[Data]):Unit = {
-    val range = Range(None, None, folder)
-
-    val r = for{
-      r1 <- from.map(f => range.withFrom(f)).orElse(Some(range))
-      r2 <- till.map(t => r1.withTill(t)).orElse(Some(r1))
-    } yield r2
-
-    stub.getRange(r.getOrElse(range), so)
+  def getRange(folder:String, from: Option[Long], till:Option[Long], so:StreamObserver[Data]):Unit = {
+    val range = RangeRequest(from.getOrElse(0), till.getOrElse(0), folder)
+    stub.getRange(range, so)
   }
 
 }

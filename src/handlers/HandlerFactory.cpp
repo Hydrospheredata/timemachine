@@ -29,7 +29,17 @@ namespace timemachine {
             } else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST && path.depth() == 1 && path[1] == "put" ) {
                 spdlog::debug("handler:  SaveHandler, depth: {}, path: {} -> {}", path.depth(), path[0], path[1]);
                 auto name = path[0];
-                return new SaveHandler(client, std::move(name));
+                auto query = uri.getQueryParameters();
+
+                bool useWAL = false;
+
+                for (std::pair < std::string, std::string > &kv: query) {
+                    if(kv.first == "useWAL" && (kv.second == "true" || kv.second == "1")){
+                        useWAL = true;
+                    }
+                }
+
+                return new SaveHandler(client, std::move(name), useWAL);
             }  else if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET && path.depth() == 1 && path[1] == "get" ){
                 spdlog::debug("handler:  GetRangeHandler, depth: {}, path: {} -> {}", path.depth(), path[0], path[1]);
                 auto name = path[0];

@@ -8,6 +8,7 @@
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
 #include "../utils/RepositoryUtils.h"
+#include "Poco/BinaryWriter.h"
 
 using Poco::Net::HTTPServerRequest;
 using Poco::Net::HTTPServerResponse;
@@ -27,7 +28,7 @@ namespace timemachine {
 
         void GetRangeHandler::handleRequest(HTTPServerRequest &request, HTTPServerResponse &response){
             response.setChunkedTransferEncoding(true);
-            response.setContentType("application/json");
+            response.setContentType("application/octet-stream");
             std::ostream &ostr = response.send();
 
             response.setChunkedTransferEncoding(true);
@@ -37,58 +38,58 @@ namespace timemachine {
 
             spdlog::debug("getting iterator from {0} to {1}", from, till);
 
-            rocksdb::Iterator *it = client->db->NewIterator(readOptions, cf);
-
             ID keyFrom;
-            keyFrom.set_folder(name);
             keyFrom.set_timestamp(from);
 
             char bytes[16];
             SerializeID(&keyFrom, bytes);
             auto keyFromSlice = rocksdb::Slice(bytes, 16);
 
-            if (from == 0) {
-                spdlog::debug("seek from start");
-                it->SeekToFirst();
-            } else {
-                spdlog::debug("seek from {}", keyFrom.timestamp());
-                it->SeekForPrev(keyFromSlice);
-            }
+            client->Iter(readOptions, cf, [&](rocksdb::Iterator* it)->void {
 
-            for (; it->Valid(); it->Next()) {
+                if (from == 0) {
+                    spdlog::debug("seek from start");
+                    it->SeekToFirst();
+                } else {
+                    spdlog::debug("seek from {}", keyFrom.timestamp());
+                    it->SeekForPrev(keyFromSlice);
+                }
 
-                auto idSlice = it->key();
-                auto key = DeserializeID(idSlice, name);
+                for (; it->Valid(); it->Next()) {
 
-                spdlog::debug("till is {}", till);
-                if (till != 0 && till < key.timestamp()) break;
+                    auto idSlice = it->key();
+                    auto key = DeserializeID(idSlice);
 
-                spdlog::debug("iterating key ({}, {}, {})",
-                              key.timestamp(),
-                              key.unique(),
-                              key.folder()
-                );
+                    spdlog::debug("till is {}", till);
+                    if (till != 0 && till < key.timestamp()) break;
 
-                auto val = it->value();
+                    spdlog::debug("iterating key ({}, {}) from folder {}",
+                                key.timestamp(),
+                                key.unique(),
+                                name
+                    );
 
-                char header[20];
+                    auto val = it->value().data();
 
-                unsigned long int ts_ = key.timestamp();
-                unsigned long int unique_ = key.unique();
-                unsigned int size_ = it->value().size();
+                    auto ulongSize = sizeof(long int);
+                    auto uintSize = sizeof(unsigned int);
+                    auto totalSize = ulongSize * 2 + uintSize;
+                    long int ts_ = (long)key.timestamp();
+                    long int unique_ = (long)key.unique();
+                    unsigned int size_ = it->value().size();
 
-                std::memcpy(&ts_, header, 8);
-                std::memcpy(&unique_, header + 8, 8);
-                std::memcpy(&size_, header + 16, 4);
+                    spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
 
-                ostr << header << val.data();
-            }
+                    auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
+                    br << ts_ << unique_ << size_;
+                    ostr << val;
+                }
+                response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+                delete it;
+                spdlog::debug("return {0} status", "OK");
 
-            response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+            });
 
-            delete it;
-
-            spdlog::debug("return {0} status", "OK");
         }
 
     }

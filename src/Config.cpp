@@ -33,7 +33,6 @@ namespace timemachine {
            " sourceBucket: " << sourceBucket << std::endl <<
            " destBucket: " << destBucket << std::endl <<
            " dbName: " << dbName << std::endl <<
-           " useWal: " << useWAL << std::endl <<
            " useKinesis: " << useKinesis << std::endl <<
            " )";
 
@@ -65,7 +64,6 @@ namespace timemachine {
         http_timeout = getEnvironmentVariableOrDefaultInt("HTTP_TIMEOUTS", 100000);
 
         useKinesis = walProvider != nullptr && (strcmp(walProvider, "kinesis") == 0);
-        useWAL = walProvider != nullptr && (strcmp(walProvider, "none") != 0);
 
         if (keyid == nullptr || secret == nullptr || kRegion == nullptr || dbName == nullptr) {
             fprintf(

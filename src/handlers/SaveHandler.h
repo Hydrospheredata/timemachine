@@ -17,7 +17,7 @@ namespace timemachine {
     class SaveHandler : public Poco::Net::HTTPRequestHandler, timemachine::utils::RepositoryUtils {
 
         public:
-            SaveHandler(std::shared_ptr<timemachine::DbClient>, std::string&&);
+            SaveHandler(std::shared_ptr<timemachine::DbClient>, std::string&&, bool);
 
         private:
             void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) override;

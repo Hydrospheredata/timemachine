@@ -35,7 +35,7 @@ RUN cmake -E env LDFLAGS="-lcurl -lssl -lcrypto -lz -lrt" cmake ../src \
     && CTEST_OUTPUT_ON_FAILURE=TRUE cmake --build . --target \
     && groupadd -r timemachine && useradd -r -g timemachine timemachine
 
-FROM ubuntu:latest
+FROM lerrox/ubuntu:latest
 
 # COPY --from=build2 /usr/lib/x86_64-linux-gnu/libssl.so.1.1 /usr/lib/x86_64-linux-gnu
 COPY --from=build1 /usr/local/share/grpc /usr/local/share/grpc
@@ -61,11 +61,7 @@ COPY --from=build2 /usr/local/lib/libaws-checksums.so /usr/local/lib/
 # COPY --from=build2 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu
 
 
-RUN apt-get update \
-    && apt-get install -y \
-       libssl-dev libgtk-3-dev libsnappy-dev \
-       libtool libgtest-dev libcurl3 libiodbc2 libiodbc2-dev \
-    && ls /usr/local/lib && ldconfig 
+RUN  ldconfig 
 
 WORKDIR /app
 

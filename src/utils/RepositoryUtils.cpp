@@ -21,9 +21,8 @@ namespace timemachine {
             std::memcpy(bytes + 8, &unique, 8);
         }
 
-        timemachine::ID RepositoryUtils::DeserializeID(const rocksdb::Slice& slice, std::string& folder) {
+        timemachine::ID RepositoryUtils::DeserializeID(const rocksdb::Slice& slice) {
             timemachine::ID id;
-            id.set_folder(folder);
             auto bytes = slice.data();
             unsigned long int timestamp;
             unsigned long int unique;

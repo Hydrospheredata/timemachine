@@ -21,11 +21,9 @@ namespace timemachine {
 
         DbClient(std::shared_ptr<Config>);
 
-        timemachine::ID GenerateId(const std::string&);
+        timemachine::ID GenerateId();
 
         std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
-
-        rocksdb::DBCloud *db;
 
         std::shared_ptr<Config> cfg;
 
@@ -35,9 +33,14 @@ namespace timemachine {
 
         rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
 
-        bool useWAL;
+        rocksdb::Status Put(const rocksdb::WriteOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, const rocksdb::Slice&);
+
+        rocksdb::Status Get(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, std::string*);
+
+        void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, std::function<void(rocksdb::Iterator*)>);
 
     private:
+        rocksdb::DBCloud *db;
         rocksdb::Options options;
         std::unordered_map<std::string, rocksdb::ColumnFamilyHandle *> columnFamalies;
         std::shared_timed_mutex lock;

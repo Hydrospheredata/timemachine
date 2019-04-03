@@ -38,14 +38,9 @@ using grpc::ServerContext;
 using grpc::ServerCompletionQueue;
 using grpc::Status;
 
-using timemachine::Empty;
 using timemachine::Timemachine;
 using grpc::ServerContext;
-using timemachine::Range;
 using grpc::ServerWriter;
-using timemachine::Data;
-using timemachine::ID;
-using timemachine::Empty;
 using timemachine::GRPCServer;
 
 using DataWriter = ServerWriter<Data>;
@@ -80,8 +75,8 @@ void handler(int sig) {
 
 void RunServer() {
     try {
-        auto conf = timemachine::Config();
-        auto cfg = std::make_shared<timemachine::Config>(conf);
+        auto c = timemachine::Config();
+        auto cfg = std::make_shared<timemachine::Config>(c);
         initLogger(cfg->debug ? spdlog::level::debug : spdlog::level::info);
         spdlog::info("Initializing config: {}", cfg->ToString());
         auto db = timemachine::DbClient(cfg);

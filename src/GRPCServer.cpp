@@ -12,9 +12,6 @@ using namespace rocksdb;
 namespace timemachine {
 
     GRPCServer::GRPCServer() : timemachine::utils::RepositoryUtils() {
-        wopt = WriteOptions();
-        wopt.disableWAL = true;
-
         ropt = ReadOptions();
     }
 
@@ -36,23 +33,25 @@ namespace timemachine {
         client = _db;
     }
 
-    grpc::Status GRPCServer::Save(ServerContext *context, const Data *request, ID *response) {
+    grpc::Status GRPCServer::Save(ServerContext *context, const SaveRequest *request, ID *response) {
 
         std::function<grpc::Status(ColumnFamilyHandle *cf)> action = [&](ColumnFamilyHandle *cf) -> grpc::Status {
 
-            auto id = client->GenerateId(request->id().folder());
+            auto id = client->GenerateId();
             timemachine::Data data;
 
             timemachine::ID* id_ptr = &id;
             data.set_data(request->data());
             data.mutable_id()->set_timestamp(id.timestamp());
             data.mutable_id()->set_unique(id.unique());
-            //TODO: Do you really need folder field?
-            data.mutable_id()->set_folder(id.folder());
             char bytes[16];
             SerializeID(id_ptr, bytes);
             auto bynaryId = rocksdb::Slice(bytes, 16);
-            rocksdb::Status putStatus = client->db->Put(wopt, cf, bynaryId, data.data());
+
+            rocksdb::WriteOptions wopt;
+            wopt.disableWAL = !request->usewal();
+
+            rocksdb::Status putStatus = client->Put(wopt, cf, bynaryId, data.SerializeAsString());
             spdlog::debug("PUT status is {0}", putStatus.ToString());
 
             if (!putStatus.ok()) {
@@ -60,33 +59,38 @@ namespace timemachine {
 
                 return grpc::Status(grpc::StatusCode::INTERNAL, "Something wrong :( " + putStatus.ToString());
             }
-            spdlog::debug("Saved data  with key ({0}, {1}, {2})",
-                          id.timestamp(),
-                          id.unique(),
-                          id.folder()
+            spdlog::debug("Saved data  with key ({0}, {1}) to folder {2}",
+                          data.id().timestamp(),
+                          data.id().unique(),
+                          request->folder()
             );
+
+            response->set_timestamp(id.timestamp());
+            response->set_unique(id.unique());
             return grpc::Status::OK;
         };
 
-        grpc::Status status = Perform(request->id().folder(), action);
+        grpc::Status status = Perform(request->folder(), action);
 
         return status;
     }
 
-    grpc::Status GRPCServer::Get(ServerContext *context, const ID *request, Data *response) {
+    grpc::Status GRPCServer::Get(ServerContext *context, const timemachine::GetRequest *request, Data *response) {
         auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
 
-            client->db->Savepoint();
-            spdlog::debug("Get data by key ({0}, {1}, {2})",
+            spdlog::debug("Get data by key ({0}, {1}) from folder {2}",
                           request->timestamp(),
                           request->unique(),
                           request->folder());
 
             std::string data;
             char bytes[16];
-            SerializeID(request, bytes);
+            timemachine::ID req_id;
+            req_id.set_timestamp(request->timestamp());
+            req_id.set_unique(request->unique());
+            SerializeID(&req_id, bytes);
             auto bynaryId = rocksdb::Slice(bytes, 16);
-            rocksdb::Status getStatus = client->db->Get(ropt, cf, bynaryId, &data);
+            rocksdb::Status getStatus = client->Get(ropt, cf, bynaryId, &data);
             spdlog::debug("GET status is  {0}", getStatus.ToString());
             if (!getStatus.ok()) {
                 spdlog::error("GET status is  {0}", getStatus.ToString());
@@ -94,7 +98,6 @@ namespace timemachine {
             }
             timemachine::Data result;
             result.set_data(data);
-            result.mutable_id()->set_folder(request->folder());
             result.mutable_id()->set_timestamp(request->timestamp());
             result.mutable_id()->set_unique(request->unique());
             response->ParseFromString(data);
@@ -104,54 +107,53 @@ namespace timemachine {
         return status;
     }
 
-    grpc::Status GRPCServer::GetRange(ServerContext *context, const Range *request, DataWriter *writer) {
+    grpc::Status GRPCServer::GetRange(ServerContext *context, const RangeRequest *request, DataWriter *writer) {
         auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
-            spdlog::debug("Get range from {0} to {1}", request->from().timestamp(), request->till().timestamp());
+            spdlog::debug("Get range from {0} to {1}", request->from(), request->till());
 
             std::string data;
 
-            spdlog::debug("getting iterator from {0} to {1}", request->from().timestamp(), request->till().timestamp());
+            spdlog::debug("getting iterator from {0} to {1}", request->from(), request->till());
 
-            Iterator *it = client->db->NewIterator(ropt, cf);
+            client->Iter(ropt, cf, [&](rocksdb::Iterator* it) -> void {
+            if (request->from() == 0) {
+                    spdlog::debug("seek from start");
+                    it->SeekToFirst();
+                } else {
 
-            if (request->from().timestamp() == 0) {
-                spdlog::debug("seek from start");
-                it->SeekToFirst();
-            } else {
-                auto keyFrom = request->from();
-                char bytes[16];
-                SerializeID(&keyFrom, bytes);
-                auto keyFromSlice = rocksdb::Slice(bytes, 16);
-                spdlog::debug("seek from {}", request->from().timestamp());
-                it->SeekForPrev(keyFromSlice);
-            }
+                    timemachine::ID keyFrom;
+                    keyFrom.set_timestamp(request->from());
+                    char bytes[16];
+                    SerializeID(&keyFrom, bytes);
+                    auto keyFromSlice = rocksdb::Slice(bytes, 16);
+                    spdlog::debug("seek from {}", request->from());
+                    it->SeekForPrev(keyFromSlice);
+                }
 
-            for (; it->Valid(); it->Next()) {
+                for (; it->Valid(); it->Next()) {
 
-                if (context->IsCancelled()) break;
-                auto keyString = it->key();
-                auto folder = request->folder();
-                auto key = DeserializeID(keyString, folder);
+                    if (context->IsCancelled()) break;
+                    auto keyString = it->key();
+                    auto folder = request->folder();
+                    auto key = DeserializeID(keyString);
+                    if (request->till()!= 0 && request->till() < key.timestamp()) break;
 
-                spdlog::debug("request->till().timestamp() is {}", request->till().timestamp());
-                if (request->till().timestamp() != 0 && request->till().timestamp() < key.timestamp()) break;
+                    //TODO: Maybe better not a string???
+                    auto val = it->value().ToString();
+                    auto data = Data();
+                    data.ParseFromString(val);
 
-                spdlog::debug("iterating key ({0}, {1}, {2})",
-                              key.timestamp(),
-                              key.unique(),
-                              key.folder()
-                );
+                    spdlog::debug("iterating key ({0}, {1}) from folder {2}",
+                                data.id().timestamp(),
+                                data.id().unique(),
+                                request->folder()
+                    );
 
-                //TODO: Maybe better not a string???
-                auto val = it->value().ToString();
-                auto data = Data();
-                data.ParseFromString(val);
-                writer->Write(data);
-            }
-
-            delete it;
-
-            spdlog::debug("return {0} status", "OK");
+                    writer->Write(data);
+                }
+                delete it;
+                spdlog::debug("return {0} status", "OK");
+            });
 
             return grpc::Status::OK;
         });

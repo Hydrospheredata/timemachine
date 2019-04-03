@@ -16,7 +16,7 @@ namespace timemachine {
         class RepositoryUtils {
         public:
             static void SerializeID(const timemachine::ID*, char*);
-            static timemachine::ID DeserializeID(const rocksdb::Slice&, std::string&);
+            static timemachine::ID DeserializeID(const rocksdb::Slice&);
 
         };
 

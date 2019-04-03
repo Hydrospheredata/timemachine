@@ -9,9 +9,9 @@ namespace timemachine {
     int IDComparator::Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const {
         int result = 0;
         std::string name = "";
-        auto k1 = DeserializeID(a, name);
+        auto k1 = DeserializeID(a);
 
-        auto k2 = DeserializeID(b, name);
+        auto k2 = DeserializeID(b);
 
         if (k1.timestamp() < k2.timestamp()) result = -1;
         else if (k1.timestamp() > k2.timestamp()) result = 1;

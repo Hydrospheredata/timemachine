@@ -14,7 +14,7 @@
 
 using timemachine::Empty;
 using timemachine::Timemachine;
-using timemachine::Range;
+using timemachine::RangeRequest;
 using timemachine::Data;
 using timemachine::ID;
 using timemachine::Empty;
@@ -40,11 +40,11 @@ namespace timemachine {
     public:
         GRPCServer();
 
-        grpc::Status Save(ServerContext *, const Data *, ID *) override;
+        grpc::Status Save(ServerContext *, const timemachine::SaveRequest*, ID *) override;
 
-        grpc::Status Get(ServerContext *, const ID *, Data *) override;
+        grpc::Status Get(ServerContext *, const timemachine::GetRequest*, timemachine::Data*) override;
 
-        grpc::Status GetRange(ServerContext *, const Range *, DataWriter *) override;
+        grpc::Status GetRange(ServerContext *, const timemachine::RangeRequest*, DataWriter *) override;
 
         grpc::Status Perform(std::string, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)>);
 
@@ -52,7 +52,6 @@ namespace timemachine {
 
     private:
         std::shared_ptr<timemachine::DbClient> client;
-        rocksdb::WriteOptions wopt;
         rocksdb::ReadOptions ropt;
 
     };
