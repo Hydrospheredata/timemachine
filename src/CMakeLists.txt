@@ -108,7 +108,9 @@ include_directories("${spdlog_INCLUDE_DIR}")
 find_library(ROCKSDB_LIBRARY rocksdb)
 
 add_executable(timemachine "timemachine.cpp" 
-        GRPCServer.cpp GRPCServer.h 
+        GRPCServer.cpp GRPCServer.h
+        CloudDBClient.h CloudDBClient.cpp
+        LocalDBClient.h LocalDBClient.cpp
         Config.cpp Config.h
         IDComparator.h IDComparator.cpp
         DbClient.h DbClient.cpp

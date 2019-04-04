@@ -72,17 +72,21 @@ namespace timemachine {
                     auto val = it->value().data();
 
                     auto ulongSize = sizeof(long int);
-                    auto uintSize = sizeof(unsigned int);
+                    auto uintSize = sizeof(int);
                     auto totalSize = ulongSize * 2 + uintSize;
                     long int ts_ = (long)key.timestamp();
                     long int unique_ = (long)key.unique();
-                    unsigned int size_ = it->value().size();
+                    timemachine::Data data;
+                    auto dataString = it->value().ToString();
+                    data.ParseFromString(dataString);
+                    auto body = data.data();
+                    int size_ = body.size();
 
                     spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
 
                     auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
                     br << ts_ << unique_ << size_;
-                    ostr << val;
+                    ostr << body;
                 }
                 response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
                 delete it;

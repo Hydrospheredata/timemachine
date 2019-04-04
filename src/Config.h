@@ -28,6 +28,7 @@ namespace timemachine {
         bool useKinesis;
         bool debug;
 
+        char *backupProvider;
         char *gprc_port = nullptr;
         char *http_port = nullptr;
         int http_timeout = 100000;

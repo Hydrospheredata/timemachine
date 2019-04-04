@@ -24,6 +24,8 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "CloudDBClient.h"
+#include "LocalDBClient.h"
 
 
 using namespace rocksdb;
@@ -79,8 +81,16 @@ void RunServer() {
         auto cfg = std::make_shared<timemachine::Config>(c);
         initLogger(cfg->debug ? spdlog::level::debug : spdlog::level::info);
         spdlog::info("Initializing config: {}", cfg->ToString());
-        auto db = timemachine::DbClient(cfg);
-        auto dbClient = std::make_shared<timemachine::DbClient>(std::forward<timemachine::DbClient>(db));
+        timemachine::DbClient* dbImpl;
+        std::string backupProvider(cfg->backupProvider);
+        if(backupProvider == "s3"){
+            dbImpl = new timemachine::CloudDBClient(cfg);
+        } else if(backupProvider == "none"){
+            dbImpl = new timemachine::LocalDBClient(cfg);
+        } else {
+            throw std::runtime_error("Unknown BACKUP_PROVIDER: " + backupProvider);
+        }
+        std::shared_ptr<timemachine::DbClient> dbClient(dbImpl);
         spdlog::info("dbClient initialized sucessfully");
         std::string grpc_port(cfg->gprc_port);
         std::string server_address("0.0.0.0:" + grpc_port);

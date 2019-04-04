@@ -57,6 +57,8 @@ namespace timemachine {
         sourceBucket = getEnvironmentVariableOrDefault("SRC_BUCKET", (char *) "default-timemachine");
         destBucket = getEnvironmentVariableOrDefault("DST_BUCKET", (char *) "default-timemachine");
         walProvider = getEnvironmentVariableOrDefault("WAL_PROVIDER", (char *) "none");
+        backupProvider = getEnvironmentVariableOrDefault("BACKUP_PROVIDER", (char *) "s3");
+
         http_port = getEnvironmentVariableOrDefault("HTTP_PORT", (char *) "8080");
         gprc_port = getEnvironmentVariableOrDefault("GRPC_PORT", (char *) "8081");
         http_max_queued = getEnvironmentVariableOrDefaultInt("HTTP_MAX_QUEUED", 100);

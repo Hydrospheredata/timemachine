@@ -1,6 +1,7 @@
 package hydrosphere.timemachine
 
 import java.nio.ByteBuffer
+import java.util.Base64
 
 import org.scalatest.{FlatSpec, Matchers}
 import com.softwaremill.sttp._
@@ -17,12 +18,14 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
   override val StartContainersTimeout = 120 seconds
 
-  def fixture(size: Int) = Array.fill[Byte](1024 * size)(1)
+  override def useS3: Boolean = false
+
+  override def bucket: String = "otherone"
 
 
   "reqstore" should "save messages to storage via http" in {
 
-    val folder = "3"
+    val folder = "13"
 
     val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
     val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"
@@ -30,16 +33,23 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
     implicit val backend = HttpURLConnectionBackend()
 
     val requestPost = sttp.response(asString)
-      .body(fixture(20))
+      .body(data2save())
       .post(postUri)
 
-    val response = requestPost.send()
-    val body = response.unsafeBody
+    val ids = Range(0, 10).map{_ =>
 
-    val jsonAst = body.parseJson
-    val id = jsonAst.convertTo[Id]
+      val response = requestPost.send()
+      val body = response.unsafeBody
 
-    id.ts isValidLong
+      val jsonAst = body.parseJson
+      val id = jsonAst.convertTo[Id]
+
+      id.ts isValidLong
+
+      id
+    } toList
+
+
 
     val requestGet = sttp.response(asByteArray).get(getUri)
 
@@ -51,7 +61,7 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
     var list = List[Id]()
 
     while (bb.position() < bb.limit()){
-      val ts= bb.getLong()
+      val ts = bb.getLong()
       val unique = bb.getLong()
       val nextSize = bb.getInt()
       val data = Array.fill[Byte](nextSize)(0)
@@ -64,8 +74,9 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
       list = newId :: list
     }
 
-    list.contains(id) shouldBe(true)
-
+    ids.foreach{id =>
+      list.contains(id) shouldBe(true)
+    }
 
   }
 

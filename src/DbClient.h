@@ -21,26 +21,27 @@ namespace timemachine {
 
         DbClient(std::shared_ptr<Config>);
 
-        timemachine::ID GenerateId();
+        virtual timemachine::ID GenerateId();
 
-        std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
+        virtual std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
 
         std::shared_ptr<Config> cfg;
 
-        rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
+        virtual rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
 
-        rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name);
+        virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) = 0;
 
-        rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
+        virtual rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
 
-        rocksdb::Status Put(const rocksdb::WriteOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, const rocksdb::Slice&);
+        virtual rocksdb::Status Put(const rocksdb::WriteOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, const rocksdb::Slice&);
 
-        rocksdb::Status Get(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, std::string*);
+        virtual rocksdb::Status Get(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, std::string*);
 
-        void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, std::function<void(rocksdb::Iterator*)>);
+        virtual void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, std::function<void(rocksdb::Iterator*)>);
 
-    private:
-        rocksdb::DBCloud *db;
+    protected:
+    
+        virtual rocksdb::DB* getDB() = 0;
         rocksdb::Options options;
         std::unordered_map<std::string, rocksdb::ColumnFamilyHandle *> columnFamalies;
         std::shared_timed_mutex lock;
@@ -51,8 +52,6 @@ namespace timemachine {
         rocksdb::CloudEnv *cenv;
         std::string persistent_cache;
         std::atomic<long> uniqueGenerator;
-
-
     };
 
 }

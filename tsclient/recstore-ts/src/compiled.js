@@ -18,7846 +18,6 @@ $root.hydrosphere = (function() {
      */
     var hydrosphere = {};
 
-    hydrosphere.monitoring = (function() {
-
-        /**
-         * Namespace monitoring.
-         * @memberof hydrosphere
-         * @namespace
-         */
-        var monitoring = {};
-
-        monitoring.ExecutionError = (function() {
-
-            /**
-             * Properties of an ExecutionError.
-             * @memberof hydrosphere.monitoring
-             * @interface IExecutionError
-             * @property {string|null} [errorMessage] ExecutionError errorMessage
-             */
-
-            /**
-             * Constructs a new ExecutionError.
-             * @memberof hydrosphere.monitoring
-             * @classdesc Represents an ExecutionError.
-             * @implements IExecutionError
-             * @constructor
-             * @param {hydrosphere.monitoring.IExecutionError=} [properties] Properties to set
-             */
-            function ExecutionError(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionError errorMessage.
-             * @member {string} errorMessage
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @instance
-             */
-            ExecutionError.prototype.errorMessage = "";
-
-            /**
-             * Creates a new ExecutionError instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionError=} [properties] Properties to set
-             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError instance
-             */
-            ExecutionError.create = function create(properties) {
-                return new ExecutionError(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionError message. Does not implicitly {@link hydrosphere.monitoring.ExecutionError.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionError} message ExecutionError message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionError.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.errorMessage);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionError message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionError.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionError} message ExecutionError message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionError.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionError message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionError.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionError();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.errorMessage = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionError message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionError.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionError message.
-             * @function verify
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionError.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    if (!$util.isString(message.errorMessage))
-                        return "errorMessage: string expected";
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionError message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
-             */
-            ExecutionError.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.monitoring.ExecutionError)
-                    return object;
-                var message = new $root.hydrosphere.monitoring.ExecutionError();
-                if (object.errorMessage != null)
-                    message.errorMessage = String(object.errorMessage);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionError message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @static
-             * @param {hydrosphere.monitoring.ExecutionError} message ExecutionError
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionError.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.errorMessage = "";
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    object.errorMessage = message.errorMessage;
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionError to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.monitoring.ExecutionError
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionError.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionError;
-        })();
-
-        monitoring.TraceData = (function() {
-
-            /**
-             * Properties of a TraceData.
-             * @memberof hydrosphere.monitoring
-             * @interface ITraceData
-             * @property {number|Long|null} [ts] TraceData ts
-             * @property {number|Long|null} [uid] TraceData uid
-             */
-
-            /**
-             * Constructs a new TraceData.
-             * @memberof hydrosphere.monitoring
-             * @classdesc Represents a TraceData.
-             * @implements ITraceData
-             * @constructor
-             * @param {hydrosphere.monitoring.ITraceData=} [properties] Properties to set
-             */
-            function TraceData(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * TraceData ts.
-             * @member {number|Long} ts
-             * @memberof hydrosphere.monitoring.TraceData
-             * @instance
-             */
-            TraceData.prototype.ts = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * TraceData uid.
-             * @member {number|Long} uid
-             * @memberof hydrosphere.monitoring.TraceData
-             * @instance
-             */
-            TraceData.prototype.uid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * Creates a new TraceData instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {hydrosphere.monitoring.ITraceData=} [properties] Properties to set
-             * @returns {hydrosphere.monitoring.TraceData} TraceData instance
-             */
-            TraceData.create = function create(properties) {
-                return new TraceData(properties);
-            };
-
-            /**
-             * Encodes the specified TraceData message. Does not implicitly {@link hydrosphere.monitoring.TraceData.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {hydrosphere.monitoring.ITraceData} message TraceData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TraceData.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.ts != null && message.hasOwnProperty("ts"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.ts);
-                if (message.uid != null && message.hasOwnProperty("uid"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.uid);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified TraceData message, length delimited. Does not implicitly {@link hydrosphere.monitoring.TraceData.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {hydrosphere.monitoring.ITraceData} message TraceData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TraceData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a TraceData message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.monitoring.TraceData} TraceData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TraceData.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.TraceData();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.ts = reader.int64();
-                        break;
-                    case 2:
-                        message.uid = reader.int64();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a TraceData message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.monitoring.TraceData} TraceData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TraceData.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a TraceData message.
-             * @function verify
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TraceData.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.ts != null && message.hasOwnProperty("ts"))
-                    if (!$util.isInteger(message.ts) && !(message.ts && $util.isInteger(message.ts.low) && $util.isInteger(message.ts.high)))
-                        return "ts: integer|Long expected";
-                if (message.uid != null && message.hasOwnProperty("uid"))
-                    if (!$util.isInteger(message.uid) && !(message.uid && $util.isInteger(message.uid.low) && $util.isInteger(message.uid.high)))
-                        return "uid: integer|Long expected";
-                return null;
-            };
-
-            /**
-             * Creates a TraceData message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.monitoring.TraceData} TraceData
-             */
-            TraceData.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.monitoring.TraceData)
-                    return object;
-                var message = new $root.hydrosphere.monitoring.TraceData();
-                if (object.ts != null)
-                    if ($util.Long)
-                        (message.ts = $util.Long.fromValue(object.ts)).unsigned = false;
-                    else if (typeof object.ts === "string")
-                        message.ts = parseInt(object.ts, 10);
-                    else if (typeof object.ts === "number")
-                        message.ts = object.ts;
-                    else if (typeof object.ts === "object")
-                        message.ts = new $util.LongBits(object.ts.low >>> 0, object.ts.high >>> 0).toNumber();
-                if (object.uid != null)
-                    if ($util.Long)
-                        (message.uid = $util.Long.fromValue(object.uid)).unsigned = false;
-                    else if (typeof object.uid === "string")
-                        message.uid = parseInt(object.uid, 10);
-                    else if (typeof object.uid === "number")
-                        message.uid = object.uid;
-                    else if (typeof object.uid === "object")
-                        message.uid = new $util.LongBits(object.uid.low >>> 0, object.uid.high >>> 0).toNumber();
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a TraceData message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.monitoring.TraceData
-             * @static
-             * @param {hydrosphere.monitoring.TraceData} message TraceData
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TraceData.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.ts = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.ts = options.longs === String ? "0" : 0;
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.uid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.uid = options.longs === String ? "0" : 0;
-                }
-                if (message.ts != null && message.hasOwnProperty("ts"))
-                    if (typeof message.ts === "number")
-                        object.ts = options.longs === String ? String(message.ts) : message.ts;
-                    else
-                        object.ts = options.longs === String ? $util.Long.prototype.toString.call(message.ts) : options.longs === Number ? new $util.LongBits(message.ts.low >>> 0, message.ts.high >>> 0).toNumber() : message.ts;
-                if (message.uid != null && message.hasOwnProperty("uid"))
-                    if (typeof message.uid === "number")
-                        object.uid = options.longs === String ? String(message.uid) : message.uid;
-                    else
-                        object.uid = options.longs === String ? $util.Long.prototype.toString.call(message.uid) : options.longs === Number ? new $util.LongBits(message.uid.low >>> 0, message.uid.high >>> 0).toNumber() : message.uid;
-                return object;
-            };
-
-            /**
-             * Converts this TraceData to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.monitoring.TraceData
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TraceData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return TraceData;
-        })();
-
-        monitoring.ExecutionMetadata = (function() {
-
-            /**
-             * Properties of an ExecutionMetadata.
-             * @memberof hydrosphere.monitoring
-             * @interface IExecutionMetadata
-             * @property {number|Long|null} [applicationId] ExecutionMetadata applicationId
-             * @property {string|null} [stageId] ExecutionMetadata stageId
-             * @property {number|Long|null} [modelVersionId] ExecutionMetadata modelVersionId
-             * @property {string|null} [signatureName] ExecutionMetadata signatureName
-             * @property {string|null} [requestId] ExecutionMetadata requestId
-             * @property {string|null} [applicationRequestId] ExecutionMetadata applicationRequestId
-             * @property {string|null} [applicationNamespace] ExecutionMetadata applicationNamespace
-             * @property {string|null} [modelName] ExecutionMetadata modelName
-             * @property {hydrosphere.monitoring.ITraceData|null} [traceData] ExecutionMetadata traceData
-             */
-
-            /**
-             * Constructs a new ExecutionMetadata.
-             * @memberof hydrosphere.monitoring
-             * @classdesc Represents an ExecutionMetadata.
-             * @implements IExecutionMetadata
-             * @constructor
-             * @param {hydrosphere.monitoring.IExecutionMetadata=} [properties] Properties to set
-             */
-            function ExecutionMetadata(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionMetadata applicationId.
-             * @member {number|Long} applicationId
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.applicationId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * ExecutionMetadata stageId.
-             * @member {string} stageId
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.stageId = "";
-
-            /**
-             * ExecutionMetadata modelVersionId.
-             * @member {number|Long} modelVersionId
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.modelVersionId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * ExecutionMetadata signatureName.
-             * @member {string} signatureName
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.signatureName = "";
-
-            /**
-             * ExecutionMetadata requestId.
-             * @member {string} requestId
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.requestId = "";
-
-            /**
-             * ExecutionMetadata applicationRequestId.
-             * @member {string} applicationRequestId
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.applicationRequestId = "";
-
-            /**
-             * ExecutionMetadata applicationNamespace.
-             * @member {string} applicationNamespace
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.applicationNamespace = "";
-
-            /**
-             * ExecutionMetadata modelName.
-             * @member {string} modelName
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.modelName = "";
-
-            /**
-             * ExecutionMetadata traceData.
-             * @member {hydrosphere.monitoring.ITraceData|null|undefined} traceData
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             */
-            ExecutionMetadata.prototype.traceData = null;
-
-            /**
-             * Creates a new ExecutionMetadata instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionMetadata=} [properties] Properties to set
-             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata instance
-             */
-            ExecutionMetadata.create = function create(properties) {
-                return new ExecutionMetadata(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionMetadata message. Does not implicitly {@link hydrosphere.monitoring.ExecutionMetadata.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionMetadata} message ExecutionMetadata message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionMetadata.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.applicationId);
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.stageId);
-                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.modelVersionId);
-                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.signatureName);
-                if (message.requestId != null && message.hasOwnProperty("requestId"))
-                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.requestId);
-                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
-                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.applicationRequestId);
-                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
-                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.applicationNamespace);
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.modelName);
-                if (message.traceData != null && message.hasOwnProperty("traceData"))
-                    $root.hydrosphere.monitoring.TraceData.encode(message.traceData, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionMetadata message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionMetadata.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionMetadata} message ExecutionMetadata message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionMetadata.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionMetadata message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionMetadata.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionMetadata();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.applicationId = reader.int64();
-                        break;
-                    case 2:
-                        message.stageId = reader.string();
-                        break;
-                    case 3:
-                        message.modelVersionId = reader.int64();
-                        break;
-                    case 4:
-                        message.signatureName = reader.string();
-                        break;
-                    case 5:
-                        message.requestId = reader.string();
-                        break;
-                    case 6:
-                        message.applicationRequestId = reader.string();
-                        break;
-                    case 7:
-                        message.applicationNamespace = reader.string();
-                        break;
-                    case 8:
-                        message.modelName = reader.string();
-                        break;
-                    case 10:
-                        message.traceData = $root.hydrosphere.monitoring.TraceData.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionMetadata message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionMetadata.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionMetadata message.
-             * @function verify
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionMetadata.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    if (!$util.isInteger(message.applicationId) && !(message.applicationId && $util.isInteger(message.applicationId.low) && $util.isInteger(message.applicationId.high)))
-                        return "applicationId: integer|Long expected";
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    if (!$util.isString(message.stageId))
-                        return "stageId: string expected";
-                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
-                    if (!$util.isInteger(message.modelVersionId) && !(message.modelVersionId && $util.isInteger(message.modelVersionId.low) && $util.isInteger(message.modelVersionId.high)))
-                        return "modelVersionId: integer|Long expected";
-                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                    if (!$util.isString(message.signatureName))
-                        return "signatureName: string expected";
-                if (message.requestId != null && message.hasOwnProperty("requestId"))
-                    if (!$util.isString(message.requestId))
-                        return "requestId: string expected";
-                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
-                    if (!$util.isString(message.applicationRequestId))
-                        return "applicationRequestId: string expected";
-                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
-                    if (!$util.isString(message.applicationNamespace))
-                        return "applicationNamespace: string expected";
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    if (!$util.isString(message.modelName))
-                        return "modelName: string expected";
-                if (message.traceData != null && message.hasOwnProperty("traceData")) {
-                    var error = $root.hydrosphere.monitoring.TraceData.verify(message.traceData);
-                    if (error)
-                        return "traceData." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionMetadata message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
-             */
-            ExecutionMetadata.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.monitoring.ExecutionMetadata)
-                    return object;
-                var message = new $root.hydrosphere.monitoring.ExecutionMetadata();
-                if (object.applicationId != null)
-                    if ($util.Long)
-                        (message.applicationId = $util.Long.fromValue(object.applicationId)).unsigned = false;
-                    else if (typeof object.applicationId === "string")
-                        message.applicationId = parseInt(object.applicationId, 10);
-                    else if (typeof object.applicationId === "number")
-                        message.applicationId = object.applicationId;
-                    else if (typeof object.applicationId === "object")
-                        message.applicationId = new $util.LongBits(object.applicationId.low >>> 0, object.applicationId.high >>> 0).toNumber();
-                if (object.stageId != null)
-                    message.stageId = String(object.stageId);
-                if (object.modelVersionId != null)
-                    if ($util.Long)
-                        (message.modelVersionId = $util.Long.fromValue(object.modelVersionId)).unsigned = false;
-                    else if (typeof object.modelVersionId === "string")
-                        message.modelVersionId = parseInt(object.modelVersionId, 10);
-                    else if (typeof object.modelVersionId === "number")
-                        message.modelVersionId = object.modelVersionId;
-                    else if (typeof object.modelVersionId === "object")
-                        message.modelVersionId = new $util.LongBits(object.modelVersionId.low >>> 0, object.modelVersionId.high >>> 0).toNumber();
-                if (object.signatureName != null)
-                    message.signatureName = String(object.signatureName);
-                if (object.requestId != null)
-                    message.requestId = String(object.requestId);
-                if (object.applicationRequestId != null)
-                    message.applicationRequestId = String(object.applicationRequestId);
-                if (object.applicationNamespace != null)
-                    message.applicationNamespace = String(object.applicationNamespace);
-                if (object.modelName != null)
-                    message.modelName = String(object.modelName);
-                if (object.traceData != null) {
-                    if (typeof object.traceData !== "object")
-                        throw TypeError(".hydrosphere.monitoring.ExecutionMetadata.traceData: object expected");
-                    message.traceData = $root.hydrosphere.monitoring.TraceData.fromObject(object.traceData);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionMetadata message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @static
-             * @param {hydrosphere.monitoring.ExecutionMetadata} message ExecutionMetadata
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionMetadata.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.applicationId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.applicationId = options.longs === String ? "0" : 0;
-                    object.stageId = "";
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.modelVersionId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.modelVersionId = options.longs === String ? "0" : 0;
-                    object.signatureName = "";
-                    object.requestId = "";
-                    object.applicationRequestId = "";
-                    object.applicationNamespace = "";
-                    object.modelName = "";
-                    object.traceData = null;
-                }
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    if (typeof message.applicationId === "number")
-                        object.applicationId = options.longs === String ? String(message.applicationId) : message.applicationId;
-                    else
-                        object.applicationId = options.longs === String ? $util.Long.prototype.toString.call(message.applicationId) : options.longs === Number ? new $util.LongBits(message.applicationId.low >>> 0, message.applicationId.high >>> 0).toNumber() : message.applicationId;
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    object.stageId = message.stageId;
-                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
-                    if (typeof message.modelVersionId === "number")
-                        object.modelVersionId = options.longs === String ? String(message.modelVersionId) : message.modelVersionId;
-                    else
-                        object.modelVersionId = options.longs === String ? $util.Long.prototype.toString.call(message.modelVersionId) : options.longs === Number ? new $util.LongBits(message.modelVersionId.low >>> 0, message.modelVersionId.high >>> 0).toNumber() : message.modelVersionId;
-                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                    object.signatureName = message.signatureName;
-                if (message.requestId != null && message.hasOwnProperty("requestId"))
-                    object.requestId = message.requestId;
-                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
-                    object.applicationRequestId = message.applicationRequestId;
-                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
-                    object.applicationNamespace = message.applicationNamespace;
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    object.modelName = message.modelName;
-                if (message.traceData != null && message.hasOwnProperty("traceData"))
-                    object.traceData = $root.hydrosphere.monitoring.TraceData.toObject(message.traceData, options);
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionMetadata to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.monitoring.ExecutionMetadata
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionMetadata.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionMetadata;
-        })();
-
-        monitoring.ExecutionInformation = (function() {
-
-            /**
-             * Properties of an ExecutionInformation.
-             * @memberof hydrosphere.monitoring
-             * @interface IExecutionInformation
-             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [request] ExecutionInformation request
-             * @property {hydrosphere.monitoring.IExecutionError|null} [error] ExecutionInformation error
-             * @property {hydrosphere.tensorflow.serving.IPredictResponse|null} [response] ExecutionInformation response
-             * @property {hydrosphere.monitoring.IExecutionMetadata|null} [metadata] ExecutionInformation metadata
-             */
-
-            /**
-             * Constructs a new ExecutionInformation.
-             * @memberof hydrosphere.monitoring
-             * @classdesc Represents an ExecutionInformation.
-             * @implements IExecutionInformation
-             * @constructor
-             * @param {hydrosphere.monitoring.IExecutionInformation=} [properties] Properties to set
-             */
-            function ExecutionInformation(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionInformation request.
-             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} request
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             */
-            ExecutionInformation.prototype.request = null;
-
-            /**
-             * ExecutionInformation error.
-             * @member {hydrosphere.monitoring.IExecutionError|null|undefined} error
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             */
-            ExecutionInformation.prototype.error = null;
-
-            /**
-             * ExecutionInformation response.
-             * @member {hydrosphere.tensorflow.serving.IPredictResponse|null|undefined} response
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             */
-            ExecutionInformation.prototype.response = null;
-
-            /**
-             * ExecutionInformation metadata.
-             * @member {hydrosphere.monitoring.IExecutionMetadata|null|undefined} metadata
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             */
-            ExecutionInformation.prototype.metadata = null;
-
-            // OneOf field names bound to virtual getters and setters
-            var $oneOfFields;
-
-            /**
-             * ExecutionInformation responseOrError.
-             * @member {"error"|"response"|undefined} responseOrError
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             */
-            Object.defineProperty(ExecutionInformation.prototype, "responseOrError", {
-                get: $util.oneOfGetter($oneOfFields = ["error", "response"]),
-                set: $util.oneOfSetter($oneOfFields)
-            });
-
-            /**
-             * Creates a new ExecutionInformation instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionInformation=} [properties] Properties to set
-             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation instance
-             */
-            ExecutionInformation.create = function create(properties) {
-                return new ExecutionInformation(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionInformation message. Does not implicitly {@link hydrosphere.monitoring.ExecutionInformation.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionInformation} message ExecutionInformation message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionInformation.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.request != null && message.hasOwnProperty("request"))
-                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.request, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.error != null && message.hasOwnProperty("error"))
-                    $root.hydrosphere.monitoring.ExecutionError.encode(message.error, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.response != null && message.hasOwnProperty("response"))
-                    $root.hydrosphere.tensorflow.serving.PredictResponse.encode(message.response, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    $root.hydrosphere.monitoring.ExecutionMetadata.encode(message.metadata, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionInformation message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionInformation.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {hydrosphere.monitoring.IExecutionInformation} message ExecutionInformation message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionInformation.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionInformation message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionInformation.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionInformation();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.error = $root.hydrosphere.monitoring.ExecutionError.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.response = $root.hydrosphere.tensorflow.serving.PredictResponse.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionInformation message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionInformation.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionInformation message.
-             * @function verify
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionInformation.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                var properties = {};
-                if (message.request != null && message.hasOwnProperty("request")) {
-                    var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.request);
-                    if (error)
-                        return "request." + error;
-                }
-                if (message.error != null && message.hasOwnProperty("error")) {
-                    properties.responseOrError = 1;
-                    {
-                        var error = $root.hydrosphere.monitoring.ExecutionError.verify(message.error);
-                        if (error)
-                            return "error." + error;
-                    }
-                }
-                if (message.response != null && message.hasOwnProperty("response")) {
-                    if (properties.responseOrError === 1)
-                        return "responseOrError: multiple values";
-                    properties.responseOrError = 1;
-                    {
-                        var error = $root.hydrosphere.tensorflow.serving.PredictResponse.verify(message.response);
-                        if (error)
-                            return "response." + error;
-                    }
-                }
-                if (message.metadata != null && message.hasOwnProperty("metadata")) {
-                    var error = $root.hydrosphere.monitoring.ExecutionMetadata.verify(message.metadata);
-                    if (error)
-                        return "metadata." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionInformation message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
-             */
-            ExecutionInformation.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.monitoring.ExecutionInformation)
-                    return object;
-                var message = new $root.hydrosphere.monitoring.ExecutionInformation();
-                if (object.request != null) {
-                    if (typeof object.request !== "object")
-                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.request: object expected");
-                    message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.request);
-                }
-                if (object.error != null) {
-                    if (typeof object.error !== "object")
-                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.error: object expected");
-                    message.error = $root.hydrosphere.monitoring.ExecutionError.fromObject(object.error);
-                }
-                if (object.response != null) {
-                    if (typeof object.response !== "object")
-                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.response: object expected");
-                    message.response = $root.hydrosphere.tensorflow.serving.PredictResponse.fromObject(object.response);
-                }
-                if (object.metadata != null) {
-                    if (typeof object.metadata !== "object")
-                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.metadata: object expected");
-                    message.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.fromObject(object.metadata);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionInformation message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @static
-             * @param {hydrosphere.monitoring.ExecutionInformation} message ExecutionInformation
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionInformation.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.request = null;
-                    object.metadata = null;
-                }
-                if (message.request != null && message.hasOwnProperty("request"))
-                    object.request = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.request, options);
-                if (message.error != null && message.hasOwnProperty("error")) {
-                    object.error = $root.hydrosphere.monitoring.ExecutionError.toObject(message.error, options);
-                    if (options.oneofs)
-                        object.responseOrError = "error";
-                }
-                if (message.response != null && message.hasOwnProperty("response")) {
-                    object.response = $root.hydrosphere.tensorflow.serving.PredictResponse.toObject(message.response, options);
-                    if (options.oneofs)
-                        object.responseOrError = "response";
-                }
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    object.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.toObject(message.metadata, options);
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionInformation to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.monitoring.ExecutionInformation
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionInformation.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionInformation;
-        })();
-
-        monitoring.MonitoringService = (function() {
-
-            /**
-             * Constructs a new MonitoringService service.
-             * @memberof hydrosphere.monitoring
-             * @classdesc Represents a MonitoringService
-             * @extends $protobuf.rpc.Service
-             * @constructor
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             */
-            function MonitoringService(rpcImpl, requestDelimited, responseDelimited) {
-                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
-            }
-
-            (MonitoringService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = MonitoringService;
-
-            /**
-             * Creates new MonitoringService service using the specified rpc implementation.
-             * @function create
-             * @memberof hydrosphere.monitoring.MonitoringService
-             * @static
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             * @returns {MonitoringService} RPC service. Useful where requests and/or responses are streamed.
-             */
-            MonitoringService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
-                return new this(rpcImpl, requestDelimited, responseDelimited);
-            };
-
-            /**
-             * Callback as used by {@link hydrosphere.monitoring.MonitoringService#analyze}.
-             * @memberof hydrosphere.monitoring.MonitoringService
-             * @typedef AnalyzeCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {google.protobuf.Empty} [response] Empty
-             */
-
-            /**
-             * Calls Analyze.
-             * @function analyze
-             * @memberof hydrosphere.monitoring.MonitoringService
-             * @instance
-             * @param {hydrosphere.monitoring.IExecutionInformation} request ExecutionInformation message or plain object
-             * @param {hydrosphere.monitoring.MonitoringService.AnalyzeCallback} callback Node-style callback called with the error, if any, and Empty
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(MonitoringService.prototype.analyze = function analyze(request, callback) {
-                return this.rpcCall(analyze, $root.hydrosphere.monitoring.ExecutionInformation, $root.google.protobuf.Empty, request, callback);
-            }, "name", { value: "Analyze" });
-
-            /**
-             * Calls Analyze.
-             * @function analyze
-             * @memberof hydrosphere.monitoring.MonitoringService
-             * @instance
-             * @param {hydrosphere.monitoring.IExecutionInformation} request ExecutionInformation message or plain object
-             * @returns {Promise<google.protobuf.Empty>} Promise
-             * @variation 2
-             */
-
-            return MonitoringService;
-        })();
-
-        return monitoring;
-    })();
-
-    hydrosphere.manager = (function() {
-
-        /**
-         * Namespace manager.
-         * @memberof hydrosphere
-         * @namespace
-         */
-        var manager = {};
-
-        manager.KafkaError = (function() {
-
-            /**
-             * Properties of a KafkaError.
-             * @memberof hydrosphere.manager
-             * @interface IKafkaError
-             * @property {string|null} [errorMessage] KafkaError errorMessage
-             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [lastKnownRequest] KafkaError lastKnownRequest
-             */
-
-            /**
-             * Constructs a new KafkaError.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a KafkaError.
-             * @implements IKafkaError
-             * @constructor
-             * @param {hydrosphere.manager.IKafkaError=} [properties] Properties to set
-             */
-            function KafkaError(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * KafkaError errorMessage.
-             * @member {string} errorMessage
-             * @memberof hydrosphere.manager.KafkaError
-             * @instance
-             */
-            KafkaError.prototype.errorMessage = "";
-
-            /**
-             * KafkaError lastKnownRequest.
-             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} lastKnownRequest
-             * @memberof hydrosphere.manager.KafkaError
-             * @instance
-             */
-            KafkaError.prototype.lastKnownRequest = null;
-
-            /**
-             * Creates a new KafkaError instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {hydrosphere.manager.IKafkaError=} [properties] Properties to set
-             * @returns {hydrosphere.manager.KafkaError} KafkaError instance
-             */
-            KafkaError.create = function create(properties) {
-                return new KafkaError(properties);
-            };
-
-            /**
-             * Encodes the specified KafkaError message. Does not implicitly {@link hydrosphere.manager.KafkaError.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {hydrosphere.manager.IKafkaError} message KafkaError message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaError.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.errorMessage);
-                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest"))
-                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.lastKnownRequest, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified KafkaError message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaError.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {hydrosphere.manager.IKafkaError} message KafkaError message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaError.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a KafkaError message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.KafkaError} KafkaError
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaError.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaError();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 5:
-                        message.errorMessage = reader.string();
-                        break;
-                    case 8:
-                        message.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a KafkaError message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.KafkaError} KafkaError
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaError.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a KafkaError message.
-             * @function verify
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            KafkaError.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    if (!$util.isString(message.errorMessage))
-                        return "errorMessage: string expected";
-                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest")) {
-                    var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.lastKnownRequest);
-                    if (error)
-                        return "lastKnownRequest." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates a KafkaError message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.KafkaError} KafkaError
-             */
-            KafkaError.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.KafkaError)
-                    return object;
-                var message = new $root.hydrosphere.manager.KafkaError();
-                if (object.errorMessage != null)
-                    message.errorMessage = String(object.errorMessage);
-                if (object.lastKnownRequest != null) {
-                    if (typeof object.lastKnownRequest !== "object")
-                        throw TypeError(".hydrosphere.manager.KafkaError.lastKnownRequest: object expected");
-                    message.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.lastKnownRequest);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a KafkaError message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.KafkaError
-             * @static
-             * @param {hydrosphere.manager.KafkaError} message KafkaError
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            KafkaError.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.errorMessage = "";
-                    object.lastKnownRequest = null;
-                }
-                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
-                    object.errorMessage = message.errorMessage;
-                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest"))
-                    object.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.lastKnownRequest, options);
-                return object;
-            };
-
-            /**
-             * Converts this KafkaError to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.KafkaError
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            KafkaError.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return KafkaError;
-        })();
-
-        manager.KafkaMessageLocation = (function() {
-
-            /**
-             * Properties of a KafkaMessageLocation.
-             * @memberof hydrosphere.manager
-             * @interface IKafkaMessageLocation
-             * @property {string|null} [sourceTopic] KafkaMessageLocation sourceTopic
-             * @property {string|null} [consumerId] KafkaMessageLocation consumerId
-             * @property {number|Long|null} [offset] KafkaMessageLocation offset
-             * @property {number|null} [partition] KafkaMessageLocation partition
-             */
-
-            /**
-             * Constructs a new KafkaMessageLocation.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a KafkaMessageLocation.
-             * @implements IKafkaMessageLocation
-             * @constructor
-             * @param {hydrosphere.manager.IKafkaMessageLocation=} [properties] Properties to set
-             */
-            function KafkaMessageLocation(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * KafkaMessageLocation sourceTopic.
-             * @member {string} sourceTopic
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @instance
-             */
-            KafkaMessageLocation.prototype.sourceTopic = "";
-
-            /**
-             * KafkaMessageLocation consumerId.
-             * @member {string} consumerId
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @instance
-             */
-            KafkaMessageLocation.prototype.consumerId = "";
-
-            /**
-             * KafkaMessageLocation offset.
-             * @member {number|Long} offset
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @instance
-             */
-            KafkaMessageLocation.prototype.offset = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * KafkaMessageLocation partition.
-             * @member {number} partition
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @instance
-             */
-            KafkaMessageLocation.prototype.partition = 0;
-
-            /**
-             * Creates a new KafkaMessageLocation instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageLocation=} [properties] Properties to set
-             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation instance
-             */
-            KafkaMessageLocation.create = function create(properties) {
-                return new KafkaMessageLocation(properties);
-            };
-
-            /**
-             * Encodes the specified KafkaMessageLocation message. Does not implicitly {@link hydrosphere.manager.KafkaMessageLocation.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageLocation} message KafkaMessageLocation message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaMessageLocation.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.sourceTopic);
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.consumerId);
-                if (message.offset != null && message.hasOwnProperty("offset"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.offset);
-                if (message.partition != null && message.hasOwnProperty("partition"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.partition);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified KafkaMessageLocation message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaMessageLocation.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageLocation} message KafkaMessageLocation message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaMessageLocation.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a KafkaMessageLocation message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaMessageLocation.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaMessageLocation();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.sourceTopic = reader.string();
-                        break;
-                    case 2:
-                        message.consumerId = reader.string();
-                        break;
-                    case 3:
-                        message.offset = reader.int64();
-                        break;
-                    case 4:
-                        message.partition = reader.int32();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a KafkaMessageLocation message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaMessageLocation.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a KafkaMessageLocation message.
-             * @function verify
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            KafkaMessageLocation.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    if (!$util.isString(message.sourceTopic))
-                        return "sourceTopic: string expected";
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    if (!$util.isString(message.consumerId))
-                        return "consumerId: string expected";
-                if (message.offset != null && message.hasOwnProperty("offset"))
-                    if (!$util.isInteger(message.offset) && !(message.offset && $util.isInteger(message.offset.low) && $util.isInteger(message.offset.high)))
-                        return "offset: integer|Long expected";
-                if (message.partition != null && message.hasOwnProperty("partition"))
-                    if (!$util.isInteger(message.partition))
-                        return "partition: integer expected";
-                return null;
-            };
-
-            /**
-             * Creates a KafkaMessageLocation message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
-             */
-            KafkaMessageLocation.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.KafkaMessageLocation)
-                    return object;
-                var message = new $root.hydrosphere.manager.KafkaMessageLocation();
-                if (object.sourceTopic != null)
-                    message.sourceTopic = String(object.sourceTopic);
-                if (object.consumerId != null)
-                    message.consumerId = String(object.consumerId);
-                if (object.offset != null)
-                    if ($util.Long)
-                        (message.offset = $util.Long.fromValue(object.offset)).unsigned = false;
-                    else if (typeof object.offset === "string")
-                        message.offset = parseInt(object.offset, 10);
-                    else if (typeof object.offset === "number")
-                        message.offset = object.offset;
-                    else if (typeof object.offset === "object")
-                        message.offset = new $util.LongBits(object.offset.low >>> 0, object.offset.high >>> 0).toNumber();
-                if (object.partition != null)
-                    message.partition = object.partition | 0;
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a KafkaMessageLocation message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @static
-             * @param {hydrosphere.manager.KafkaMessageLocation} message KafkaMessageLocation
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            KafkaMessageLocation.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.sourceTopic = "";
-                    object.consumerId = "";
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.offset = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.offset = options.longs === String ? "0" : 0;
-                    object.partition = 0;
-                }
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    object.sourceTopic = message.sourceTopic;
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    object.consumerId = message.consumerId;
-                if (message.offset != null && message.hasOwnProperty("offset"))
-                    if (typeof message.offset === "number")
-                        object.offset = options.longs === String ? String(message.offset) : message.offset;
-                    else
-                        object.offset = options.longs === String ? $util.Long.prototype.toString.call(message.offset) : options.longs === Number ? new $util.LongBits(message.offset.low >>> 0, message.offset.high >>> 0).toNumber() : message.offset;
-                if (message.partition != null && message.hasOwnProperty("partition"))
-                    object.partition = message.partition;
-                return object;
-            };
-
-            /**
-             * Converts this KafkaMessageLocation to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.KafkaMessageLocation
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            KafkaMessageLocation.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return KafkaMessageLocation;
-        })();
-
-        manager.KafkaMessageMeta = (function() {
-
-            /**
-             * Properties of a KafkaMessageMeta.
-             * @memberof hydrosphere.manager
-             * @interface IKafkaMessageMeta
-             * @property {string|null} [traceId] KafkaMessageMeta traceId
-             * @property {string|null} [applicationId] KafkaMessageMeta applicationId
-             * @property {string|null} [stageId] KafkaMessageMeta stageId
-             * @property {string|null} [stageName] KafkaMessageMeta stageName
-             * @property {hydrosphere.manager.IKafkaMessageLocation|null} [location] KafkaMessageMeta location
-             */
-
-            /**
-             * Constructs a new KafkaMessageMeta.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a KafkaMessageMeta.
-             * @implements IKafkaMessageMeta
-             * @constructor
-             * @param {hydrosphere.manager.IKafkaMessageMeta=} [properties] Properties to set
-             */
-            function KafkaMessageMeta(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * KafkaMessageMeta traceId.
-             * @member {string} traceId
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             */
-            KafkaMessageMeta.prototype.traceId = "";
-
-            /**
-             * KafkaMessageMeta applicationId.
-             * @member {string} applicationId
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             */
-            KafkaMessageMeta.prototype.applicationId = "";
-
-            /**
-             * KafkaMessageMeta stageId.
-             * @member {string} stageId
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             */
-            KafkaMessageMeta.prototype.stageId = "";
-
-            /**
-             * KafkaMessageMeta stageName.
-             * @member {string} stageName
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             */
-            KafkaMessageMeta.prototype.stageName = "";
-
-            /**
-             * KafkaMessageMeta location.
-             * @member {hydrosphere.manager.IKafkaMessageLocation|null|undefined} location
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             */
-            KafkaMessageMeta.prototype.location = null;
-
-            /**
-             * Creates a new KafkaMessageMeta instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageMeta=} [properties] Properties to set
-             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta instance
-             */
-            KafkaMessageMeta.create = function create(properties) {
-                return new KafkaMessageMeta(properties);
-            };
-
-            /**
-             * Encodes the specified KafkaMessageMeta message. Does not implicitly {@link hydrosphere.manager.KafkaMessageMeta.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageMeta} message KafkaMessageMeta message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaMessageMeta.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.traceId != null && message.hasOwnProperty("traceId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.traceId);
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.applicationId);
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.stageId);
-                if (message.stageName != null && message.hasOwnProperty("stageName"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.stageName);
-                if (message.location != null && message.hasOwnProperty("location"))
-                    $root.hydrosphere.manager.KafkaMessageLocation.encode(message.location, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified KafkaMessageMeta message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaMessageMeta.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {hydrosphere.manager.IKafkaMessageMeta} message KafkaMessageMeta message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaMessageMeta.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a KafkaMessageMeta message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaMessageMeta.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaMessageMeta();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.traceId = reader.string();
-                        break;
-                    case 2:
-                        message.applicationId = reader.string();
-                        break;
-                    case 3:
-                        message.stageId = reader.string();
-                        break;
-                    case 4:
-                        message.stageName = reader.string();
-                        break;
-                    case 5:
-                        message.location = $root.hydrosphere.manager.KafkaMessageLocation.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a KafkaMessageMeta message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaMessageMeta.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a KafkaMessageMeta message.
-             * @function verify
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            KafkaMessageMeta.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.traceId != null && message.hasOwnProperty("traceId"))
-                    if (!$util.isString(message.traceId))
-                        return "traceId: string expected";
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    if (!$util.isString(message.applicationId))
-                        return "applicationId: string expected";
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    if (!$util.isString(message.stageId))
-                        return "stageId: string expected";
-                if (message.stageName != null && message.hasOwnProperty("stageName"))
-                    if (!$util.isString(message.stageName))
-                        return "stageName: string expected";
-                if (message.location != null && message.hasOwnProperty("location")) {
-                    var error = $root.hydrosphere.manager.KafkaMessageLocation.verify(message.location);
-                    if (error)
-                        return "location." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates a KafkaMessageMeta message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
-             */
-            KafkaMessageMeta.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.KafkaMessageMeta)
-                    return object;
-                var message = new $root.hydrosphere.manager.KafkaMessageMeta();
-                if (object.traceId != null)
-                    message.traceId = String(object.traceId);
-                if (object.applicationId != null)
-                    message.applicationId = String(object.applicationId);
-                if (object.stageId != null)
-                    message.stageId = String(object.stageId);
-                if (object.stageName != null)
-                    message.stageName = String(object.stageName);
-                if (object.location != null) {
-                    if (typeof object.location !== "object")
-                        throw TypeError(".hydrosphere.manager.KafkaMessageMeta.location: object expected");
-                    message.location = $root.hydrosphere.manager.KafkaMessageLocation.fromObject(object.location);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a KafkaMessageMeta message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @static
-             * @param {hydrosphere.manager.KafkaMessageMeta} message KafkaMessageMeta
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            KafkaMessageMeta.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.traceId = "";
-                    object.applicationId = "";
-                    object.stageId = "";
-                    object.stageName = "";
-                    object.location = null;
-                }
-                if (message.traceId != null && message.hasOwnProperty("traceId"))
-                    object.traceId = message.traceId;
-                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
-                    object.applicationId = message.applicationId;
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    object.stageId = message.stageId;
-                if (message.stageName != null && message.hasOwnProperty("stageName"))
-                    object.stageName = message.stageName;
-                if (message.location != null && message.hasOwnProperty("location"))
-                    object.location = $root.hydrosphere.manager.KafkaMessageLocation.toObject(message.location, options);
-                return object;
-            };
-
-            /**
-             * Converts this KafkaMessageMeta to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.KafkaMessageMeta
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            KafkaMessageMeta.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return KafkaMessageMeta;
-        })();
-
-        manager.KafkaServingMessage = (function() {
-
-            /**
-             * Properties of a KafkaServingMessage.
-             * @memberof hydrosphere.manager
-             * @interface IKafkaServingMessage
-             * @property {hydrosphere.manager.IKafkaError|null} [error] KafkaServingMessage error
-             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [request] KafkaServingMessage request
-             * @property {hydrosphere.manager.IKafkaMessageMeta|null} [meta] KafkaServingMessage meta
-             */
-
-            /**
-             * Constructs a new KafkaServingMessage.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a KafkaServingMessage.
-             * @implements IKafkaServingMessage
-             * @constructor
-             * @param {hydrosphere.manager.IKafkaServingMessage=} [properties] Properties to set
-             */
-            function KafkaServingMessage(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * KafkaServingMessage error.
-             * @member {hydrosphere.manager.IKafkaError|null|undefined} error
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @instance
-             */
-            KafkaServingMessage.prototype.error = null;
-
-            /**
-             * KafkaServingMessage request.
-             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} request
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @instance
-             */
-            KafkaServingMessage.prototype.request = null;
-
-            /**
-             * KafkaServingMessage meta.
-             * @member {hydrosphere.manager.IKafkaMessageMeta|null|undefined} meta
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @instance
-             */
-            KafkaServingMessage.prototype.meta = null;
-
-            // OneOf field names bound to virtual getters and setters
-            var $oneOfFields;
-
-            /**
-             * KafkaServingMessage requestOrError.
-             * @member {"error"|"request"|undefined} requestOrError
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @instance
-             */
-            Object.defineProperty(KafkaServingMessage.prototype, "requestOrError", {
-                get: $util.oneOfGetter($oneOfFields = ["error", "request"]),
-                set: $util.oneOfSetter($oneOfFields)
-            });
-
-            /**
-             * Creates a new KafkaServingMessage instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {hydrosphere.manager.IKafkaServingMessage=} [properties] Properties to set
-             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage instance
-             */
-            KafkaServingMessage.create = function create(properties) {
-                return new KafkaServingMessage(properties);
-            };
-
-            /**
-             * Encodes the specified KafkaServingMessage message. Does not implicitly {@link hydrosphere.manager.KafkaServingMessage.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {hydrosphere.manager.IKafkaServingMessage} message KafkaServingMessage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaServingMessage.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.error != null && message.hasOwnProperty("error"))
-                    $root.hydrosphere.manager.KafkaError.encode(message.error, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.request != null && message.hasOwnProperty("request"))
-                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.request, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.meta != null && message.hasOwnProperty("meta"))
-                    $root.hydrosphere.manager.KafkaMessageMeta.encode(message.meta, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified KafkaServingMessage message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaServingMessage.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {hydrosphere.manager.IKafkaServingMessage} message KafkaServingMessage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaServingMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a KafkaServingMessage message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaServingMessage.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaServingMessage();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.error = $root.hydrosphere.manager.KafkaError.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.meta = $root.hydrosphere.manager.KafkaMessageMeta.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a KafkaServingMessage message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaServingMessage.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a KafkaServingMessage message.
-             * @function verify
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            KafkaServingMessage.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                var properties = {};
-                if (message.error != null && message.hasOwnProperty("error")) {
-                    properties.requestOrError = 1;
-                    {
-                        var error = $root.hydrosphere.manager.KafkaError.verify(message.error);
-                        if (error)
-                            return "error." + error;
-                    }
-                }
-                if (message.request != null && message.hasOwnProperty("request")) {
-                    if (properties.requestOrError === 1)
-                        return "requestOrError: multiple values";
-                    properties.requestOrError = 1;
-                    {
-                        var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.request);
-                        if (error)
-                            return "request." + error;
-                    }
-                }
-                if (message.meta != null && message.hasOwnProperty("meta")) {
-                    var error = $root.hydrosphere.manager.KafkaMessageMeta.verify(message.meta);
-                    if (error)
-                        return "meta." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates a KafkaServingMessage message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
-             */
-            KafkaServingMessage.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.KafkaServingMessage)
-                    return object;
-                var message = new $root.hydrosphere.manager.KafkaServingMessage();
-                if (object.error != null) {
-                    if (typeof object.error !== "object")
-                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.error: object expected");
-                    message.error = $root.hydrosphere.manager.KafkaError.fromObject(object.error);
-                }
-                if (object.request != null) {
-                    if (typeof object.request !== "object")
-                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.request: object expected");
-                    message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.request);
-                }
-                if (object.meta != null) {
-                    if (typeof object.meta !== "object")
-                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.meta: object expected");
-                    message.meta = $root.hydrosphere.manager.KafkaMessageMeta.fromObject(object.meta);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a KafkaServingMessage message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @static
-             * @param {hydrosphere.manager.KafkaServingMessage} message KafkaServingMessage
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            KafkaServingMessage.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.meta = null;
-                if (message.error != null && message.hasOwnProperty("error")) {
-                    object.error = $root.hydrosphere.manager.KafkaError.toObject(message.error, options);
-                    if (options.oneofs)
-                        object.requestOrError = "error";
-                }
-                if (message.request != null && message.hasOwnProperty("request")) {
-                    object.request = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.request, options);
-                    if (options.oneofs)
-                        object.requestOrError = "request";
-                }
-                if (message.meta != null && message.hasOwnProperty("meta"))
-                    object.meta = $root.hydrosphere.manager.KafkaMessageMeta.toObject(message.meta, options);
-                return object;
-            };
-
-            /**
-             * Converts this KafkaServingMessage to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.KafkaServingMessage
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            KafkaServingMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return KafkaServingMessage;
-        })();
-
-        manager.ExecutionService = (function() {
-
-            /**
-             * Properties of an ExecutionService.
-             * @memberof hydrosphere.manager
-             * @interface IExecutionService
-             * @property {hydrosphere.manager.IModelVersion|null} [modelVersion] ExecutionService modelVersion
-             * @property {number|null} [weight] ExecutionService weight
-             */
-
-            /**
-             * Constructs a new ExecutionService.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents an ExecutionService.
-             * @implements IExecutionService
-             * @constructor
-             * @param {hydrosphere.manager.IExecutionService=} [properties] Properties to set
-             */
-            function ExecutionService(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionService modelVersion.
-             * @member {hydrosphere.manager.IModelVersion|null|undefined} modelVersion
-             * @memberof hydrosphere.manager.ExecutionService
-             * @instance
-             */
-            ExecutionService.prototype.modelVersion = null;
-
-            /**
-             * ExecutionService weight.
-             * @member {number} weight
-             * @memberof hydrosphere.manager.ExecutionService
-             * @instance
-             */
-            ExecutionService.prototype.weight = 0;
-
-            /**
-             * Creates a new ExecutionService instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {hydrosphere.manager.IExecutionService=} [properties] Properties to set
-             * @returns {hydrosphere.manager.ExecutionService} ExecutionService instance
-             */
-            ExecutionService.create = function create(properties) {
-                return new ExecutionService(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionService message. Does not implicitly {@link hydrosphere.manager.ExecutionService.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {hydrosphere.manager.IExecutionService} message ExecutionService message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionService.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
-                    $root.hydrosphere.manager.ModelVersion.encode(message.modelVersion, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.weight != null && message.hasOwnProperty("weight"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.weight);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionService message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionService.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {hydrosphere.manager.IExecutionService} message ExecutionService message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionService.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionService message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionService.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionService();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.modelVersion = $root.hydrosphere.manager.ModelVersion.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.weight = reader.int32();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionService message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionService.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionService message.
-             * @function verify
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionService.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.modelVersion != null && message.hasOwnProperty("modelVersion")) {
-                    var error = $root.hydrosphere.manager.ModelVersion.verify(message.modelVersion);
-                    if (error)
-                        return "modelVersion." + error;
-                }
-                if (message.weight != null && message.hasOwnProperty("weight"))
-                    if (!$util.isInteger(message.weight))
-                        return "weight: integer expected";
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionService message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
-             */
-            ExecutionService.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.ExecutionService)
-                    return object;
-                var message = new $root.hydrosphere.manager.ExecutionService();
-                if (object.modelVersion != null) {
-                    if (typeof object.modelVersion !== "object")
-                        throw TypeError(".hydrosphere.manager.ExecutionService.modelVersion: object expected");
-                    message.modelVersion = $root.hydrosphere.manager.ModelVersion.fromObject(object.modelVersion);
-                }
-                if (object.weight != null)
-                    message.weight = object.weight | 0;
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionService message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.ExecutionService
-             * @static
-             * @param {hydrosphere.manager.ExecutionService} message ExecutionService
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionService.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.modelVersion = null;
-                    object.weight = 0;
-                }
-                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
-                    object.modelVersion = $root.hydrosphere.manager.ModelVersion.toObject(message.modelVersion, options);
-                if (message.weight != null && message.hasOwnProperty("weight"))
-                    object.weight = message.weight;
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionService to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.ExecutionService
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionService.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionService;
-        })();
-
-        manager.ExecutionStage = (function() {
-
-            /**
-             * Properties of an ExecutionStage.
-             * @memberof hydrosphere.manager
-             * @interface IExecutionStage
-             * @property {string|null} [stageId] ExecutionStage stageId
-             * @property {hydrosphere.contract.IModelSignature|null} [signature] ExecutionStage signature
-             * @property {Array.<hydrosphere.manager.IExecutionService>|null} [services] ExecutionStage services
-             */
-
-            /**
-             * Constructs a new ExecutionStage.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents an ExecutionStage.
-             * @implements IExecutionStage
-             * @constructor
-             * @param {hydrosphere.manager.IExecutionStage=} [properties] Properties to set
-             */
-            function ExecutionStage(properties) {
-                this.services = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionStage stageId.
-             * @member {string} stageId
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @instance
-             */
-            ExecutionStage.prototype.stageId = "";
-
-            /**
-             * ExecutionStage signature.
-             * @member {hydrosphere.contract.IModelSignature|null|undefined} signature
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @instance
-             */
-            ExecutionStage.prototype.signature = null;
-
-            /**
-             * ExecutionStage services.
-             * @member {Array.<hydrosphere.manager.IExecutionService>} services
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @instance
-             */
-            ExecutionStage.prototype.services = $util.emptyArray;
-
-            /**
-             * Creates a new ExecutionStage instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {hydrosphere.manager.IExecutionStage=} [properties] Properties to set
-             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage instance
-             */
-            ExecutionStage.create = function create(properties) {
-                return new ExecutionStage(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionStage message. Does not implicitly {@link hydrosphere.manager.ExecutionStage.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {hydrosphere.manager.IExecutionStage} message ExecutionStage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionStage.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.stageId);
-                if (message.signature != null && message.hasOwnProperty("signature"))
-                    $root.hydrosphere.contract.ModelSignature.encode(message.signature, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.services != null && message.services.length)
-                    for (var i = 0; i < message.services.length; ++i)
-                        $root.hydrosphere.manager.ExecutionService.encode(message.services[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionStage message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionStage.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {hydrosphere.manager.IExecutionStage} message ExecutionStage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionStage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionStage message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionStage.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionStage();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.stageId = reader.string();
-                        break;
-                    case 2:
-                        message.signature = $root.hydrosphere.contract.ModelSignature.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        if (!(message.services && message.services.length))
-                            message.services = [];
-                        message.services.push($root.hydrosphere.manager.ExecutionService.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionStage message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionStage.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionStage message.
-             * @function verify
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionStage.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    if (!$util.isString(message.stageId))
-                        return "stageId: string expected";
-                if (message.signature != null && message.hasOwnProperty("signature")) {
-                    var error = $root.hydrosphere.contract.ModelSignature.verify(message.signature);
-                    if (error)
-                        return "signature." + error;
-                }
-                if (message.services != null && message.hasOwnProperty("services")) {
-                    if (!Array.isArray(message.services))
-                        return "services: array expected";
-                    for (var i = 0; i < message.services.length; ++i) {
-                        var error = $root.hydrosphere.manager.ExecutionService.verify(message.services[i]);
-                        if (error)
-                            return "services." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionStage message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
-             */
-            ExecutionStage.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.ExecutionStage)
-                    return object;
-                var message = new $root.hydrosphere.manager.ExecutionStage();
-                if (object.stageId != null)
-                    message.stageId = String(object.stageId);
-                if (object.signature != null) {
-                    if (typeof object.signature !== "object")
-                        throw TypeError(".hydrosphere.manager.ExecutionStage.signature: object expected");
-                    message.signature = $root.hydrosphere.contract.ModelSignature.fromObject(object.signature);
-                }
-                if (object.services) {
-                    if (!Array.isArray(object.services))
-                        throw TypeError(".hydrosphere.manager.ExecutionStage.services: array expected");
-                    message.services = [];
-                    for (var i = 0; i < object.services.length; ++i) {
-                        if (typeof object.services[i] !== "object")
-                            throw TypeError(".hydrosphere.manager.ExecutionStage.services: object expected");
-                        message.services[i] = $root.hydrosphere.manager.ExecutionService.fromObject(object.services[i]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionStage message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @static
-             * @param {hydrosphere.manager.ExecutionStage} message ExecutionStage
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionStage.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.services = [];
-                if (options.defaults) {
-                    object.stageId = "";
-                    object.signature = null;
-                }
-                if (message.stageId != null && message.hasOwnProperty("stageId"))
-                    object.stageId = message.stageId;
-                if (message.signature != null && message.hasOwnProperty("signature"))
-                    object.signature = $root.hydrosphere.contract.ModelSignature.toObject(message.signature, options);
-                if (message.services && message.services.length) {
-                    object.services = [];
-                    for (var j = 0; j < message.services.length; ++j)
-                        object.services[j] = $root.hydrosphere.manager.ExecutionService.toObject(message.services[j], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionStage to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.ExecutionStage
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionStage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionStage;
-        })();
-
-        manager.ExecutionGraph = (function() {
-
-            /**
-             * Properties of an ExecutionGraph.
-             * @memberof hydrosphere.manager
-             * @interface IExecutionGraph
-             * @property {Array.<hydrosphere.manager.IExecutionStage>|null} [stages] ExecutionGraph stages
-             */
-
-            /**
-             * Constructs a new ExecutionGraph.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents an ExecutionGraph.
-             * @implements IExecutionGraph
-             * @constructor
-             * @param {hydrosphere.manager.IExecutionGraph=} [properties] Properties to set
-             */
-            function ExecutionGraph(properties) {
-                this.stages = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ExecutionGraph stages.
-             * @member {Array.<hydrosphere.manager.IExecutionStage>} stages
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @instance
-             */
-            ExecutionGraph.prototype.stages = $util.emptyArray;
-
-            /**
-             * Creates a new ExecutionGraph instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {hydrosphere.manager.IExecutionGraph=} [properties] Properties to set
-             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph instance
-             */
-            ExecutionGraph.create = function create(properties) {
-                return new ExecutionGraph(properties);
-            };
-
-            /**
-             * Encodes the specified ExecutionGraph message. Does not implicitly {@link hydrosphere.manager.ExecutionGraph.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {hydrosphere.manager.IExecutionGraph} message ExecutionGraph message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionGraph.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.stages != null && message.stages.length)
-                    for (var i = 0; i < message.stages.length; ++i)
-                        $root.hydrosphere.manager.ExecutionStage.encode(message.stages[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ExecutionGraph message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionGraph.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {hydrosphere.manager.IExecutionGraph} message ExecutionGraph message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ExecutionGraph.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an ExecutionGraph message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionGraph.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionGraph();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        if (!(message.stages && message.stages.length))
-                            message.stages = [];
-                        message.stages.push($root.hydrosphere.manager.ExecutionStage.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an ExecutionGraph message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ExecutionGraph.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an ExecutionGraph message.
-             * @function verify
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ExecutionGraph.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.stages != null && message.hasOwnProperty("stages")) {
-                    if (!Array.isArray(message.stages))
-                        return "stages: array expected";
-                    for (var i = 0; i < message.stages.length; ++i) {
-                        var error = $root.hydrosphere.manager.ExecutionStage.verify(message.stages[i]);
-                        if (error)
-                            return "stages." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates an ExecutionGraph message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
-             */
-            ExecutionGraph.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.ExecutionGraph)
-                    return object;
-                var message = new $root.hydrosphere.manager.ExecutionGraph();
-                if (object.stages) {
-                    if (!Array.isArray(object.stages))
-                        throw TypeError(".hydrosphere.manager.ExecutionGraph.stages: array expected");
-                    message.stages = [];
-                    for (var i = 0; i < object.stages.length; ++i) {
-                        if (typeof object.stages[i] !== "object")
-                            throw TypeError(".hydrosphere.manager.ExecutionGraph.stages: object expected");
-                        message.stages[i] = $root.hydrosphere.manager.ExecutionStage.fromObject(object.stages[i]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an ExecutionGraph message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @static
-             * @param {hydrosphere.manager.ExecutionGraph} message ExecutionGraph
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ExecutionGraph.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.stages = [];
-                if (message.stages && message.stages.length) {
-                    object.stages = [];
-                    for (var j = 0; j < message.stages.length; ++j)
-                        object.stages[j] = $root.hydrosphere.manager.ExecutionStage.toObject(message.stages[j], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this ExecutionGraph to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.ExecutionGraph
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ExecutionGraph.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ExecutionGraph;
-        })();
-
-        manager.KafkaStreaming = (function() {
-
-            /**
-             * Properties of a KafkaStreaming.
-             * @memberof hydrosphere.manager
-             * @interface IKafkaStreaming
-             * @property {string|null} [consumerId] KafkaStreaming consumerId
-             * @property {string|null} [sourceTopic] KafkaStreaming sourceTopic
-             * @property {string|null} [destinationTopic] KafkaStreaming destinationTopic
-             * @property {string|null} [errorTopic] KafkaStreaming errorTopic
-             */
-
-            /**
-             * Constructs a new KafkaStreaming.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a KafkaStreaming.
-             * @implements IKafkaStreaming
-             * @constructor
-             * @param {hydrosphere.manager.IKafkaStreaming=} [properties] Properties to set
-             */
-            function KafkaStreaming(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * KafkaStreaming consumerId.
-             * @member {string} consumerId
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @instance
-             */
-            KafkaStreaming.prototype.consumerId = "";
-
-            /**
-             * KafkaStreaming sourceTopic.
-             * @member {string} sourceTopic
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @instance
-             */
-            KafkaStreaming.prototype.sourceTopic = "";
-
-            /**
-             * KafkaStreaming destinationTopic.
-             * @member {string} destinationTopic
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @instance
-             */
-            KafkaStreaming.prototype.destinationTopic = "";
-
-            /**
-             * KafkaStreaming errorTopic.
-             * @member {string} errorTopic
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @instance
-             */
-            KafkaStreaming.prototype.errorTopic = "";
-
-            /**
-             * Creates a new KafkaStreaming instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {hydrosphere.manager.IKafkaStreaming=} [properties] Properties to set
-             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming instance
-             */
-            KafkaStreaming.create = function create(properties) {
-                return new KafkaStreaming(properties);
-            };
-
-            /**
-             * Encodes the specified KafkaStreaming message. Does not implicitly {@link hydrosphere.manager.KafkaStreaming.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {hydrosphere.manager.IKafkaStreaming} message KafkaStreaming message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaStreaming.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.consumerId);
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.sourceTopic);
-                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.destinationTopic);
-                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.errorTopic);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified KafkaStreaming message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaStreaming.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {hydrosphere.manager.IKafkaStreaming} message KafkaStreaming message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            KafkaStreaming.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a KafkaStreaming message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaStreaming.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaStreaming();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.consumerId = reader.string();
-                        break;
-                    case 2:
-                        message.sourceTopic = reader.string();
-                        break;
-                    case 3:
-                        message.destinationTopic = reader.string();
-                        break;
-                    case 4:
-                        message.errorTopic = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a KafkaStreaming message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            KafkaStreaming.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a KafkaStreaming message.
-             * @function verify
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            KafkaStreaming.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    if (!$util.isString(message.consumerId))
-                        return "consumerId: string expected";
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    if (!$util.isString(message.sourceTopic))
-                        return "sourceTopic: string expected";
-                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
-                    if (!$util.isString(message.destinationTopic))
-                        return "destinationTopic: string expected";
-                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
-                    if (!$util.isString(message.errorTopic))
-                        return "errorTopic: string expected";
-                return null;
-            };
-
-            /**
-             * Creates a KafkaStreaming message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
-             */
-            KafkaStreaming.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.KafkaStreaming)
-                    return object;
-                var message = new $root.hydrosphere.manager.KafkaStreaming();
-                if (object.consumerId != null)
-                    message.consumerId = String(object.consumerId);
-                if (object.sourceTopic != null)
-                    message.sourceTopic = String(object.sourceTopic);
-                if (object.destinationTopic != null)
-                    message.destinationTopic = String(object.destinationTopic);
-                if (object.errorTopic != null)
-                    message.errorTopic = String(object.errorTopic);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a KafkaStreaming message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @static
-             * @param {hydrosphere.manager.KafkaStreaming} message KafkaStreaming
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            KafkaStreaming.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.consumerId = "";
-                    object.sourceTopic = "";
-                    object.destinationTopic = "";
-                    object.errorTopic = "";
-                }
-                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
-                    object.consumerId = message.consumerId;
-                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
-                    object.sourceTopic = message.sourceTopic;
-                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
-                    object.destinationTopic = message.destinationTopic;
-                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
-                    object.errorTopic = message.errorTopic;
-                return object;
-            };
-
-            /**
-             * Converts this KafkaStreaming to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.KafkaStreaming
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            KafkaStreaming.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return KafkaStreaming;
-        })();
-
-        manager.Application = (function() {
-
-            /**
-             * Properties of an Application.
-             * @memberof hydrosphere.manager
-             * @interface IApplication
-             * @property {number|Long|null} [id] Application id
-             * @property {string|null} [name] Application name
-             * @property {hydrosphere.contract.IModelContract|null} [contract] Application contract
-             * @property {hydrosphere.manager.IExecutionGraph|null} [executionGraph] Application executionGraph
-             * @property {Array.<hydrosphere.manager.IKafkaStreaming>|null} [kafkaStreaming] Application kafkaStreaming
-             * @property {string|null} [namespace] Application namespace
-             */
-
-            /**
-             * Constructs a new Application.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents an Application.
-             * @implements IApplication
-             * @constructor
-             * @param {hydrosphere.manager.IApplication=} [properties] Properties to set
-             */
-            function Application(properties) {
-                this.kafkaStreaming = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * Application id.
-             * @member {number|Long} id
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * Application name.
-             * @member {string} name
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.name = "";
-
-            /**
-             * Application contract.
-             * @member {hydrosphere.contract.IModelContract|null|undefined} contract
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.contract = null;
-
-            /**
-             * Application executionGraph.
-             * @member {hydrosphere.manager.IExecutionGraph|null|undefined} executionGraph
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.executionGraph = null;
-
-            /**
-             * Application kafkaStreaming.
-             * @member {Array.<hydrosphere.manager.IKafkaStreaming>} kafkaStreaming
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.kafkaStreaming = $util.emptyArray;
-
-            /**
-             * Application namespace.
-             * @member {string} namespace
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             */
-            Application.prototype.namespace = "";
-
-            /**
-             * Creates a new Application instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {hydrosphere.manager.IApplication=} [properties] Properties to set
-             * @returns {hydrosphere.manager.Application} Application instance
-             */
-            Application.create = function create(properties) {
-                return new Application(properties);
-            };
-
-            /**
-             * Encodes the specified Application message. Does not implicitly {@link hydrosphere.manager.Application.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {hydrosphere.manager.IApplication} message Application message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Application.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    $root.hydrosphere.contract.ModelContract.encode(message.contract, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                if (message.executionGraph != null && message.hasOwnProperty("executionGraph"))
-                    $root.hydrosphere.manager.ExecutionGraph.encode(message.executionGraph, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                if (message.kafkaStreaming != null && message.kafkaStreaming.length)
-                    for (var i = 0; i < message.kafkaStreaming.length; ++i)
-                        $root.hydrosphere.manager.KafkaStreaming.encode(message.kafkaStreaming[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                if (message.namespace != null && message.hasOwnProperty("namespace"))
-                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.namespace);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified Application message, length delimited. Does not implicitly {@link hydrosphere.manager.Application.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {hydrosphere.manager.IApplication} message Application message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Application.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes an Application message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.Application} Application
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Application.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Application();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.int64();
-                        break;
-                    case 2:
-                        message.name = reader.string();
-                        break;
-                    case 3:
-                        message.contract = $root.hydrosphere.contract.ModelContract.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.executionGraph = $root.hydrosphere.manager.ExecutionGraph.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        if (!(message.kafkaStreaming && message.kafkaStreaming.length))
-                            message.kafkaStreaming = [];
-                        message.kafkaStreaming.push($root.hydrosphere.manager.KafkaStreaming.decode(reader, reader.uint32()));
-                        break;
-                    case 6:
-                        message.namespace = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes an Application message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.Application} Application
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Application.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies an Application message.
-             * @function verify
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Application.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
-                        return "id: integer|Long expected";
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                if (message.contract != null && message.hasOwnProperty("contract")) {
-                    var error = $root.hydrosphere.contract.ModelContract.verify(message.contract);
-                    if (error)
-                        return "contract." + error;
-                }
-                if (message.executionGraph != null && message.hasOwnProperty("executionGraph")) {
-                    var error = $root.hydrosphere.manager.ExecutionGraph.verify(message.executionGraph);
-                    if (error)
-                        return "executionGraph." + error;
-                }
-                if (message.kafkaStreaming != null && message.hasOwnProperty("kafkaStreaming")) {
-                    if (!Array.isArray(message.kafkaStreaming))
-                        return "kafkaStreaming: array expected";
-                    for (var i = 0; i < message.kafkaStreaming.length; ++i) {
-                        var error = $root.hydrosphere.manager.KafkaStreaming.verify(message.kafkaStreaming[i]);
-                        if (error)
-                            return "kafkaStreaming." + error;
-                    }
-                }
-                if (message.namespace != null && message.hasOwnProperty("namespace"))
-                    if (!$util.isString(message.namespace))
-                        return "namespace: string expected";
-                return null;
-            };
-
-            /**
-             * Creates an Application message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.Application} Application
-             */
-            Application.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.Application)
-                    return object;
-                var message = new $root.hydrosphere.manager.Application();
-                if (object.id != null)
-                    if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
-                    else if (typeof object.id === "string")
-                        message.id = parseInt(object.id, 10);
-                    else if (typeof object.id === "number")
-                        message.id = object.id;
-                    else if (typeof object.id === "object")
-                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
-                if (object.name != null)
-                    message.name = String(object.name);
-                if (object.contract != null) {
-                    if (typeof object.contract !== "object")
-                        throw TypeError(".hydrosphere.manager.Application.contract: object expected");
-                    message.contract = $root.hydrosphere.contract.ModelContract.fromObject(object.contract);
-                }
-                if (object.executionGraph != null) {
-                    if (typeof object.executionGraph !== "object")
-                        throw TypeError(".hydrosphere.manager.Application.executionGraph: object expected");
-                    message.executionGraph = $root.hydrosphere.manager.ExecutionGraph.fromObject(object.executionGraph);
-                }
-                if (object.kafkaStreaming) {
-                    if (!Array.isArray(object.kafkaStreaming))
-                        throw TypeError(".hydrosphere.manager.Application.kafkaStreaming: array expected");
-                    message.kafkaStreaming = [];
-                    for (var i = 0; i < object.kafkaStreaming.length; ++i) {
-                        if (typeof object.kafkaStreaming[i] !== "object")
-                            throw TypeError(".hydrosphere.manager.Application.kafkaStreaming: object expected");
-                        message.kafkaStreaming[i] = $root.hydrosphere.manager.KafkaStreaming.fromObject(object.kafkaStreaming[i]);
-                    }
-                }
-                if (object.namespace != null)
-                    message.namespace = String(object.namespace);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from an Application message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.Application
-             * @static
-             * @param {hydrosphere.manager.Application} message Application
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Application.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.kafkaStreaming = [];
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.id = options.longs === String ? "0" : 0;
-                    object.name = "";
-                    object.contract = null;
-                    object.executionGraph = null;
-                    object.namespace = "";
-                }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
-                        object.id = options.longs === String ? String(message.id) : message.id;
-                    else
-                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    object.contract = $root.hydrosphere.contract.ModelContract.toObject(message.contract, options);
-                if (message.executionGraph != null && message.hasOwnProperty("executionGraph"))
-                    object.executionGraph = $root.hydrosphere.manager.ExecutionGraph.toObject(message.executionGraph, options);
-                if (message.kafkaStreaming && message.kafkaStreaming.length) {
-                    object.kafkaStreaming = [];
-                    for (var j = 0; j < message.kafkaStreaming.length; ++j)
-                        object.kafkaStreaming[j] = $root.hydrosphere.manager.KafkaStreaming.toObject(message.kafkaStreaming[j], options);
-                }
-                if (message.namespace != null && message.hasOwnProperty("namespace"))
-                    object.namespace = message.namespace;
-                return object;
-            };
-
-            /**
-             * Converts this Application to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.Application
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Application.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return Application;
-        })();
-
-        /**
-         * DataProfileType enum.
-         * @name hydrosphere.manager.DataProfileType
-         * @enum {string}
-         * @property {number} NONE=0 NONE value
-         * @property {number} CATEGORICAL=1 CATEGORICAL value
-         * @property {number} NOMINAL=11 NOMINAL value
-         * @property {number} ORIDNAL=12 ORIDNAL value
-         * @property {number} NUMERICAL=2 NUMERICAL value
-         * @property {number} CONTINUOUS=21 CONTINUOUS value
-         * @property {number} INTERVAL=22 INTERVAL value
-         * @property {number} RATIO=23 RATIO value
-         * @property {number} IMAGE=3 IMAGE value
-         * @property {number} VIDEO=4 VIDEO value
-         * @property {number} AUDIO=5 AUDIO value
-         * @property {number} TEXT=6 TEXT value
-         */
-        manager.DataProfileType = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[0] = "NONE"] = 0;
-            values[valuesById[1] = "CATEGORICAL"] = 1;
-            values[valuesById[11] = "NOMINAL"] = 11;
-            values[valuesById[12] = "ORIDNAL"] = 12;
-            values[valuesById[2] = "NUMERICAL"] = 2;
-            values[valuesById[21] = "CONTINUOUS"] = 21;
-            values[valuesById[22] = "INTERVAL"] = 22;
-            values[valuesById[23] = "RATIO"] = 23;
-            values[valuesById[3] = "IMAGE"] = 3;
-            values[valuesById[4] = "VIDEO"] = 4;
-            values[valuesById[5] = "AUDIO"] = 5;
-            values[valuesById[6] = "TEXT"] = 6;
-            return values;
-        })();
-
-        manager.GetVersionRequest = (function() {
-
-            /**
-             * Properties of a GetVersionRequest.
-             * @memberof hydrosphere.manager
-             * @interface IGetVersionRequest
-             * @property {number|Long|null} [id] GetVersionRequest id
-             */
-
-            /**
-             * Constructs a new GetVersionRequest.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a GetVersionRequest.
-             * @implements IGetVersionRequest
-             * @constructor
-             * @param {hydrosphere.manager.IGetVersionRequest=} [properties] Properties to set
-             */
-            function GetVersionRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * GetVersionRequest id.
-             * @member {number|Long} id
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @instance
-             */
-            GetVersionRequest.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * Creates a new GetVersionRequest instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {hydrosphere.manager.IGetVersionRequest=} [properties] Properties to set
-             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest instance
-             */
-            GetVersionRequest.create = function create(properties) {
-                return new GetVersionRequest(properties);
-            };
-
-            /**
-             * Encodes the specified GetVersionRequest message. Does not implicitly {@link hydrosphere.manager.GetVersionRequest.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {hydrosphere.manager.IGetVersionRequest} message GetVersionRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            GetVersionRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified GetVersionRequest message, length delimited. Does not implicitly {@link hydrosphere.manager.GetVersionRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {hydrosphere.manager.IGetVersionRequest} message GetVersionRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            GetVersionRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a GetVersionRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            GetVersionRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.GetVersionRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.int64();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a GetVersionRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            GetVersionRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a GetVersionRequest message.
-             * @function verify
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            GetVersionRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
-                        return "id: integer|Long expected";
-                return null;
-            };
-
-            /**
-             * Creates a GetVersionRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
-             */
-            GetVersionRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.GetVersionRequest)
-                    return object;
-                var message = new $root.hydrosphere.manager.GetVersionRequest();
-                if (object.id != null)
-                    if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
-                    else if (typeof object.id === "string")
-                        message.id = parseInt(object.id, 10);
-                    else if (typeof object.id === "number")
-                        message.id = object.id;
-                    else if (typeof object.id === "object")
-                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a GetVersionRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @static
-             * @param {hydrosphere.manager.GetVersionRequest} message GetVersionRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            GetVersionRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.id = options.longs === String ? "0" : 0;
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
-                        object.id = options.longs === String ? String(message.id) : message.id;
-                    else
-                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
-                return object;
-            };
-
-            /**
-             * Converts this GetVersionRequest to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.GetVersionRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            GetVersionRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return GetVersionRequest;
-        })();
-
-        manager.ManagerService = (function() {
-
-            /**
-             * Constructs a new ManagerService service.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a ManagerService
-             * @extends $protobuf.rpc.Service
-             * @constructor
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             */
-            function ManagerService(rpcImpl, requestDelimited, responseDelimited) {
-                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
-            }
-
-            (ManagerService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = ManagerService;
-
-            /**
-             * Creates new ManagerService service using the specified rpc implementation.
-             * @function create
-             * @memberof hydrosphere.manager.ManagerService
-             * @static
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             * @returns {ManagerService} RPC service. Useful where requests and/or responses are streamed.
-             */
-            ManagerService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
-                return new this(rpcImpl, requestDelimited, responseDelimited);
-            };
-
-            /**
-             * Callback as used by {@link hydrosphere.manager.ManagerService#getAllVersions}.
-             * @memberof hydrosphere.manager.ManagerService
-             * @typedef GetAllVersionsCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {hydrosphere.manager.ModelVersion} [response] ModelVersion
-             */
-
-            /**
-             * Calls GetAllVersions.
-             * @function getAllVersions
-             * @memberof hydrosphere.manager.ManagerService
-             * @instance
-             * @param {google.protobuf.IEmpty} request Empty message or plain object
-             * @param {hydrosphere.manager.ManagerService.GetAllVersionsCallback} callback Node-style callback called with the error, if any, and ModelVersion
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(ManagerService.prototype.getAllVersions = function getAllVersions(request, callback) {
-                return this.rpcCall(getAllVersions, $root.google.protobuf.Empty, $root.hydrosphere.manager.ModelVersion, request, callback);
-            }, "name", { value: "GetAllVersions" });
-
-            /**
-             * Calls GetAllVersions.
-             * @function getAllVersions
-             * @memberof hydrosphere.manager.ManagerService
-             * @instance
-             * @param {google.protobuf.IEmpty} request Empty message or plain object
-             * @returns {Promise<hydrosphere.manager.ModelVersion>} Promise
-             * @variation 2
-             */
-
-            /**
-             * Callback as used by {@link hydrosphere.manager.ManagerService#getVersion}.
-             * @memberof hydrosphere.manager.ManagerService
-             * @typedef GetVersionCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {hydrosphere.manager.ModelVersion} [response] ModelVersion
-             */
-
-            /**
-             * Calls GetVersion.
-             * @function getVersion
-             * @memberof hydrosphere.manager.ManagerService
-             * @instance
-             * @param {hydrosphere.manager.IGetVersionRequest} request GetVersionRequest message or plain object
-             * @param {hydrosphere.manager.ManagerService.GetVersionCallback} callback Node-style callback called with the error, if any, and ModelVersion
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(ManagerService.prototype.getVersion = function getVersion(request, callback) {
-                return this.rpcCall(getVersion, $root.hydrosphere.manager.GetVersionRequest, $root.hydrosphere.manager.ModelVersion, request, callback);
-            }, "name", { value: "GetVersion" });
-
-            /**
-             * Calls GetVersion.
-             * @function getVersion
-             * @memberof hydrosphere.manager.ManagerService
-             * @instance
-             * @param {hydrosphere.manager.IGetVersionRequest} request GetVersionRequest message or plain object
-             * @returns {Promise<hydrosphere.manager.ModelVersion>} Promise
-             * @variation 2
-             */
-
-            return ManagerService;
-        })();
-
-        manager.Model = (function() {
-
-            /**
-             * Properties of a Model.
-             * @memberof hydrosphere.manager
-             * @interface IModel
-             * @property {number|Long|null} [id] Model id
-             * @property {string|null} [name] Model name
-             */
-
-            /**
-             * Constructs a new Model.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a Model.
-             * @implements IModel
-             * @constructor
-             * @param {hydrosphere.manager.IModel=} [properties] Properties to set
-             */
-            function Model(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * Model id.
-             * @member {number|Long} id
-             * @memberof hydrosphere.manager.Model
-             * @instance
-             */
-            Model.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * Model name.
-             * @member {string} name
-             * @memberof hydrosphere.manager.Model
-             * @instance
-             */
-            Model.prototype.name = "";
-
-            /**
-             * Creates a new Model instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {hydrosphere.manager.IModel=} [properties] Properties to set
-             * @returns {hydrosphere.manager.Model} Model instance
-             */
-            Model.create = function create(properties) {
-                return new Model(properties);
-            };
-
-            /**
-             * Encodes the specified Model message. Does not implicitly {@link hydrosphere.manager.Model.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {hydrosphere.manager.IModel} message Model message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Model.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified Model message, length delimited. Does not implicitly {@link hydrosphere.manager.Model.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {hydrosphere.manager.IModel} message Model message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Model.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a Model message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.Model} Model
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Model.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Model();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.int64();
-                        break;
-                    case 2:
-                        message.name = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a Model message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.Model} Model
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Model.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a Model message.
-             * @function verify
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Model.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
-                        return "id: integer|Long expected";
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                return null;
-            };
-
-            /**
-             * Creates a Model message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.Model} Model
-             */
-            Model.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.Model)
-                    return object;
-                var message = new $root.hydrosphere.manager.Model();
-                if (object.id != null)
-                    if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
-                    else if (typeof object.id === "string")
-                        message.id = parseInt(object.id, 10);
-                    else if (typeof object.id === "number")
-                        message.id = object.id;
-                    else if (typeof object.id === "object")
-                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
-                if (object.name != null)
-                    message.name = String(object.name);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a Model message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.Model
-             * @static
-             * @param {hydrosphere.manager.Model} message Model
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Model.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.id = options.longs === String ? "0" : 0;
-                    object.name = "";
-                }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
-                        object.id = options.longs === String ? String(message.id) : message.id;
-                    else
-                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                return object;
-            };
-
-            /**
-             * Converts this Model to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.Model
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Model.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return Model;
-        })();
-
-        manager.DockerImage = (function() {
-
-            /**
-             * Properties of a DockerImage.
-             * @memberof hydrosphere.manager
-             * @interface IDockerImage
-             * @property {string|null} [name] DockerImage name
-             * @property {string|null} [tag] DockerImage tag
-             */
-
-            /**
-             * Constructs a new DockerImage.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a DockerImage.
-             * @implements IDockerImage
-             * @constructor
-             * @param {hydrosphere.manager.IDockerImage=} [properties] Properties to set
-             */
-            function DockerImage(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * DockerImage name.
-             * @member {string} name
-             * @memberof hydrosphere.manager.DockerImage
-             * @instance
-             */
-            DockerImage.prototype.name = "";
-
-            /**
-             * DockerImage tag.
-             * @member {string} tag
-             * @memberof hydrosphere.manager.DockerImage
-             * @instance
-             */
-            DockerImage.prototype.tag = "";
-
-            /**
-             * Creates a new DockerImage instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {hydrosphere.manager.IDockerImage=} [properties] Properties to set
-             * @returns {hydrosphere.manager.DockerImage} DockerImage instance
-             */
-            DockerImage.create = function create(properties) {
-                return new DockerImage(properties);
-            };
-
-            /**
-             * Encodes the specified DockerImage message. Does not implicitly {@link hydrosphere.manager.DockerImage.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {hydrosphere.manager.IDockerImage} message DockerImage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            DockerImage.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                if (message.tag != null && message.hasOwnProperty("tag"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.tag);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified DockerImage message, length delimited. Does not implicitly {@link hydrosphere.manager.DockerImage.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {hydrosphere.manager.IDockerImage} message DockerImage message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            DockerImage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a DockerImage message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.DockerImage} DockerImage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            DockerImage.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.DockerImage();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.name = reader.string();
-                        break;
-                    case 2:
-                        message.tag = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a DockerImage message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.DockerImage} DockerImage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            DockerImage.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a DockerImage message.
-             * @function verify
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            DockerImage.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                if (message.tag != null && message.hasOwnProperty("tag"))
-                    if (!$util.isString(message.tag))
-                        return "tag: string expected";
-                return null;
-            };
-
-            /**
-             * Creates a DockerImage message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.DockerImage} DockerImage
-             */
-            DockerImage.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.DockerImage)
-                    return object;
-                var message = new $root.hydrosphere.manager.DockerImage();
-                if (object.name != null)
-                    message.name = String(object.name);
-                if (object.tag != null)
-                    message.tag = String(object.tag);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a DockerImage message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.DockerImage
-             * @static
-             * @param {hydrosphere.manager.DockerImage} message DockerImage
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            DockerImage.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.name = "";
-                    object.tag = "";
-                }
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                if (message.tag != null && message.hasOwnProperty("tag"))
-                    object.tag = message.tag;
-                return object;
-            };
-
-            /**
-             * Converts this DockerImage to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.DockerImage
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            DockerImage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return DockerImage;
-        })();
-
-        manager.ModelVersion = (function() {
-
-            /**
-             * Properties of a ModelVersion.
-             * @memberof hydrosphere.manager
-             * @interface IModelVersion
-             * @property {number|Long|null} [id] ModelVersion id
-             * @property {number|Long|null} [version] ModelVersion version
-             * @property {string|null} [modelType] ModelVersion modelType
-             * @property {string|null} [status] ModelVersion status
-             * @property {hydrosphere.manager.IHostSelector|null} [selector] ModelVersion selector
-             * @property {hydrosphere.manager.IModel|null} [model] ModelVersion model
-             * @property {hydrosphere.contract.IModelContract|null} [contract] ModelVersion contract
-             * @property {Object.<string,hydrosphere.manager.DataProfileType>|null} [dataTypes] ModelVersion dataTypes
-             * @property {hydrosphere.manager.IDockerImage|null} [image] ModelVersion image
-             * @property {string|null} [imageSha] ModelVersion imageSha
-             * @property {hydrosphere.manager.IDockerImage|null} [runtime] ModelVersion runtime
-             */
-
-            /**
-             * Constructs a new ModelVersion.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a ModelVersion.
-             * @implements IModelVersion
-             * @constructor
-             * @param {hydrosphere.manager.IModelVersion=} [properties] Properties to set
-             */
-            function ModelVersion(properties) {
-                this.dataTypes = {};
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ModelVersion id.
-             * @member {number|Long} id
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * ModelVersion version.
-             * @member {number|Long} version
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * ModelVersion modelType.
-             * @member {string} modelType
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.modelType = "";
-
-            /**
-             * ModelVersion status.
-             * @member {string} status
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.status = "";
-
-            /**
-             * ModelVersion selector.
-             * @member {hydrosphere.manager.IHostSelector|null|undefined} selector
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.selector = null;
-
-            /**
-             * ModelVersion model.
-             * @member {hydrosphere.manager.IModel|null|undefined} model
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.model = null;
-
-            /**
-             * ModelVersion contract.
-             * @member {hydrosphere.contract.IModelContract|null|undefined} contract
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.contract = null;
-
-            /**
-             * ModelVersion dataTypes.
-             * @member {Object.<string,hydrosphere.manager.DataProfileType>} dataTypes
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.dataTypes = $util.emptyObject;
-
-            /**
-             * ModelVersion image.
-             * @member {hydrosphere.manager.IDockerImage|null|undefined} image
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.image = null;
-
-            /**
-             * ModelVersion imageSha.
-             * @member {string} imageSha
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.imageSha = "";
-
-            /**
-             * ModelVersion runtime.
-             * @member {hydrosphere.manager.IDockerImage|null|undefined} runtime
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             */
-            ModelVersion.prototype.runtime = null;
-
-            /**
-             * Creates a new ModelVersion instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {hydrosphere.manager.IModelVersion=} [properties] Properties to set
-             * @returns {hydrosphere.manager.ModelVersion} ModelVersion instance
-             */
-            ModelVersion.create = function create(properties) {
-                return new ModelVersion(properties);
-            };
-
-            /**
-             * Encodes the specified ModelVersion message. Does not implicitly {@link hydrosphere.manager.ModelVersion.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {hydrosphere.manager.IModelVersion} message ModelVersion message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelVersion.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
-                if (message.version != null && message.hasOwnProperty("version"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.version);
-                if (message.modelType != null && message.hasOwnProperty("modelType"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.modelType);
-                if (message.status != null && message.hasOwnProperty("status"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.status);
-                if (message.selector != null && message.hasOwnProperty("selector"))
-                    $root.hydrosphere.manager.HostSelector.encode(message.selector, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                if (message.model != null && message.hasOwnProperty("model"))
-                    $root.hydrosphere.manager.Model.encode(message.model, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    $root.hydrosphere.contract.ModelContract.encode(message.contract, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-                if (message.dataTypes != null && message.hasOwnProperty("dataTypes"))
-                    for (var keys = Object.keys(message.dataTypes), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 8, wireType 2 =*/66).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).int32(message.dataTypes[keys[i]]).ldelim();
-                if (message.image != null && message.hasOwnProperty("image"))
-                    $root.hydrosphere.manager.DockerImage.encode(message.image, writer.uint32(/* id 31, wireType 2 =*/250).fork()).ldelim();
-                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
-                    writer.uint32(/* id 32, wireType 2 =*/258).string(message.imageSha);
-                if (message.runtime != null && message.hasOwnProperty("runtime"))
-                    $root.hydrosphere.manager.DockerImage.encode(message.runtime, writer.uint32(/* id 33, wireType 2 =*/266).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ModelVersion message, length delimited. Does not implicitly {@link hydrosphere.manager.ModelVersion.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {hydrosphere.manager.IModelVersion} message ModelVersion message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelVersion.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a ModelVersion message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelVersion.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ModelVersion(), key;
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.int64();
-                        break;
-                    case 2:
-                        message.version = reader.int64();
-                        break;
-                    case 3:
-                        message.modelType = reader.string();
-                        break;
-                    case 4:
-                        message.status = reader.string();
-                        break;
-                    case 5:
-                        message.selector = $root.hydrosphere.manager.HostSelector.decode(reader, reader.uint32());
-                        break;
-                    case 6:
-                        message.model = $root.hydrosphere.manager.Model.decode(reader, reader.uint32());
-                        break;
-                    case 7:
-                        message.contract = $root.hydrosphere.contract.ModelContract.decode(reader, reader.uint32());
-                        break;
-                    case 8:
-                        reader.skip().pos++;
-                        if (message.dataTypes === $util.emptyObject)
-                            message.dataTypes = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.dataTypes[key] = reader.int32();
-                        break;
-                    case 31:
-                        message.image = $root.hydrosphere.manager.DockerImage.decode(reader, reader.uint32());
-                        break;
-                    case 32:
-                        message.imageSha = reader.string();
-                        break;
-                    case 33:
-                        message.runtime = $root.hydrosphere.manager.DockerImage.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a ModelVersion message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelVersion.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a ModelVersion message.
-             * @function verify
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ModelVersion.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
-                        return "id: integer|Long expected";
-                if (message.version != null && message.hasOwnProperty("version"))
-                    if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
-                        return "version: integer|Long expected";
-                if (message.modelType != null && message.hasOwnProperty("modelType"))
-                    if (!$util.isString(message.modelType))
-                        return "modelType: string expected";
-                if (message.status != null && message.hasOwnProperty("status"))
-                    if (!$util.isString(message.status))
-                        return "status: string expected";
-                if (message.selector != null && message.hasOwnProperty("selector")) {
-                    var error = $root.hydrosphere.manager.HostSelector.verify(message.selector);
-                    if (error)
-                        return "selector." + error;
-                }
-                if (message.model != null && message.hasOwnProperty("model")) {
-                    var error = $root.hydrosphere.manager.Model.verify(message.model);
-                    if (error)
-                        return "model." + error;
-                }
-                if (message.contract != null && message.hasOwnProperty("contract")) {
-                    var error = $root.hydrosphere.contract.ModelContract.verify(message.contract);
-                    if (error)
-                        return "contract." + error;
-                }
-                if (message.dataTypes != null && message.hasOwnProperty("dataTypes")) {
-                    if (!$util.isObject(message.dataTypes))
-                        return "dataTypes: object expected";
-                    var key = Object.keys(message.dataTypes);
-                    for (var i = 0; i < key.length; ++i)
-                        switch (message.dataTypes[key[i]]) {
-                        default:
-                            return "dataTypes: enum value{k:string} expected";
-                        case 0:
-                        case 1:
-                        case 11:
-                        case 12:
-                        case 2:
-                        case 21:
-                        case 22:
-                        case 23:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            break;
-                        }
-                }
-                if (message.image != null && message.hasOwnProperty("image")) {
-                    var error = $root.hydrosphere.manager.DockerImage.verify(message.image);
-                    if (error)
-                        return "image." + error;
-                }
-                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
-                    if (!$util.isString(message.imageSha))
-                        return "imageSha: string expected";
-                if (message.runtime != null && message.hasOwnProperty("runtime")) {
-                    var error = $root.hydrosphere.manager.DockerImage.verify(message.runtime);
-                    if (error)
-                        return "runtime." + error;
-                }
-                return null;
-            };
-
-            /**
-             * Creates a ModelVersion message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
-             */
-            ModelVersion.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.ModelVersion)
-                    return object;
-                var message = new $root.hydrosphere.manager.ModelVersion();
-                if (object.id != null)
-                    if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
-                    else if (typeof object.id === "string")
-                        message.id = parseInt(object.id, 10);
-                    else if (typeof object.id === "number")
-                        message.id = object.id;
-                    else if (typeof object.id === "object")
-                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
-                if (object.version != null)
-                    if ($util.Long)
-                        (message.version = $util.Long.fromValue(object.version)).unsigned = false;
-                    else if (typeof object.version === "string")
-                        message.version = parseInt(object.version, 10);
-                    else if (typeof object.version === "number")
-                        message.version = object.version;
-                    else if (typeof object.version === "object")
-                        message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
-                if (object.modelType != null)
-                    message.modelType = String(object.modelType);
-                if (object.status != null)
-                    message.status = String(object.status);
-                if (object.selector != null) {
-                    if (typeof object.selector !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.selector: object expected");
-                    message.selector = $root.hydrosphere.manager.HostSelector.fromObject(object.selector);
-                }
-                if (object.model != null) {
-                    if (typeof object.model !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.model: object expected");
-                    message.model = $root.hydrosphere.manager.Model.fromObject(object.model);
-                }
-                if (object.contract != null) {
-                    if (typeof object.contract !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.contract: object expected");
-                    message.contract = $root.hydrosphere.contract.ModelContract.fromObject(object.contract);
-                }
-                if (object.dataTypes) {
-                    if (typeof object.dataTypes !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.dataTypes: object expected");
-                    message.dataTypes = {};
-                    for (var keys = Object.keys(object.dataTypes), i = 0; i < keys.length; ++i)
-                        switch (object.dataTypes[keys[i]]) {
-                        case "NONE":
-                        case 0:
-                            message.dataTypes[keys[i]] = 0;
-                            break;
-                        case "CATEGORICAL":
-                        case 1:
-                            message.dataTypes[keys[i]] = 1;
-                            break;
-                        case "NOMINAL":
-                        case 11:
-                            message.dataTypes[keys[i]] = 11;
-                            break;
-                        case "ORIDNAL":
-                        case 12:
-                            message.dataTypes[keys[i]] = 12;
-                            break;
-                        case "NUMERICAL":
-                        case 2:
-                            message.dataTypes[keys[i]] = 2;
-                            break;
-                        case "CONTINUOUS":
-                        case 21:
-                            message.dataTypes[keys[i]] = 21;
-                            break;
-                        case "INTERVAL":
-                        case 22:
-                            message.dataTypes[keys[i]] = 22;
-                            break;
-                        case "RATIO":
-                        case 23:
-                            message.dataTypes[keys[i]] = 23;
-                            break;
-                        case "IMAGE":
-                        case 3:
-                            message.dataTypes[keys[i]] = 3;
-                            break;
-                        case "VIDEO":
-                        case 4:
-                            message.dataTypes[keys[i]] = 4;
-                            break;
-                        case "AUDIO":
-                        case 5:
-                            message.dataTypes[keys[i]] = 5;
-                            break;
-                        case "TEXT":
-                        case 6:
-                            message.dataTypes[keys[i]] = 6;
-                            break;
-                        }
-                }
-                if (object.image != null) {
-                    if (typeof object.image !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.image: object expected");
-                    message.image = $root.hydrosphere.manager.DockerImage.fromObject(object.image);
-                }
-                if (object.imageSha != null)
-                    message.imageSha = String(object.imageSha);
-                if (object.runtime != null) {
-                    if (typeof object.runtime !== "object")
-                        throw TypeError(".hydrosphere.manager.ModelVersion.runtime: object expected");
-                    message.runtime = $root.hydrosphere.manager.DockerImage.fromObject(object.runtime);
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a ModelVersion message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.ModelVersion
-             * @static
-             * @param {hydrosphere.manager.ModelVersion} message ModelVersion
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ModelVersion.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.objects || options.defaults)
-                    object.dataTypes = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.id = options.longs === String ? "0" : 0;
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.version = options.longs === String ? "0" : 0;
-                    object.modelType = "";
-                    object.status = "";
-                    object.selector = null;
-                    object.model = null;
-                    object.contract = null;
-                    object.image = null;
-                    object.imageSha = "";
-                    object.runtime = null;
-                }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
-                        object.id = options.longs === String ? String(message.id) : message.id;
-                    else
-                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
-                if (message.version != null && message.hasOwnProperty("version"))
-                    if (typeof message.version === "number")
-                        object.version = options.longs === String ? String(message.version) : message.version;
-                    else
-                        object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
-                if (message.modelType != null && message.hasOwnProperty("modelType"))
-                    object.modelType = message.modelType;
-                if (message.status != null && message.hasOwnProperty("status"))
-                    object.status = message.status;
-                if (message.selector != null && message.hasOwnProperty("selector"))
-                    object.selector = $root.hydrosphere.manager.HostSelector.toObject(message.selector, options);
-                if (message.model != null && message.hasOwnProperty("model"))
-                    object.model = $root.hydrosphere.manager.Model.toObject(message.model, options);
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    object.contract = $root.hydrosphere.contract.ModelContract.toObject(message.contract, options);
-                var keys2;
-                if (message.dataTypes && (keys2 = Object.keys(message.dataTypes)).length) {
-                    object.dataTypes = {};
-                    for (var j = 0; j < keys2.length; ++j)
-                        object.dataTypes[keys2[j]] = options.enums === String ? $root.hydrosphere.manager.DataProfileType[message.dataTypes[keys2[j]]] : message.dataTypes[keys2[j]];
-                }
-                if (message.image != null && message.hasOwnProperty("image"))
-                    object.image = $root.hydrosphere.manager.DockerImage.toObject(message.image, options);
-                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
-                    object.imageSha = message.imageSha;
-                if (message.runtime != null && message.hasOwnProperty("runtime"))
-                    object.runtime = $root.hydrosphere.manager.DockerImage.toObject(message.runtime, options);
-                return object;
-            };
-
-            /**
-             * Converts this ModelVersion to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.ModelVersion
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ModelVersion.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ModelVersion;
-        })();
-
-        manager.HostSelector = (function() {
-
-            /**
-             * Properties of a HostSelector.
-             * @memberof hydrosphere.manager
-             * @interface IHostSelector
-             * @property {number|Long|null} [id] HostSelector id
-             * @property {string|null} [name] HostSelector name
-             */
-
-            /**
-             * Constructs a new HostSelector.
-             * @memberof hydrosphere.manager
-             * @classdesc Represents a HostSelector.
-             * @implements IHostSelector
-             * @constructor
-             * @param {hydrosphere.manager.IHostSelector=} [properties] Properties to set
-             */
-            function HostSelector(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * HostSelector id.
-             * @member {number|Long} id
-             * @memberof hydrosphere.manager.HostSelector
-             * @instance
-             */
-            HostSelector.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * HostSelector name.
-             * @member {string} name
-             * @memberof hydrosphere.manager.HostSelector
-             * @instance
-             */
-            HostSelector.prototype.name = "";
-
-            /**
-             * Creates a new HostSelector instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {hydrosphere.manager.IHostSelector=} [properties] Properties to set
-             * @returns {hydrosphere.manager.HostSelector} HostSelector instance
-             */
-            HostSelector.create = function create(properties) {
-                return new HostSelector(properties);
-            };
-
-            /**
-             * Encodes the specified HostSelector message. Does not implicitly {@link hydrosphere.manager.HostSelector.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {hydrosphere.manager.IHostSelector} message HostSelector message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            HostSelector.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified HostSelector message, length delimited. Does not implicitly {@link hydrosphere.manager.HostSelector.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {hydrosphere.manager.IHostSelector} message HostSelector message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            HostSelector.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a HostSelector message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.manager.HostSelector} HostSelector
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            HostSelector.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.HostSelector();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.int64();
-                        break;
-                    case 2:
-                        message.name = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a HostSelector message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.manager.HostSelector} HostSelector
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            HostSelector.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a HostSelector message.
-             * @function verify
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            HostSelector.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
-                        return "id: integer|Long expected";
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                return null;
-            };
-
-            /**
-             * Creates a HostSelector message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.manager.HostSelector} HostSelector
-             */
-            HostSelector.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.manager.HostSelector)
-                    return object;
-                var message = new $root.hydrosphere.manager.HostSelector();
-                if (object.id != null)
-                    if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
-                    else if (typeof object.id === "string")
-                        message.id = parseInt(object.id, 10);
-                    else if (typeof object.id === "number")
-                        message.id = object.id;
-                    else if (typeof object.id === "object")
-                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
-                if (object.name != null)
-                    message.name = String(object.name);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a HostSelector message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.manager.HostSelector
-             * @static
-             * @param {hydrosphere.manager.HostSelector} message HostSelector
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            HostSelector.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.id = options.longs === String ? "0" : 0;
-                    object.name = "";
-                }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
-                        object.id = options.longs === String ? String(message.id) : message.id;
-                    else
-                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                return object;
-            };
-
-            /**
-             * Converts this HostSelector to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.manager.HostSelector
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            HostSelector.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return HostSelector;
-        })();
-
-        return manager;
-    })();
-
-    hydrosphere.tensorflow = (function() {
-
-        /**
-         * Namespace tensorflow.
-         * @memberof hydrosphere
-         * @namespace
-         */
-        var tensorflow = {};
-
-        tensorflow.serving = (function() {
-
-            /**
-             * Namespace serving.
-             * @memberof hydrosphere.tensorflow
-             * @namespace
-             */
-            var serving = {};
-
-            serving.PredictRequest = (function() {
-
-                /**
-                 * Properties of a PredictRequest.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @interface IPredictRequest
-                 * @property {hydrosphere.tensorflow.serving.IModelSpec|null} [modelSpec] PredictRequest modelSpec
-                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [inputs] PredictRequest inputs
-                 */
-
-                /**
-                 * Constructs a new PredictRequest.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @classdesc Represents a PredictRequest.
-                 * @implements IPredictRequest
-                 * @constructor
-                 * @param {hydrosphere.tensorflow.serving.IPredictRequest=} [properties] Properties to set
-                 */
-                function PredictRequest(properties) {
-                    this.inputs = {};
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * PredictRequest modelSpec.
-                 * @member {hydrosphere.tensorflow.serving.IModelSpec|null|undefined} modelSpec
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @instance
-                 */
-                PredictRequest.prototype.modelSpec = null;
-
-                /**
-                 * PredictRequest inputs.
-                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} inputs
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @instance
-                 */
-                PredictRequest.prototype.inputs = $util.emptyObject;
-
-                /**
-                 * Creates a new PredictRequest instance using the specified properties.
-                 * @function create
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictRequest=} [properties] Properties to set
-                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest instance
-                 */
-                PredictRequest.create = function create(properties) {
-                    return new PredictRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified PredictRequest message. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictRequest} message PredictRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PredictRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec"))
-                        $root.hydrosphere.tensorflow.serving.ModelSpec.encode(message.modelSpec, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    if (message.inputs != null && message.hasOwnProperty("inputs"))
-                        for (var keys = Object.keys(message.inputs), i = 0; i < keys.length; ++i) {
-                            writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                            $root.hydrosphere.tensorflow.TensorProto.encode(message.inputs[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
-                        }
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified PredictRequest message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictRequest} message PredictRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PredictRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a PredictRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PredictRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.PredictRequest(), key;
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.decode(reader, reader.uint32());
-                            break;
-                        case 2:
-                            reader.skip().pos++;
-                            if (message.inputs === $util.emptyObject)
-                                message.inputs = {};
-                            key = reader.string();
-                            reader.pos++;
-                            message.inputs[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a PredictRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PredictRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a PredictRequest message.
-                 * @function verify
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                PredictRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec")) {
-                        var error = $root.hydrosphere.tensorflow.serving.ModelSpec.verify(message.modelSpec);
-                        if (error)
-                            return "modelSpec." + error;
-                    }
-                    if (message.inputs != null && message.hasOwnProperty("inputs")) {
-                        if (!$util.isObject(message.inputs))
-                            return "inputs: object expected";
-                        var key = Object.keys(message.inputs);
-                        for (var i = 0; i < key.length; ++i) {
-                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.inputs[key[i]]);
-                            if (error)
-                                return "inputs." + error;
-                        }
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a PredictRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
-                 */
-                PredictRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.hydrosphere.tensorflow.serving.PredictRequest)
-                        return object;
-                    var message = new $root.hydrosphere.tensorflow.serving.PredictRequest();
-                    if (object.modelSpec != null) {
-                        if (typeof object.modelSpec !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.modelSpec: object expected");
-                        message.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.fromObject(object.modelSpec);
-                    }
-                    if (object.inputs) {
-                        if (typeof object.inputs !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.inputs: object expected");
-                        message.inputs = {};
-                        for (var keys = Object.keys(object.inputs), i = 0; i < keys.length; ++i) {
-                            if (typeof object.inputs[keys[i]] !== "object")
-                                throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.inputs: object expected");
-                            message.inputs[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.inputs[keys[i]]);
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a PredictRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.PredictRequest} message PredictRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                PredictRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.objects || options.defaults)
-                        object.inputs = {};
-                    if (options.defaults)
-                        object.modelSpec = null;
-                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec"))
-                        object.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.toObject(message.modelSpec, options);
-                    var keys2;
-                    if (message.inputs && (keys2 = Object.keys(message.inputs)).length) {
-                        object.inputs = {};
-                        for (var j = 0; j < keys2.length; ++j)
-                            object.inputs[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.inputs[keys2[j]], options);
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this PredictRequest to JSON.
-                 * @function toJSON
-                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                PredictRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return PredictRequest;
-            })();
-
-            serving.PredictResponse = (function() {
-
-                /**
-                 * Properties of a PredictResponse.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @interface IPredictResponse
-                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [outputs] PredictResponse outputs
-                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [internalInfo] PredictResponse internalInfo
-                 */
-
-                /**
-                 * Constructs a new PredictResponse.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @classdesc Represents a PredictResponse.
-                 * @implements IPredictResponse
-                 * @constructor
-                 * @param {hydrosphere.tensorflow.serving.IPredictResponse=} [properties] Properties to set
-                 */
-                function PredictResponse(properties) {
-                    this.outputs = {};
-                    this.internalInfo = {};
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * PredictResponse outputs.
-                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} outputs
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @instance
-                 */
-                PredictResponse.prototype.outputs = $util.emptyObject;
-
-                /**
-                 * PredictResponse internalInfo.
-                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} internalInfo
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @instance
-                 */
-                PredictResponse.prototype.internalInfo = $util.emptyObject;
-
-                /**
-                 * Creates a new PredictResponse instance using the specified properties.
-                 * @function create
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictResponse=} [properties] Properties to set
-                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse instance
-                 */
-                PredictResponse.create = function create(properties) {
-                    return new PredictResponse(properties);
-                };
-
-                /**
-                 * Encodes the specified PredictResponse message. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictResponse.verify|verify} messages.
-                 * @function encode
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictResponse} message PredictResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PredictResponse.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.outputs != null && message.hasOwnProperty("outputs"))
-                        for (var keys = Object.keys(message.outputs), i = 0; i < keys.length; ++i) {
-                            writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                            $root.hydrosphere.tensorflow.TensorProto.encode(message.outputs[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
-                        }
-                    if (message.internalInfo != null && message.hasOwnProperty("internalInfo"))
-                        for (var keys = Object.keys(message.internalInfo), i = 0; i < keys.length; ++i) {
-                            writer.uint32(/* id 101, wireType 2 =*/810).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                            $root.hydrosphere.tensorflow.TensorProto.encode(message.internalInfo[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
-                        }
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified PredictResponse message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictResponse.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IPredictResponse} message PredictResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                PredictResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a PredictResponse message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PredictResponse.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.PredictResponse(), key;
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            reader.skip().pos++;
-                            if (message.outputs === $util.emptyObject)
-                                message.outputs = {};
-                            key = reader.string();
-                            reader.pos++;
-                            message.outputs[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
-                            break;
-                        case 101:
-                            reader.skip().pos++;
-                            if (message.internalInfo === $util.emptyObject)
-                                message.internalInfo = {};
-                            key = reader.string();
-                            reader.pos++;
-                            message.internalInfo[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a PredictResponse message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                PredictResponse.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a PredictResponse message.
-                 * @function verify
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                PredictResponse.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.outputs != null && message.hasOwnProperty("outputs")) {
-                        if (!$util.isObject(message.outputs))
-                            return "outputs: object expected";
-                        var key = Object.keys(message.outputs);
-                        for (var i = 0; i < key.length; ++i) {
-                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.outputs[key[i]]);
-                            if (error)
-                                return "outputs." + error;
-                        }
-                    }
-                    if (message.internalInfo != null && message.hasOwnProperty("internalInfo")) {
-                        if (!$util.isObject(message.internalInfo))
-                            return "internalInfo: object expected";
-                        var key = Object.keys(message.internalInfo);
-                        for (var i = 0; i < key.length; ++i) {
-                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.internalInfo[key[i]]);
-                            if (error)
-                                return "internalInfo." + error;
-                        }
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a PredictResponse message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
-                 */
-                PredictResponse.fromObject = function fromObject(object) {
-                    if (object instanceof $root.hydrosphere.tensorflow.serving.PredictResponse)
-                        return object;
-                    var message = new $root.hydrosphere.tensorflow.serving.PredictResponse();
-                    if (object.outputs) {
-                        if (typeof object.outputs !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.outputs: object expected");
-                        message.outputs = {};
-                        for (var keys = Object.keys(object.outputs), i = 0; i < keys.length; ++i) {
-                            if (typeof object.outputs[keys[i]] !== "object")
-                                throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.outputs: object expected");
-                            message.outputs[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.outputs[keys[i]]);
-                        }
-                    }
-                    if (object.internalInfo) {
-                        if (typeof object.internalInfo !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.internalInfo: object expected");
-                        message.internalInfo = {};
-                        for (var keys = Object.keys(object.internalInfo), i = 0; i < keys.length; ++i) {
-                            if (typeof object.internalInfo[keys[i]] !== "object")
-                                throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.internalInfo: object expected");
-                            message.internalInfo[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.internalInfo[keys[i]]);
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a PredictResponse message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.PredictResponse} message PredictResponse
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                PredictResponse.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.objects || options.defaults) {
-                        object.outputs = {};
-                        object.internalInfo = {};
-                    }
-                    var keys2;
-                    if (message.outputs && (keys2 = Object.keys(message.outputs)).length) {
-                        object.outputs = {};
-                        for (var j = 0; j < keys2.length; ++j)
-                            object.outputs[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.outputs[keys2[j]], options);
-                    }
-                    if (message.internalInfo && (keys2 = Object.keys(message.internalInfo)).length) {
-                        object.internalInfo = {};
-                        for (var j = 0; j < keys2.length; ++j)
-                            object.internalInfo[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.internalInfo[keys2[j]], options);
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this PredictResponse to JSON.
-                 * @function toJSON
-                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                PredictResponse.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return PredictResponse;
-            })();
-
-            serving.ModelSpec = (function() {
-
-                /**
-                 * Properties of a ModelSpec.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @interface IModelSpec
-                 * @property {string|null} [name] ModelSpec name
-                 * @property {google.protobuf.IInt64Value|null} [version] ModelSpec version
-                 * @property {string|null} [signatureName] ModelSpec signatureName
-                 */
-
-                /**
-                 * Constructs a new ModelSpec.
-                 * @memberof hydrosphere.tensorflow.serving
-                 * @classdesc Represents a ModelSpec.
-                 * @implements IModelSpec
-                 * @constructor
-                 * @param {hydrosphere.tensorflow.serving.IModelSpec=} [properties] Properties to set
-                 */
-                function ModelSpec(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * ModelSpec name.
-                 * @member {string} name
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @instance
-                 */
-                ModelSpec.prototype.name = "";
-
-                /**
-                 * ModelSpec version.
-                 * @member {google.protobuf.IInt64Value|null|undefined} version
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @instance
-                 */
-                ModelSpec.prototype.version = null;
-
-                /**
-                 * ModelSpec signatureName.
-                 * @member {string} signatureName
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @instance
-                 */
-                ModelSpec.prototype.signatureName = "";
-
-                /**
-                 * Creates a new ModelSpec instance using the specified properties.
-                 * @function create
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IModelSpec=} [properties] Properties to set
-                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec instance
-                 */
-                ModelSpec.create = function create(properties) {
-                    return new ModelSpec(properties);
-                };
-
-                /**
-                 * Encodes the specified ModelSpec message. Does not implicitly {@link hydrosphere.tensorflow.serving.ModelSpec.verify|verify} messages.
-                 * @function encode
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IModelSpec} message ModelSpec message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ModelSpec.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.version != null && message.hasOwnProperty("version"))
-                        $root.google.protobuf.Int64Value.encode(message.version, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.signatureName);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified ModelSpec message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.ModelSpec.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.IModelSpec} message ModelSpec message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ModelSpec.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a ModelSpec message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ModelSpec.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.ModelSpec();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.name = reader.string();
-                            break;
-                        case 2:
-                            message.version = $root.google.protobuf.Int64Value.decode(reader, reader.uint32());
-                            break;
-                        case 3:
-                            message.signatureName = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a ModelSpec message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ModelSpec.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a ModelSpec message.
-                 * @function verify
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ModelSpec.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        if (!$util.isString(message.name))
-                            return "name: string expected";
-                    if (message.version != null && message.hasOwnProperty("version")) {
-                        var error = $root.google.protobuf.Int64Value.verify(message.version);
-                        if (error)
-                            return "version." + error;
-                    }
-                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                        if (!$util.isString(message.signatureName))
-                            return "signatureName: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a ModelSpec message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
-                 */
-                ModelSpec.fromObject = function fromObject(object) {
-                    if (object instanceof $root.hydrosphere.tensorflow.serving.ModelSpec)
-                        return object;
-                    var message = new $root.hydrosphere.tensorflow.serving.ModelSpec();
-                    if (object.name != null)
-                        message.name = String(object.name);
-                    if (object.version != null) {
-                        if (typeof object.version !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.serving.ModelSpec.version: object expected");
-                        message.version = $root.google.protobuf.Int64Value.fromObject(object.version);
-                    }
-                    if (object.signatureName != null)
-                        message.signatureName = String(object.signatureName);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a ModelSpec message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @static
-                 * @param {hydrosphere.tensorflow.serving.ModelSpec} message ModelSpec
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ModelSpec.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.name = "";
-                        object.version = null;
-                        object.signatureName = "";
-                    }
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = message.name;
-                    if (message.version != null && message.hasOwnProperty("version"))
-                        object.version = $root.google.protobuf.Int64Value.toObject(message.version, options);
-                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
-                        object.signatureName = message.signatureName;
-                    return object;
-                };
-
-                /**
-                 * Converts this ModelSpec to JSON.
-                 * @function toJSON
-                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ModelSpec.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return ModelSpec;
-            })();
-
-            return serving;
-        })();
-
-        tensorflow.TensorProto = (function() {
-
-            /**
-             * Properties of a TensorProto.
-             * @memberof hydrosphere.tensorflow
-             * @interface ITensorProto
-             * @property {hydrosphere.tensorflow.DataType|null} [dtype] TensorProto dtype
-             * @property {hydrosphere.tensorflow.ITensorShapeProto|null} [tensorShape] TensorProto tensorShape
-             * @property {number|null} [versionNumber] TensorProto versionNumber
-             * @property {Uint8Array|null} [tensorContent] TensorProto tensorContent
-             * @property {Array.<number>|null} [halfVal] TensorProto halfVal
-             * @property {Array.<number>|null} [floatVal] TensorProto floatVal
-             * @property {Array.<number>|null} [doubleVal] TensorProto doubleVal
-             * @property {Array.<number>|null} [intVal] TensorProto intVal
-             * @property {Array.<Uint8Array>|null} [stringVal] TensorProto stringVal
-             * @property {Array.<number>|null} [scomplexVal] TensorProto scomplexVal
-             * @property {Array.<number|Long>|null} [int64Val] TensorProto int64Val
-             * @property {Array.<boolean>|null} [boolVal] TensorProto boolVal
-             * @property {Array.<number>|null} [dcomplexVal] TensorProto dcomplexVal
-             * @property {Array.<hydrosphere.tensorflow.IVariantTensorDataProto>|null} [variantVal] TensorProto variantVal
-             * @property {Array.<number>|null} [uint32Val] TensorProto uint32Val
-             * @property {Array.<number|Long>|null} [uint64Val] TensorProto uint64Val
-             * @property {Array.<hydrosphere.tensorflow.IMapTensorData>|null} [mapVal] TensorProto mapVal
-             */
-
-            /**
-             * Constructs a new TensorProto.
-             * @memberof hydrosphere.tensorflow
-             * @classdesc Represents a TensorProto.
-             * @implements ITensorProto
-             * @constructor
-             * @param {hydrosphere.tensorflow.ITensorProto=} [properties] Properties to set
-             */
-            function TensorProto(properties) {
-                this.halfVal = [];
-                this.floatVal = [];
-                this.doubleVal = [];
-                this.intVal = [];
-                this.stringVal = [];
-                this.scomplexVal = [];
-                this.int64Val = [];
-                this.boolVal = [];
-                this.dcomplexVal = [];
-                this.variantVal = [];
-                this.uint32Val = [];
-                this.uint64Val = [];
-                this.mapVal = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * TensorProto dtype.
-             * @member {hydrosphere.tensorflow.DataType} dtype
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.dtype = 0;
-
-            /**
-             * TensorProto tensorShape.
-             * @member {hydrosphere.tensorflow.ITensorShapeProto|null|undefined} tensorShape
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.tensorShape = null;
-
-            /**
-             * TensorProto versionNumber.
-             * @member {number} versionNumber
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.versionNumber = 0;
-
-            /**
-             * TensorProto tensorContent.
-             * @member {Uint8Array} tensorContent
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.tensorContent = $util.newBuffer([]);
-
-            /**
-             * TensorProto halfVal.
-             * @member {Array.<number>} halfVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.halfVal = $util.emptyArray;
-
-            /**
-             * TensorProto floatVal.
-             * @member {Array.<number>} floatVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.floatVal = $util.emptyArray;
-
-            /**
-             * TensorProto doubleVal.
-             * @member {Array.<number>} doubleVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.doubleVal = $util.emptyArray;
-
-            /**
-             * TensorProto intVal.
-             * @member {Array.<number>} intVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.intVal = $util.emptyArray;
-
-            /**
-             * TensorProto stringVal.
-             * @member {Array.<Uint8Array>} stringVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.stringVal = $util.emptyArray;
-
-            /**
-             * TensorProto scomplexVal.
-             * @member {Array.<number>} scomplexVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.scomplexVal = $util.emptyArray;
-
-            /**
-             * TensorProto int64Val.
-             * @member {Array.<number|Long>} int64Val
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.int64Val = $util.emptyArray;
-
-            /**
-             * TensorProto boolVal.
-             * @member {Array.<boolean>} boolVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.boolVal = $util.emptyArray;
-
-            /**
-             * TensorProto dcomplexVal.
-             * @member {Array.<number>} dcomplexVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.dcomplexVal = $util.emptyArray;
-
-            /**
-             * TensorProto variantVal.
-             * @member {Array.<hydrosphere.tensorflow.IVariantTensorDataProto>} variantVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.variantVal = $util.emptyArray;
-
-            /**
-             * TensorProto uint32Val.
-             * @member {Array.<number>} uint32Val
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.uint32Val = $util.emptyArray;
-
-            /**
-             * TensorProto uint64Val.
-             * @member {Array.<number|Long>} uint64Val
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.uint64Val = $util.emptyArray;
-
-            /**
-             * TensorProto mapVal.
-             * @member {Array.<hydrosphere.tensorflow.IMapTensorData>} mapVal
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             */
-            TensorProto.prototype.mapVal = $util.emptyArray;
-
-            /**
-             * Creates a new TensorProto instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorProto=} [properties] Properties to set
-             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto instance
-             */
-            TensorProto.create = function create(properties) {
-                return new TensorProto(properties);
-            };
-
-            /**
-             * Encodes the specified TensorProto message. Does not implicitly {@link hydrosphere.tensorflow.TensorProto.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorProto} message TensorProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TensorProto.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.dtype != null && message.hasOwnProperty("dtype"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.dtype);
-                if (message.tensorShape != null && message.hasOwnProperty("tensorShape"))
-                    $root.hydrosphere.tensorflow.TensorShapeProto.encode(message.tensorShape, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.versionNumber);
-                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.tensorContent);
-                if (message.floatVal != null && message.floatVal.length) {
-                    writer.uint32(/* id 5, wireType 2 =*/42).fork();
-                    for (var i = 0; i < message.floatVal.length; ++i)
-                        writer.float(message.floatVal[i]);
-                    writer.ldelim();
-                }
-                if (message.doubleVal != null && message.doubleVal.length) {
-                    writer.uint32(/* id 6, wireType 2 =*/50).fork();
-                    for (var i = 0; i < message.doubleVal.length; ++i)
-                        writer.double(message.doubleVal[i]);
-                    writer.ldelim();
-                }
-                if (message.intVal != null && message.intVal.length) {
-                    writer.uint32(/* id 7, wireType 2 =*/58).fork();
-                    for (var i = 0; i < message.intVal.length; ++i)
-                        writer.int32(message.intVal[i]);
-                    writer.ldelim();
-                }
-                if (message.stringVal != null && message.stringVal.length)
-                    for (var i = 0; i < message.stringVal.length; ++i)
-                        writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.stringVal[i]);
-                if (message.scomplexVal != null && message.scomplexVal.length) {
-                    writer.uint32(/* id 9, wireType 2 =*/74).fork();
-                    for (var i = 0; i < message.scomplexVal.length; ++i)
-                        writer.float(message.scomplexVal[i]);
-                    writer.ldelim();
-                }
-                if (message.int64Val != null && message.int64Val.length) {
-                    writer.uint32(/* id 10, wireType 2 =*/82).fork();
-                    for (var i = 0; i < message.int64Val.length; ++i)
-                        writer.int64(message.int64Val[i]);
-                    writer.ldelim();
-                }
-                if (message.boolVal != null && message.boolVal.length) {
-                    writer.uint32(/* id 11, wireType 2 =*/90).fork();
-                    for (var i = 0; i < message.boolVal.length; ++i)
-                        writer.bool(message.boolVal[i]);
-                    writer.ldelim();
-                }
-                if (message.dcomplexVal != null && message.dcomplexVal.length) {
-                    writer.uint32(/* id 12, wireType 2 =*/98).fork();
-                    for (var i = 0; i < message.dcomplexVal.length; ++i)
-                        writer.double(message.dcomplexVal[i]);
-                    writer.ldelim();
-                }
-                if (message.halfVal != null && message.halfVal.length) {
-                    writer.uint32(/* id 13, wireType 2 =*/106).fork();
-                    for (var i = 0; i < message.halfVal.length; ++i)
-                        writer.int32(message.halfVal[i]);
-                    writer.ldelim();
-                }
-                if (message.variantVal != null && message.variantVal.length)
-                    for (var i = 0; i < message.variantVal.length; ++i)
-                        $root.hydrosphere.tensorflow.VariantTensorDataProto.encode(message.variantVal[i], writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
-                if (message.uint32Val != null && message.uint32Val.length) {
-                    writer.uint32(/* id 16, wireType 2 =*/130).fork();
-                    for (var i = 0; i < message.uint32Val.length; ++i)
-                        writer.uint32(message.uint32Val[i]);
-                    writer.ldelim();
-                }
-                if (message.uint64Val != null && message.uint64Val.length) {
-                    writer.uint32(/* id 17, wireType 2 =*/138).fork();
-                    for (var i = 0; i < message.uint64Val.length; ++i)
-                        writer.uint64(message.uint64Val[i]);
-                    writer.ldelim();
-                }
-                if (message.mapVal != null && message.mapVal.length)
-                    for (var i = 0; i < message.mapVal.length; ++i)
-                        $root.hydrosphere.tensorflow.MapTensorData.encode(message.mapVal[i], writer.uint32(/* id 27, wireType 2 =*/218).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified TensorProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorProto.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorProto} message TensorProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TensorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a TensorProto message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TensorProto.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorProto();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.dtype = reader.int32();
-                        break;
-                    case 2:
-                        message.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.versionNumber = reader.int32();
-                        break;
-                    case 4:
-                        message.tensorContent = reader.bytes();
-                        break;
-                    case 13:
-                        if (!(message.halfVal && message.halfVal.length))
-                            message.halfVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.halfVal.push(reader.int32());
-                        } else
-                            message.halfVal.push(reader.int32());
-                        break;
-                    case 5:
-                        if (!(message.floatVal && message.floatVal.length))
-                            message.floatVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.floatVal.push(reader.float());
-                        } else
-                            message.floatVal.push(reader.float());
-                        break;
-                    case 6:
-                        if (!(message.doubleVal && message.doubleVal.length))
-                            message.doubleVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.doubleVal.push(reader.double());
-                        } else
-                            message.doubleVal.push(reader.double());
-                        break;
-                    case 7:
-                        if (!(message.intVal && message.intVal.length))
-                            message.intVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.intVal.push(reader.int32());
-                        } else
-                            message.intVal.push(reader.int32());
-                        break;
-                    case 8:
-                        if (!(message.stringVal && message.stringVal.length))
-                            message.stringVal = [];
-                        message.stringVal.push(reader.bytes());
-                        break;
-                    case 9:
-                        if (!(message.scomplexVal && message.scomplexVal.length))
-                            message.scomplexVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.scomplexVal.push(reader.float());
-                        } else
-                            message.scomplexVal.push(reader.float());
-                        break;
-                    case 10:
-                        if (!(message.int64Val && message.int64Val.length))
-                            message.int64Val = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.int64Val.push(reader.int64());
-                        } else
-                            message.int64Val.push(reader.int64());
-                        break;
-                    case 11:
-                        if (!(message.boolVal && message.boolVal.length))
-                            message.boolVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.boolVal.push(reader.bool());
-                        } else
-                            message.boolVal.push(reader.bool());
-                        break;
-                    case 12:
-                        if (!(message.dcomplexVal && message.dcomplexVal.length))
-                            message.dcomplexVal = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.dcomplexVal.push(reader.double());
-                        } else
-                            message.dcomplexVal.push(reader.double());
-                        break;
-                    case 15:
-                        if (!(message.variantVal && message.variantVal.length))
-                            message.variantVal = [];
-                        message.variantVal.push($root.hydrosphere.tensorflow.VariantTensorDataProto.decode(reader, reader.uint32()));
-                        break;
-                    case 16:
-                        if (!(message.uint32Val && message.uint32Val.length))
-                            message.uint32Val = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.uint32Val.push(reader.uint32());
-                        } else
-                            message.uint32Val.push(reader.uint32());
-                        break;
-                    case 17:
-                        if (!(message.uint64Val && message.uint64Val.length))
-                            message.uint64Val = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.uint64Val.push(reader.uint64());
-                        } else
-                            message.uint64Val.push(reader.uint64());
-                        break;
-                    case 27:
-                        if (!(message.mapVal && message.mapVal.length))
-                            message.mapVal = [];
-                        message.mapVal.push($root.hydrosphere.tensorflow.MapTensorData.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a TensorProto message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TensorProto.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a TensorProto message.
-             * @function verify
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TensorProto.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.dtype != null && message.hasOwnProperty("dtype"))
-                    switch (message.dtype) {
-                    default:
-                        return "dtype: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                    case 17:
-                    case 18:
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                    case 23:
-                    case 27:
-                        break;
-                    }
-                if (message.tensorShape != null && message.hasOwnProperty("tensorShape")) {
-                    var error = $root.hydrosphere.tensorflow.TensorShapeProto.verify(message.tensorShape);
-                    if (error)
-                        return "tensorShape." + error;
-                }
-                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
-                    if (!$util.isInteger(message.versionNumber))
-                        return "versionNumber: integer expected";
-                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
-                    if (!(message.tensorContent && typeof message.tensorContent.length === "number" || $util.isString(message.tensorContent)))
-                        return "tensorContent: buffer expected";
-                if (message.halfVal != null && message.hasOwnProperty("halfVal")) {
-                    if (!Array.isArray(message.halfVal))
-                        return "halfVal: array expected";
-                    for (var i = 0; i < message.halfVal.length; ++i)
-                        if (!$util.isInteger(message.halfVal[i]))
-                            return "halfVal: integer[] expected";
-                }
-                if (message.floatVal != null && message.hasOwnProperty("floatVal")) {
-                    if (!Array.isArray(message.floatVal))
-                        return "floatVal: array expected";
-                    for (var i = 0; i < message.floatVal.length; ++i)
-                        if (typeof message.floatVal[i] !== "number")
-                            return "floatVal: number[] expected";
-                }
-                if (message.doubleVal != null && message.hasOwnProperty("doubleVal")) {
-                    if (!Array.isArray(message.doubleVal))
-                        return "doubleVal: array expected";
-                    for (var i = 0; i < message.doubleVal.length; ++i)
-                        if (typeof message.doubleVal[i] !== "number")
-                            return "doubleVal: number[] expected";
-                }
-                if (message.intVal != null && message.hasOwnProperty("intVal")) {
-                    if (!Array.isArray(message.intVal))
-                        return "intVal: array expected";
-                    for (var i = 0; i < message.intVal.length; ++i)
-                        if (!$util.isInteger(message.intVal[i]))
-                            return "intVal: integer[] expected";
-                }
-                if (message.stringVal != null && message.hasOwnProperty("stringVal")) {
-                    if (!Array.isArray(message.stringVal))
-                        return "stringVal: array expected";
-                    for (var i = 0; i < message.stringVal.length; ++i)
-                        if (!(message.stringVal[i] && typeof message.stringVal[i].length === "number" || $util.isString(message.stringVal[i])))
-                            return "stringVal: buffer[] expected";
-                }
-                if (message.scomplexVal != null && message.hasOwnProperty("scomplexVal")) {
-                    if (!Array.isArray(message.scomplexVal))
-                        return "scomplexVal: array expected";
-                    for (var i = 0; i < message.scomplexVal.length; ++i)
-                        if (typeof message.scomplexVal[i] !== "number")
-                            return "scomplexVal: number[] expected";
-                }
-                if (message.int64Val != null && message.hasOwnProperty("int64Val")) {
-                    if (!Array.isArray(message.int64Val))
-                        return "int64Val: array expected";
-                    for (var i = 0; i < message.int64Val.length; ++i)
-                        if (!$util.isInteger(message.int64Val[i]) && !(message.int64Val[i] && $util.isInteger(message.int64Val[i].low) && $util.isInteger(message.int64Val[i].high)))
-                            return "int64Val: integer|Long[] expected";
-                }
-                if (message.boolVal != null && message.hasOwnProperty("boolVal")) {
-                    if (!Array.isArray(message.boolVal))
-                        return "boolVal: array expected";
-                    for (var i = 0; i < message.boolVal.length; ++i)
-                        if (typeof message.boolVal[i] !== "boolean")
-                            return "boolVal: boolean[] expected";
-                }
-                if (message.dcomplexVal != null && message.hasOwnProperty("dcomplexVal")) {
-                    if (!Array.isArray(message.dcomplexVal))
-                        return "dcomplexVal: array expected";
-                    for (var i = 0; i < message.dcomplexVal.length; ++i)
-                        if (typeof message.dcomplexVal[i] !== "number")
-                            return "dcomplexVal: number[] expected";
-                }
-                if (message.variantVal != null && message.hasOwnProperty("variantVal")) {
-                    if (!Array.isArray(message.variantVal))
-                        return "variantVal: array expected";
-                    for (var i = 0; i < message.variantVal.length; ++i) {
-                        var error = $root.hydrosphere.tensorflow.VariantTensorDataProto.verify(message.variantVal[i]);
-                        if (error)
-                            return "variantVal." + error;
-                    }
-                }
-                if (message.uint32Val != null && message.hasOwnProperty("uint32Val")) {
-                    if (!Array.isArray(message.uint32Val))
-                        return "uint32Val: array expected";
-                    for (var i = 0; i < message.uint32Val.length; ++i)
-                        if (!$util.isInteger(message.uint32Val[i]))
-                            return "uint32Val: integer[] expected";
-                }
-                if (message.uint64Val != null && message.hasOwnProperty("uint64Val")) {
-                    if (!Array.isArray(message.uint64Val))
-                        return "uint64Val: array expected";
-                    for (var i = 0; i < message.uint64Val.length; ++i)
-                        if (!$util.isInteger(message.uint64Val[i]) && !(message.uint64Val[i] && $util.isInteger(message.uint64Val[i].low) && $util.isInteger(message.uint64Val[i].high)))
-                            return "uint64Val: integer|Long[] expected";
-                }
-                if (message.mapVal != null && message.hasOwnProperty("mapVal")) {
-                    if (!Array.isArray(message.mapVal))
-                        return "mapVal: array expected";
-                    for (var i = 0; i < message.mapVal.length; ++i) {
-                        var error = $root.hydrosphere.tensorflow.MapTensorData.verify(message.mapVal[i]);
-                        if (error)
-                            return "mapVal." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates a TensorProto message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
-             */
-            TensorProto.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.tensorflow.TensorProto)
-                    return object;
-                var message = new $root.hydrosphere.tensorflow.TensorProto();
-                switch (object.dtype) {
-                case "DT_INVALID":
-                case 0:
-                    message.dtype = 0;
-                    break;
-                case "DT_FLOAT":
-                case 1:
-                    message.dtype = 1;
-                    break;
-                case "DT_DOUBLE":
-                case 2:
-                    message.dtype = 2;
-                    break;
-                case "DT_INT32":
-                case 3:
-                    message.dtype = 3;
-                    break;
-                case "DT_UINT8":
-                case 4:
-                    message.dtype = 4;
-                    break;
-                case "DT_INT16":
-                case 5:
-                    message.dtype = 5;
-                    break;
-                case "DT_INT8":
-                case 6:
-                    message.dtype = 6;
-                    break;
-                case "DT_STRING":
-                case 7:
-                    message.dtype = 7;
-                    break;
-                case "DT_COMPLEX64":
-                case 8:
-                    message.dtype = 8;
-                    break;
-                case "DT_INT64":
-                case 9:
-                    message.dtype = 9;
-                    break;
-                case "DT_BOOL":
-                case 10:
-                    message.dtype = 10;
-                    break;
-                case "DT_QINT8":
-                case 11:
-                    message.dtype = 11;
-                    break;
-                case "DT_QUINT8":
-                case 12:
-                    message.dtype = 12;
-                    break;
-                case "DT_QINT32":
-                case 13:
-                    message.dtype = 13;
-                    break;
-                case "DT_BFLOAT16":
-                case 14:
-                    message.dtype = 14;
-                    break;
-                case "DT_QINT16":
-                case 15:
-                    message.dtype = 15;
-                    break;
-                case "DT_QUINT16":
-                case 16:
-                    message.dtype = 16;
-                    break;
-                case "DT_UINT16":
-                case 17:
-                    message.dtype = 17;
-                    break;
-                case "DT_COMPLEX128":
-                case 18:
-                    message.dtype = 18;
-                    break;
-                case "DT_HALF":
-                case 19:
-                    message.dtype = 19;
-                    break;
-                case "DT_RESOURCE":
-                case 20:
-                    message.dtype = 20;
-                    break;
-                case "DT_VARIANT":
-                case 21:
-                    message.dtype = 21;
-                    break;
-                case "DT_UINT32":
-                case 22:
-                    message.dtype = 22;
-                    break;
-                case "DT_UINT64":
-                case 23:
-                    message.dtype = 23;
-                    break;
-                case "DT_MAP":
-                case 27:
-                    message.dtype = 27;
-                    break;
-                }
-                if (object.tensorShape != null) {
-                    if (typeof object.tensorShape !== "object")
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.tensorShape: object expected");
-                    message.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.fromObject(object.tensorShape);
-                }
-                if (object.versionNumber != null)
-                    message.versionNumber = object.versionNumber | 0;
-                if (object.tensorContent != null)
-                    if (typeof object.tensorContent === "string")
-                        $util.base64.decode(object.tensorContent, message.tensorContent = $util.newBuffer($util.base64.length(object.tensorContent)), 0);
-                    else if (object.tensorContent.length)
-                        message.tensorContent = object.tensorContent;
-                if (object.halfVal) {
-                    if (!Array.isArray(object.halfVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.halfVal: array expected");
-                    message.halfVal = [];
-                    for (var i = 0; i < object.halfVal.length; ++i)
-                        message.halfVal[i] = object.halfVal[i] | 0;
-                }
-                if (object.floatVal) {
-                    if (!Array.isArray(object.floatVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.floatVal: array expected");
-                    message.floatVal = [];
-                    for (var i = 0; i < object.floatVal.length; ++i)
-                        message.floatVal[i] = Number(object.floatVal[i]);
-                }
-                if (object.doubleVal) {
-                    if (!Array.isArray(object.doubleVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.doubleVal: array expected");
-                    message.doubleVal = [];
-                    for (var i = 0; i < object.doubleVal.length; ++i)
-                        message.doubleVal[i] = Number(object.doubleVal[i]);
-                }
-                if (object.intVal) {
-                    if (!Array.isArray(object.intVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.intVal: array expected");
-                    message.intVal = [];
-                    for (var i = 0; i < object.intVal.length; ++i)
-                        message.intVal[i] = object.intVal[i] | 0;
-                }
-                if (object.stringVal) {
-                    if (!Array.isArray(object.stringVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.stringVal: array expected");
-                    message.stringVal = [];
-                    for (var i = 0; i < object.stringVal.length; ++i)
-                        if (typeof object.stringVal[i] === "string")
-                            $util.base64.decode(object.stringVal[i], message.stringVal[i] = $util.newBuffer($util.base64.length(object.stringVal[i])), 0);
-                        else if (object.stringVal[i].length)
-                            message.stringVal[i] = object.stringVal[i];
-                }
-                if (object.scomplexVal) {
-                    if (!Array.isArray(object.scomplexVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.scomplexVal: array expected");
-                    message.scomplexVal = [];
-                    for (var i = 0; i < object.scomplexVal.length; ++i)
-                        message.scomplexVal[i] = Number(object.scomplexVal[i]);
-                }
-                if (object.int64Val) {
-                    if (!Array.isArray(object.int64Val))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.int64Val: array expected");
-                    message.int64Val = [];
-                    for (var i = 0; i < object.int64Val.length; ++i)
-                        if ($util.Long)
-                            (message.int64Val[i] = $util.Long.fromValue(object.int64Val[i])).unsigned = false;
-                        else if (typeof object.int64Val[i] === "string")
-                            message.int64Val[i] = parseInt(object.int64Val[i], 10);
-                        else if (typeof object.int64Val[i] === "number")
-                            message.int64Val[i] = object.int64Val[i];
-                        else if (typeof object.int64Val[i] === "object")
-                            message.int64Val[i] = new $util.LongBits(object.int64Val[i].low >>> 0, object.int64Val[i].high >>> 0).toNumber();
-                }
-                if (object.boolVal) {
-                    if (!Array.isArray(object.boolVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.boolVal: array expected");
-                    message.boolVal = [];
-                    for (var i = 0; i < object.boolVal.length; ++i)
-                        message.boolVal[i] = Boolean(object.boolVal[i]);
-                }
-                if (object.dcomplexVal) {
-                    if (!Array.isArray(object.dcomplexVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.dcomplexVal: array expected");
-                    message.dcomplexVal = [];
-                    for (var i = 0; i < object.dcomplexVal.length; ++i)
-                        message.dcomplexVal[i] = Number(object.dcomplexVal[i]);
-                }
-                if (object.variantVal) {
-                    if (!Array.isArray(object.variantVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.variantVal: array expected");
-                    message.variantVal = [];
-                    for (var i = 0; i < object.variantVal.length; ++i) {
-                        if (typeof object.variantVal[i] !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.TensorProto.variantVal: object expected");
-                        message.variantVal[i] = $root.hydrosphere.tensorflow.VariantTensorDataProto.fromObject(object.variantVal[i]);
-                    }
-                }
-                if (object.uint32Val) {
-                    if (!Array.isArray(object.uint32Val))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.uint32Val: array expected");
-                    message.uint32Val = [];
-                    for (var i = 0; i < object.uint32Val.length; ++i)
-                        message.uint32Val[i] = object.uint32Val[i] >>> 0;
-                }
-                if (object.uint64Val) {
-                    if (!Array.isArray(object.uint64Val))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.uint64Val: array expected");
-                    message.uint64Val = [];
-                    for (var i = 0; i < object.uint64Val.length; ++i)
-                        if ($util.Long)
-                            (message.uint64Val[i] = $util.Long.fromValue(object.uint64Val[i])).unsigned = true;
-                        else if (typeof object.uint64Val[i] === "string")
-                            message.uint64Val[i] = parseInt(object.uint64Val[i], 10);
-                        else if (typeof object.uint64Val[i] === "number")
-                            message.uint64Val[i] = object.uint64Val[i];
-                        else if (typeof object.uint64Val[i] === "object")
-                            message.uint64Val[i] = new $util.LongBits(object.uint64Val[i].low >>> 0, object.uint64Val[i].high >>> 0).toNumber(true);
-                }
-                if (object.mapVal) {
-                    if (!Array.isArray(object.mapVal))
-                        throw TypeError(".hydrosphere.tensorflow.TensorProto.mapVal: array expected");
-                    message.mapVal = [];
-                    for (var i = 0; i < object.mapVal.length; ++i) {
-                        if (typeof object.mapVal[i] !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.TensorProto.mapVal: object expected");
-                        message.mapVal[i] = $root.hydrosphere.tensorflow.MapTensorData.fromObject(object.mapVal[i]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a TensorProto message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @static
-             * @param {hydrosphere.tensorflow.TensorProto} message TensorProto
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TensorProto.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults) {
-                    object.floatVal = [];
-                    object.doubleVal = [];
-                    object.intVal = [];
-                    object.stringVal = [];
-                    object.scomplexVal = [];
-                    object.int64Val = [];
-                    object.boolVal = [];
-                    object.dcomplexVal = [];
-                    object.halfVal = [];
-                    object.variantVal = [];
-                    object.uint32Val = [];
-                    object.uint64Val = [];
-                    object.mapVal = [];
-                }
-                if (options.defaults) {
-                    object.dtype = options.enums === String ? "DT_INVALID" : 0;
-                    object.tensorShape = null;
-                    object.versionNumber = 0;
-                    if (options.bytes === String)
-                        object.tensorContent = "";
-                    else {
-                        object.tensorContent = [];
-                        if (options.bytes !== Array)
-                            object.tensorContent = $util.newBuffer(object.tensorContent);
-                    }
-                }
-                if (message.dtype != null && message.hasOwnProperty("dtype"))
-                    object.dtype = options.enums === String ? $root.hydrosphere.tensorflow.DataType[message.dtype] : message.dtype;
-                if (message.tensorShape != null && message.hasOwnProperty("tensorShape"))
-                    object.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.toObject(message.tensorShape, options);
-                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
-                    object.versionNumber = message.versionNumber;
-                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
-                    object.tensorContent = options.bytes === String ? $util.base64.encode(message.tensorContent, 0, message.tensorContent.length) : options.bytes === Array ? Array.prototype.slice.call(message.tensorContent) : message.tensorContent;
-                if (message.floatVal && message.floatVal.length) {
-                    object.floatVal = [];
-                    for (var j = 0; j < message.floatVal.length; ++j)
-                        object.floatVal[j] = options.json && !isFinite(message.floatVal[j]) ? String(message.floatVal[j]) : message.floatVal[j];
-                }
-                if (message.doubleVal && message.doubleVal.length) {
-                    object.doubleVal = [];
-                    for (var j = 0; j < message.doubleVal.length; ++j)
-                        object.doubleVal[j] = options.json && !isFinite(message.doubleVal[j]) ? String(message.doubleVal[j]) : message.doubleVal[j];
-                }
-                if (message.intVal && message.intVal.length) {
-                    object.intVal = [];
-                    for (var j = 0; j < message.intVal.length; ++j)
-                        object.intVal[j] = message.intVal[j];
-                }
-                if (message.stringVal && message.stringVal.length) {
-                    object.stringVal = [];
-                    for (var j = 0; j < message.stringVal.length; ++j)
-                        object.stringVal[j] = options.bytes === String ? $util.base64.encode(message.stringVal[j], 0, message.stringVal[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.stringVal[j]) : message.stringVal[j];
-                }
-                if (message.scomplexVal && message.scomplexVal.length) {
-                    object.scomplexVal = [];
-                    for (var j = 0; j < message.scomplexVal.length; ++j)
-                        object.scomplexVal[j] = options.json && !isFinite(message.scomplexVal[j]) ? String(message.scomplexVal[j]) : message.scomplexVal[j];
-                }
-                if (message.int64Val && message.int64Val.length) {
-                    object.int64Val = [];
-                    for (var j = 0; j < message.int64Val.length; ++j)
-                        if (typeof message.int64Val[j] === "number")
-                            object.int64Val[j] = options.longs === String ? String(message.int64Val[j]) : message.int64Val[j];
-                        else
-                            object.int64Val[j] = options.longs === String ? $util.Long.prototype.toString.call(message.int64Val[j]) : options.longs === Number ? new $util.LongBits(message.int64Val[j].low >>> 0, message.int64Val[j].high >>> 0).toNumber() : message.int64Val[j];
-                }
-                if (message.boolVal && message.boolVal.length) {
-                    object.boolVal = [];
-                    for (var j = 0; j < message.boolVal.length; ++j)
-                        object.boolVal[j] = message.boolVal[j];
-                }
-                if (message.dcomplexVal && message.dcomplexVal.length) {
-                    object.dcomplexVal = [];
-                    for (var j = 0; j < message.dcomplexVal.length; ++j)
-                        object.dcomplexVal[j] = options.json && !isFinite(message.dcomplexVal[j]) ? String(message.dcomplexVal[j]) : message.dcomplexVal[j];
-                }
-                if (message.halfVal && message.halfVal.length) {
-                    object.halfVal = [];
-                    for (var j = 0; j < message.halfVal.length; ++j)
-                        object.halfVal[j] = message.halfVal[j];
-                }
-                if (message.variantVal && message.variantVal.length) {
-                    object.variantVal = [];
-                    for (var j = 0; j < message.variantVal.length; ++j)
-                        object.variantVal[j] = $root.hydrosphere.tensorflow.VariantTensorDataProto.toObject(message.variantVal[j], options);
-                }
-                if (message.uint32Val && message.uint32Val.length) {
-                    object.uint32Val = [];
-                    for (var j = 0; j < message.uint32Val.length; ++j)
-                        object.uint32Val[j] = message.uint32Val[j];
-                }
-                if (message.uint64Val && message.uint64Val.length) {
-                    object.uint64Val = [];
-                    for (var j = 0; j < message.uint64Val.length; ++j)
-                        if (typeof message.uint64Val[j] === "number")
-                            object.uint64Val[j] = options.longs === String ? String(message.uint64Val[j]) : message.uint64Val[j];
-                        else
-                            object.uint64Val[j] = options.longs === String ? $util.Long.prototype.toString.call(message.uint64Val[j]) : options.longs === Number ? new $util.LongBits(message.uint64Val[j].low >>> 0, message.uint64Val[j].high >>> 0).toNumber(true) : message.uint64Val[j];
-                }
-                if (message.mapVal && message.mapVal.length) {
-                    object.mapVal = [];
-                    for (var j = 0; j < message.mapVal.length; ++j)
-                        object.mapVal[j] = $root.hydrosphere.tensorflow.MapTensorData.toObject(message.mapVal[j], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this TensorProto to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.tensorflow.TensorProto
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TensorProto.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return TensorProto;
-        })();
-
-        tensorflow.VariantTensorDataProto = (function() {
-
-            /**
-             * Properties of a VariantTensorDataProto.
-             * @memberof hydrosphere.tensorflow
-             * @interface IVariantTensorDataProto
-             * @property {string|null} [typeName] VariantTensorDataProto typeName
-             * @property {Uint8Array|null} [metadata] VariantTensorDataProto metadata
-             * @property {Array.<hydrosphere.tensorflow.ITensorProto>|null} [tensors] VariantTensorDataProto tensors
-             */
-
-            /**
-             * Constructs a new VariantTensorDataProto.
-             * @memberof hydrosphere.tensorflow
-             * @classdesc Represents a VariantTensorDataProto.
-             * @implements IVariantTensorDataProto
-             * @constructor
-             * @param {hydrosphere.tensorflow.IVariantTensorDataProto=} [properties] Properties to set
-             */
-            function VariantTensorDataProto(properties) {
-                this.tensors = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * VariantTensorDataProto typeName.
-             * @member {string} typeName
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @instance
-             */
-            VariantTensorDataProto.prototype.typeName = "";
-
-            /**
-             * VariantTensorDataProto metadata.
-             * @member {Uint8Array} metadata
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @instance
-             */
-            VariantTensorDataProto.prototype.metadata = $util.newBuffer([]);
-
-            /**
-             * VariantTensorDataProto tensors.
-             * @member {Array.<hydrosphere.tensorflow.ITensorProto>} tensors
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @instance
-             */
-            VariantTensorDataProto.prototype.tensors = $util.emptyArray;
-
-            /**
-             * Creates a new VariantTensorDataProto instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {hydrosphere.tensorflow.IVariantTensorDataProto=} [properties] Properties to set
-             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto instance
-             */
-            VariantTensorDataProto.create = function create(properties) {
-                return new VariantTensorDataProto(properties);
-            };
-
-            /**
-             * Encodes the specified VariantTensorDataProto message. Does not implicitly {@link hydrosphere.tensorflow.VariantTensorDataProto.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {hydrosphere.tensorflow.IVariantTensorDataProto} message VariantTensorDataProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            VariantTensorDataProto.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.typeName != null && message.hasOwnProperty("typeName"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.typeName);
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.metadata);
-                if (message.tensors != null && message.tensors.length)
-                    for (var i = 0; i < message.tensors.length; ++i)
-                        $root.hydrosphere.tensorflow.TensorProto.encode(message.tensors[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified VariantTensorDataProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.VariantTensorDataProto.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {hydrosphere.tensorflow.IVariantTensorDataProto} message VariantTensorDataProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            VariantTensorDataProto.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a VariantTensorDataProto message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            VariantTensorDataProto.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.VariantTensorDataProto();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.typeName = reader.string();
-                        break;
-                    case 2:
-                        message.metadata = reader.bytes();
-                        break;
-                    case 3:
-                        if (!(message.tensors && message.tensors.length))
-                            message.tensors = [];
-                        message.tensors.push($root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a VariantTensorDataProto message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            VariantTensorDataProto.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a VariantTensorDataProto message.
-             * @function verify
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            VariantTensorDataProto.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.typeName != null && message.hasOwnProperty("typeName"))
-                    if (!$util.isString(message.typeName))
-                        return "typeName: string expected";
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    if (!(message.metadata && typeof message.metadata.length === "number" || $util.isString(message.metadata)))
-                        return "metadata: buffer expected";
-                if (message.tensors != null && message.hasOwnProperty("tensors")) {
-                    if (!Array.isArray(message.tensors))
-                        return "tensors: array expected";
-                    for (var i = 0; i < message.tensors.length; ++i) {
-                        var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.tensors[i]);
-                        if (error)
-                            return "tensors." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates a VariantTensorDataProto message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
-             */
-            VariantTensorDataProto.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.tensorflow.VariantTensorDataProto)
-                    return object;
-                var message = new $root.hydrosphere.tensorflow.VariantTensorDataProto();
-                if (object.typeName != null)
-                    message.typeName = String(object.typeName);
-                if (object.metadata != null)
-                    if (typeof object.metadata === "string")
-                        $util.base64.decode(object.metadata, message.metadata = $util.newBuffer($util.base64.length(object.metadata)), 0);
-                    else if (object.metadata.length)
-                        message.metadata = object.metadata;
-                if (object.tensors) {
-                    if (!Array.isArray(object.tensors))
-                        throw TypeError(".hydrosphere.tensorflow.VariantTensorDataProto.tensors: array expected");
-                    message.tensors = [];
-                    for (var i = 0; i < object.tensors.length; ++i) {
-                        if (typeof object.tensors[i] !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.VariantTensorDataProto.tensors: object expected");
-                        message.tensors[i] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.tensors[i]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a VariantTensorDataProto message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @static
-             * @param {hydrosphere.tensorflow.VariantTensorDataProto} message VariantTensorDataProto
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            VariantTensorDataProto.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.tensors = [];
-                if (options.defaults) {
-                    object.typeName = "";
-                    if (options.bytes === String)
-                        object.metadata = "";
-                    else {
-                        object.metadata = [];
-                        if (options.bytes !== Array)
-                            object.metadata = $util.newBuffer(object.metadata);
-                    }
-                }
-                if (message.typeName != null && message.hasOwnProperty("typeName"))
-                    object.typeName = message.typeName;
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    object.metadata = options.bytes === String ? $util.base64.encode(message.metadata, 0, message.metadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.metadata) : message.metadata;
-                if (message.tensors && message.tensors.length) {
-                    object.tensors = [];
-                    for (var j = 0; j < message.tensors.length; ++j)
-                        object.tensors[j] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.tensors[j], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this VariantTensorDataProto to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            VariantTensorDataProto.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return VariantTensorDataProto;
-        })();
-
-        tensorflow.MapTensorData = (function() {
-
-            /**
-             * Properties of a MapTensorData.
-             * @memberof hydrosphere.tensorflow
-             * @interface IMapTensorData
-             * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [subtensors] MapTensorData subtensors
-             */
-
-            /**
-             * Constructs a new MapTensorData.
-             * @memberof hydrosphere.tensorflow
-             * @classdesc Represents a MapTensorData.
-             * @implements IMapTensorData
-             * @constructor
-             * @param {hydrosphere.tensorflow.IMapTensorData=} [properties] Properties to set
-             */
-            function MapTensorData(properties) {
-                this.subtensors = {};
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * MapTensorData subtensors.
-             * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} subtensors
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @instance
-             */
-            MapTensorData.prototype.subtensors = $util.emptyObject;
-
-            /**
-             * Creates a new MapTensorData instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {hydrosphere.tensorflow.IMapTensorData=} [properties] Properties to set
-             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData instance
-             */
-            MapTensorData.create = function create(properties) {
-                return new MapTensorData(properties);
-            };
-
-            /**
-             * Encodes the specified MapTensorData message. Does not implicitly {@link hydrosphere.tensorflow.MapTensorData.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {hydrosphere.tensorflow.IMapTensorData} message MapTensorData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            MapTensorData.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.subtensors != null && message.hasOwnProperty("subtensors"))
-                    for (var keys = Object.keys(message.subtensors), i = 0; i < keys.length; ++i) {
-                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                        $root.hydrosphere.tensorflow.TensorProto.encode(message.subtensors[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
-                    }
-                return writer;
-            };
-
-            /**
-             * Encodes the specified MapTensorData message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.MapTensorData.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {hydrosphere.tensorflow.IMapTensorData} message MapTensorData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            MapTensorData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a MapTensorData message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            MapTensorData.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.MapTensorData(), key;
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        reader.skip().pos++;
-                        if (message.subtensors === $util.emptyObject)
-                            message.subtensors = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.subtensors[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a MapTensorData message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            MapTensorData.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a MapTensorData message.
-             * @function verify
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            MapTensorData.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.subtensors != null && message.hasOwnProperty("subtensors")) {
-                    if (!$util.isObject(message.subtensors))
-                        return "subtensors: object expected";
-                    var key = Object.keys(message.subtensors);
-                    for (var i = 0; i < key.length; ++i) {
-                        var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.subtensors[key[i]]);
-                        if (error)
-                            return "subtensors." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates a MapTensorData message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
-             */
-            MapTensorData.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.tensorflow.MapTensorData)
-                    return object;
-                var message = new $root.hydrosphere.tensorflow.MapTensorData();
-                if (object.subtensors) {
-                    if (typeof object.subtensors !== "object")
-                        throw TypeError(".hydrosphere.tensorflow.MapTensorData.subtensors: object expected");
-                    message.subtensors = {};
-                    for (var keys = Object.keys(object.subtensors), i = 0; i < keys.length; ++i) {
-                        if (typeof object.subtensors[keys[i]] !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.MapTensorData.subtensors: object expected");
-                        message.subtensors[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.subtensors[keys[i]]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a MapTensorData message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @static
-             * @param {hydrosphere.tensorflow.MapTensorData} message MapTensorData
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            MapTensorData.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.objects || options.defaults)
-                    object.subtensors = {};
-                var keys2;
-                if (message.subtensors && (keys2 = Object.keys(message.subtensors)).length) {
-                    object.subtensors = {};
-                    for (var j = 0; j < keys2.length; ++j)
-                        object.subtensors[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.subtensors[keys2[j]], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this MapTensorData to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.tensorflow.MapTensorData
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            MapTensorData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return MapTensorData;
-        })();
-
-        /**
-         * DataType enum.
-         * @name hydrosphere.tensorflow.DataType
-         * @enum {string}
-         * @property {number} DT_INVALID=0 DT_INVALID value
-         * @property {number} DT_FLOAT=1 DT_FLOAT value
-         * @property {number} DT_DOUBLE=2 DT_DOUBLE value
-         * @property {number} DT_INT32=3 DT_INT32 value
-         * @property {number} DT_UINT8=4 DT_UINT8 value
-         * @property {number} DT_INT16=5 DT_INT16 value
-         * @property {number} DT_INT8=6 DT_INT8 value
-         * @property {number} DT_STRING=7 DT_STRING value
-         * @property {number} DT_COMPLEX64=8 DT_COMPLEX64 value
-         * @property {number} DT_INT64=9 DT_INT64 value
-         * @property {number} DT_BOOL=10 DT_BOOL value
-         * @property {number} DT_QINT8=11 DT_QINT8 value
-         * @property {number} DT_QUINT8=12 DT_QUINT8 value
-         * @property {number} DT_QINT32=13 DT_QINT32 value
-         * @property {number} DT_BFLOAT16=14 DT_BFLOAT16 value
-         * @property {number} DT_QINT16=15 DT_QINT16 value
-         * @property {number} DT_QUINT16=16 DT_QUINT16 value
-         * @property {number} DT_UINT16=17 DT_UINT16 value
-         * @property {number} DT_COMPLEX128=18 DT_COMPLEX128 value
-         * @property {number} DT_HALF=19 DT_HALF value
-         * @property {number} DT_RESOURCE=20 DT_RESOURCE value
-         * @property {number} DT_VARIANT=21 DT_VARIANT value
-         * @property {number} DT_UINT32=22 DT_UINT32 value
-         * @property {number} DT_UINT64=23 DT_UINT64 value
-         * @property {number} DT_MAP=27 DT_MAP value
-         */
-        tensorflow.DataType = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[0] = "DT_INVALID"] = 0;
-            values[valuesById[1] = "DT_FLOAT"] = 1;
-            values[valuesById[2] = "DT_DOUBLE"] = 2;
-            values[valuesById[3] = "DT_INT32"] = 3;
-            values[valuesById[4] = "DT_UINT8"] = 4;
-            values[valuesById[5] = "DT_INT16"] = 5;
-            values[valuesById[6] = "DT_INT8"] = 6;
-            values[valuesById[7] = "DT_STRING"] = 7;
-            values[valuesById[8] = "DT_COMPLEX64"] = 8;
-            values[valuesById[9] = "DT_INT64"] = 9;
-            values[valuesById[10] = "DT_BOOL"] = 10;
-            values[valuesById[11] = "DT_QINT8"] = 11;
-            values[valuesById[12] = "DT_QUINT8"] = 12;
-            values[valuesById[13] = "DT_QINT32"] = 13;
-            values[valuesById[14] = "DT_BFLOAT16"] = 14;
-            values[valuesById[15] = "DT_QINT16"] = 15;
-            values[valuesById[16] = "DT_QUINT16"] = 16;
-            values[valuesById[17] = "DT_UINT16"] = 17;
-            values[valuesById[18] = "DT_COMPLEX128"] = 18;
-            values[valuesById[19] = "DT_HALF"] = 19;
-            values[valuesById[20] = "DT_RESOURCE"] = 20;
-            values[valuesById[21] = "DT_VARIANT"] = 21;
-            values[valuesById[22] = "DT_UINT32"] = 22;
-            values[valuesById[23] = "DT_UINT64"] = 23;
-            values[valuesById[27] = "DT_MAP"] = 27;
-            return values;
-        })();
-
-        tensorflow.TensorShapeProto = (function() {
-
-            /**
-             * Properties of a TensorShapeProto.
-             * @memberof hydrosphere.tensorflow
-             * @interface ITensorShapeProto
-             * @property {Array.<hydrosphere.tensorflow.TensorShapeProto.IDim>|null} [dim] TensorShapeProto dim
-             * @property {boolean|null} [unknownRank] TensorShapeProto unknownRank
-             */
-
-            /**
-             * Constructs a new TensorShapeProto.
-             * @memberof hydrosphere.tensorflow
-             * @classdesc Represents a TensorShapeProto.
-             * @implements ITensorShapeProto
-             * @constructor
-             * @param {hydrosphere.tensorflow.ITensorShapeProto=} [properties] Properties to set
-             */
-            function TensorShapeProto(properties) {
-                this.dim = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * TensorShapeProto dim.
-             * @member {Array.<hydrosphere.tensorflow.TensorShapeProto.IDim>} dim
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @instance
-             */
-            TensorShapeProto.prototype.dim = $util.emptyArray;
-
-            /**
-             * TensorShapeProto unknownRank.
-             * @member {boolean} unknownRank
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @instance
-             */
-            TensorShapeProto.prototype.unknownRank = false;
-
-            /**
-             * Creates a new TensorShapeProto instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorShapeProto=} [properties] Properties to set
-             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto instance
-             */
-            TensorShapeProto.create = function create(properties) {
-                return new TensorShapeProto(properties);
-            };
-
-            /**
-             * Encodes the specified TensorShapeProto message. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorShapeProto} message TensorShapeProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TensorShapeProto.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.dim != null && message.dim.length)
-                    for (var i = 0; i < message.dim.length; ++i)
-                        $root.hydrosphere.tensorflow.TensorShapeProto.Dim.encode(message.dim[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.unknownRank);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified TensorShapeProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {hydrosphere.tensorflow.ITensorShapeProto} message TensorShapeProto message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TensorShapeProto.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a TensorShapeProto message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TensorShapeProto.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorShapeProto();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 2:
-                        if (!(message.dim && message.dim.length))
-                            message.dim = [];
-                        message.dim.push($root.hydrosphere.tensorflow.TensorShapeProto.Dim.decode(reader, reader.uint32()));
-                        break;
-                    case 3:
-                        message.unknownRank = reader.bool();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a TensorShapeProto message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TensorShapeProto.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a TensorShapeProto message.
-             * @function verify
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TensorShapeProto.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.dim != null && message.hasOwnProperty("dim")) {
-                    if (!Array.isArray(message.dim))
-                        return "dim: array expected";
-                    for (var i = 0; i < message.dim.length; ++i) {
-                        var error = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.verify(message.dim[i]);
-                        if (error)
-                            return "dim." + error;
-                    }
-                }
-                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
-                    if (typeof message.unknownRank !== "boolean")
-                        return "unknownRank: boolean expected";
-                return null;
-            };
-
-            /**
-             * Creates a TensorShapeProto message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
-             */
-            TensorShapeProto.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.tensorflow.TensorShapeProto)
-                    return object;
-                var message = new $root.hydrosphere.tensorflow.TensorShapeProto();
-                if (object.dim) {
-                    if (!Array.isArray(object.dim))
-                        throw TypeError(".hydrosphere.tensorflow.TensorShapeProto.dim: array expected");
-                    message.dim = [];
-                    for (var i = 0; i < object.dim.length; ++i) {
-                        if (typeof object.dim[i] !== "object")
-                            throw TypeError(".hydrosphere.tensorflow.TensorShapeProto.dim: object expected");
-                        message.dim[i] = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.fromObject(object.dim[i]);
-                    }
-                }
-                if (object.unknownRank != null)
-                    message.unknownRank = Boolean(object.unknownRank);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a TensorShapeProto message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @static
-             * @param {hydrosphere.tensorflow.TensorShapeProto} message TensorShapeProto
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TensorShapeProto.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.dim = [];
-                if (options.defaults)
-                    object.unknownRank = false;
-                if (message.dim && message.dim.length) {
-                    object.dim = [];
-                    for (var j = 0; j < message.dim.length; ++j)
-                        object.dim[j] = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.toObject(message.dim[j], options);
-                }
-                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
-                    object.unknownRank = message.unknownRank;
-                return object;
-            };
-
-            /**
-             * Converts this TensorShapeProto to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.tensorflow.TensorShapeProto
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TensorShapeProto.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            TensorShapeProto.Dim = (function() {
-
-                /**
-                 * Properties of a Dim.
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto
-                 * @interface IDim
-                 * @property {number|Long|null} [size] Dim size
-                 * @property {string|null} [name] Dim name
-                 */
-
-                /**
-                 * Constructs a new Dim.
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto
-                 * @classdesc Represents a Dim.
-                 * @implements IDim
-                 * @constructor
-                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim=} [properties] Properties to set
-                 */
-                function Dim(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * Dim size.
-                 * @member {number|Long} size
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @instance
-                 */
-                Dim.prototype.size = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-                /**
-                 * Dim name.
-                 * @member {string} name
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @instance
-                 */
-                Dim.prototype.name = "";
-
-                /**
-                 * Creates a new Dim instance using the specified properties.
-                 * @function create
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim=} [properties] Properties to set
-                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim instance
-                 */
-                Dim.create = function create(properties) {
-                    return new Dim(properties);
-                };
-
-                /**
-                 * Encodes the specified Dim message. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.Dim.verify|verify} messages.
-                 * @function encode
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim} message Dim message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Dim.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.size != null && message.hasOwnProperty("size"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.size);
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified Dim message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.Dim.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim} message Dim message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Dim.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a Dim message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Dim.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorShapeProto.Dim();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.size = reader.int64();
-                            break;
-                        case 2:
-                            message.name = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a Dim message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Dim.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a Dim message.
-                 * @function verify
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Dim.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.size != null && message.hasOwnProperty("size"))
-                        if (!$util.isInteger(message.size) && !(message.size && $util.isInteger(message.size.low) && $util.isInteger(message.size.high)))
-                            return "size: integer|Long expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        if (!$util.isString(message.name))
-                            return "name: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a Dim message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
-                 */
-                Dim.fromObject = function fromObject(object) {
-                    if (object instanceof $root.hydrosphere.tensorflow.TensorShapeProto.Dim)
-                        return object;
-                    var message = new $root.hydrosphere.tensorflow.TensorShapeProto.Dim();
-                    if (object.size != null)
-                        if ($util.Long)
-                            (message.size = $util.Long.fromValue(object.size)).unsigned = false;
-                        else if (typeof object.size === "string")
-                            message.size = parseInt(object.size, 10);
-                        else if (typeof object.size === "number")
-                            message.size = object.size;
-                        else if (typeof object.size === "object")
-                            message.size = new $util.LongBits(object.size.low >>> 0, object.size.high >>> 0).toNumber();
-                    if (object.name != null)
-                        message.name = String(object.name);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a Dim message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @static
-                 * @param {hydrosphere.tensorflow.TensorShapeProto.Dim} message Dim
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Dim.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, false);
-                            object.size = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.size = options.longs === String ? "0" : 0;
-                        object.name = "";
-                    }
-                    if (message.size != null && message.hasOwnProperty("size"))
-                        if (typeof message.size === "number")
-                            object.size = options.longs === String ? String(message.size) : message.size;
-                        else
-                            object.size = options.longs === String ? $util.Long.prototype.toString.call(message.size) : options.longs === Number ? new $util.LongBits(message.size.low >>> 0, message.size.high >>> 0).toNumber() : message.size;
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = message.name;
-                    return object;
-                };
-
-                /**
-                 * Converts this Dim to JSON.
-                 * @function toJSON
-                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Dim.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return Dim;
-            })();
-
-            return TensorShapeProto;
-        })();
-
-        return tensorflow;
-    })();
-
     hydrosphere.contract = (function() {
 
         /**
@@ -7866,863 +26,6 @@ $root.hydrosphere = (function() {
          * @namespace
          */
         var contract = {};
-
-        contract.ModelField = (function() {
-
-            /**
-             * Properties of a ModelField.
-             * @memberof hydrosphere.contract
-             * @interface IModelField
-             * @property {string|null} [name] ModelField name
-             * @property {hydrosphere.tensorflow.ITensorShapeProto|null} [shape] ModelField shape
-             * @property {hydrosphere.contract.ModelField.ISubfield|null} [subfields] ModelField subfields
-             * @property {hydrosphere.tensorflow.DataType|null} [dtype] ModelField dtype
-             */
-
-            /**
-             * Constructs a new ModelField.
-             * @memberof hydrosphere.contract
-             * @classdesc Represents a ModelField.
-             * @implements IModelField
-             * @constructor
-             * @param {hydrosphere.contract.IModelField=} [properties] Properties to set
-             */
-            function ModelField(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ModelField name.
-             * @member {string} name
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             */
-            ModelField.prototype.name = "";
-
-            /**
-             * ModelField shape.
-             * @member {hydrosphere.tensorflow.ITensorShapeProto|null|undefined} shape
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             */
-            ModelField.prototype.shape = null;
-
-            /**
-             * ModelField subfields.
-             * @member {hydrosphere.contract.ModelField.ISubfield|null|undefined} subfields
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             */
-            ModelField.prototype.subfields = null;
-
-            /**
-             * ModelField dtype.
-             * @member {hydrosphere.tensorflow.DataType} dtype
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             */
-            ModelField.prototype.dtype = 0;
-
-            // OneOf field names bound to virtual getters and setters
-            var $oneOfFields;
-
-            /**
-             * ModelField typeOrSubfields.
-             * @member {"subfields"|"dtype"|undefined} typeOrSubfields
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             */
-            Object.defineProperty(ModelField.prototype, "typeOrSubfields", {
-                get: $util.oneOfGetter($oneOfFields = ["subfields", "dtype"]),
-                set: $util.oneOfSetter($oneOfFields)
-            });
-
-            /**
-             * Creates a new ModelField instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {hydrosphere.contract.IModelField=} [properties] Properties to set
-             * @returns {hydrosphere.contract.ModelField} ModelField instance
-             */
-            ModelField.create = function create(properties) {
-                return new ModelField(properties);
-            };
-
-            /**
-             * Encodes the specified ModelField message. Does not implicitly {@link hydrosphere.contract.ModelField.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {hydrosphere.contract.IModelField} message ModelField message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelField.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                if (message.shape != null && message.hasOwnProperty("shape"))
-                    $root.hydrosphere.tensorflow.TensorShapeProto.encode(message.shape, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.subfields != null && message.hasOwnProperty("subfields"))
-                    $root.hydrosphere.contract.ModelField.Subfield.encode(message.subfields, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                if (message.dtype != null && message.hasOwnProperty("dtype"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.dtype);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ModelField message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelField.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {hydrosphere.contract.IModelField} message ModelField message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelField.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a ModelField message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.contract.ModelField} ModelField
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelField.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelField();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.name = reader.string();
-                        break;
-                    case 2:
-                        message.shape = $root.hydrosphere.tensorflow.TensorShapeProto.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.subfields = $root.hydrosphere.contract.ModelField.Subfield.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.dtype = reader.int32();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a ModelField message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.contract.ModelField} ModelField
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelField.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a ModelField message.
-             * @function verify
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ModelField.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                var properties = {};
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                if (message.shape != null && message.hasOwnProperty("shape")) {
-                    var error = $root.hydrosphere.tensorflow.TensorShapeProto.verify(message.shape);
-                    if (error)
-                        return "shape." + error;
-                }
-                if (message.subfields != null && message.hasOwnProperty("subfields")) {
-                    properties.typeOrSubfields = 1;
-                    {
-                        var error = $root.hydrosphere.contract.ModelField.Subfield.verify(message.subfields);
-                        if (error)
-                            return "subfields." + error;
-                    }
-                }
-                if (message.dtype != null && message.hasOwnProperty("dtype")) {
-                    if (properties.typeOrSubfields === 1)
-                        return "typeOrSubfields: multiple values";
-                    properties.typeOrSubfields = 1;
-                    switch (message.dtype) {
-                    default:
-                        return "dtype: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                    case 17:
-                    case 18:
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                    case 23:
-                    case 27:
-                        break;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates a ModelField message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.contract.ModelField} ModelField
-             */
-            ModelField.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.contract.ModelField)
-                    return object;
-                var message = new $root.hydrosphere.contract.ModelField();
-                if (object.name != null)
-                    message.name = String(object.name);
-                if (object.shape != null) {
-                    if (typeof object.shape !== "object")
-                        throw TypeError(".hydrosphere.contract.ModelField.shape: object expected");
-                    message.shape = $root.hydrosphere.tensorflow.TensorShapeProto.fromObject(object.shape);
-                }
-                if (object.subfields != null) {
-                    if (typeof object.subfields !== "object")
-                        throw TypeError(".hydrosphere.contract.ModelField.subfields: object expected");
-                    message.subfields = $root.hydrosphere.contract.ModelField.Subfield.fromObject(object.subfields);
-                }
-                switch (object.dtype) {
-                case "DT_INVALID":
-                case 0:
-                    message.dtype = 0;
-                    break;
-                case "DT_FLOAT":
-                case 1:
-                    message.dtype = 1;
-                    break;
-                case "DT_DOUBLE":
-                case 2:
-                    message.dtype = 2;
-                    break;
-                case "DT_INT32":
-                case 3:
-                    message.dtype = 3;
-                    break;
-                case "DT_UINT8":
-                case 4:
-                    message.dtype = 4;
-                    break;
-                case "DT_INT16":
-                case 5:
-                    message.dtype = 5;
-                    break;
-                case "DT_INT8":
-                case 6:
-                    message.dtype = 6;
-                    break;
-                case "DT_STRING":
-                case 7:
-                    message.dtype = 7;
-                    break;
-                case "DT_COMPLEX64":
-                case 8:
-                    message.dtype = 8;
-                    break;
-                case "DT_INT64":
-                case 9:
-                    message.dtype = 9;
-                    break;
-                case "DT_BOOL":
-                case 10:
-                    message.dtype = 10;
-                    break;
-                case "DT_QINT8":
-                case 11:
-                    message.dtype = 11;
-                    break;
-                case "DT_QUINT8":
-                case 12:
-                    message.dtype = 12;
-                    break;
-                case "DT_QINT32":
-                case 13:
-                    message.dtype = 13;
-                    break;
-                case "DT_BFLOAT16":
-                case 14:
-                    message.dtype = 14;
-                    break;
-                case "DT_QINT16":
-                case 15:
-                    message.dtype = 15;
-                    break;
-                case "DT_QUINT16":
-                case 16:
-                    message.dtype = 16;
-                    break;
-                case "DT_UINT16":
-                case 17:
-                    message.dtype = 17;
-                    break;
-                case "DT_COMPLEX128":
-                case 18:
-                    message.dtype = 18;
-                    break;
-                case "DT_HALF":
-                case 19:
-                    message.dtype = 19;
-                    break;
-                case "DT_RESOURCE":
-                case 20:
-                    message.dtype = 20;
-                    break;
-                case "DT_VARIANT":
-                case 21:
-                    message.dtype = 21;
-                    break;
-                case "DT_UINT32":
-                case 22:
-                    message.dtype = 22;
-                    break;
-                case "DT_UINT64":
-                case 23:
-                    message.dtype = 23;
-                    break;
-                case "DT_MAP":
-                case 27:
-                    message.dtype = 27;
-                    break;
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a ModelField message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.contract.ModelField
-             * @static
-             * @param {hydrosphere.contract.ModelField} message ModelField
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ModelField.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.name = "";
-                    object.shape = null;
-                }
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                if (message.shape != null && message.hasOwnProperty("shape"))
-                    object.shape = $root.hydrosphere.tensorflow.TensorShapeProto.toObject(message.shape, options);
-                if (message.subfields != null && message.hasOwnProperty("subfields")) {
-                    object.subfields = $root.hydrosphere.contract.ModelField.Subfield.toObject(message.subfields, options);
-                    if (options.oneofs)
-                        object.typeOrSubfields = "subfields";
-                }
-                if (message.dtype != null && message.hasOwnProperty("dtype")) {
-                    object.dtype = options.enums === String ? $root.hydrosphere.tensorflow.DataType[message.dtype] : message.dtype;
-                    if (options.oneofs)
-                        object.typeOrSubfields = "dtype";
-                }
-                return object;
-            };
-
-            /**
-             * Converts this ModelField to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.contract.ModelField
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ModelField.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            ModelField.Subfield = (function() {
-
-                /**
-                 * Properties of a Subfield.
-                 * @memberof hydrosphere.contract.ModelField
-                 * @interface ISubfield
-                 * @property {Array.<hydrosphere.contract.IModelField>|null} [data] Subfield data
-                 */
-
-                /**
-                 * Constructs a new Subfield.
-                 * @memberof hydrosphere.contract.ModelField
-                 * @classdesc Represents a Subfield.
-                 * @implements ISubfield
-                 * @constructor
-                 * @param {hydrosphere.contract.ModelField.ISubfield=} [properties] Properties to set
-                 */
-                function Subfield(properties) {
-                    this.data = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * Subfield data.
-                 * @member {Array.<hydrosphere.contract.IModelField>} data
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @instance
-                 */
-                Subfield.prototype.data = $util.emptyArray;
-
-                /**
-                 * Creates a new Subfield instance using the specified properties.
-                 * @function create
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {hydrosphere.contract.ModelField.ISubfield=} [properties] Properties to set
-                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield instance
-                 */
-                Subfield.create = function create(properties) {
-                    return new Subfield(properties);
-                };
-
-                /**
-                 * Encodes the specified Subfield message. Does not implicitly {@link hydrosphere.contract.ModelField.Subfield.verify|verify} messages.
-                 * @function encode
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {hydrosphere.contract.ModelField.ISubfield} message Subfield message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Subfield.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.data != null && message.data.length)
-                        for (var i = 0; i < message.data.length; ++i)
-                            $root.hydrosphere.contract.ModelField.encode(message.data[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified Subfield message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelField.Subfield.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {hydrosphere.contract.ModelField.ISubfield} message Subfield message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Subfield.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a Subfield message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Subfield.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelField.Subfield();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            if (!(message.data && message.data.length))
-                                message.data = [];
-                            message.data.push($root.hydrosphere.contract.ModelField.decode(reader, reader.uint32()));
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a Subfield message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Subfield.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a Subfield message.
-                 * @function verify
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Subfield.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.data != null && message.hasOwnProperty("data")) {
-                        if (!Array.isArray(message.data))
-                            return "data: array expected";
-                        for (var i = 0; i < message.data.length; ++i) {
-                            var error = $root.hydrosphere.contract.ModelField.verify(message.data[i]);
-                            if (error)
-                                return "data." + error;
-                        }
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a Subfield message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
-                 */
-                Subfield.fromObject = function fromObject(object) {
-                    if (object instanceof $root.hydrosphere.contract.ModelField.Subfield)
-                        return object;
-                    var message = new $root.hydrosphere.contract.ModelField.Subfield();
-                    if (object.data) {
-                        if (!Array.isArray(object.data))
-                            throw TypeError(".hydrosphere.contract.ModelField.Subfield.data: array expected");
-                        message.data = [];
-                        for (var i = 0; i < object.data.length; ++i) {
-                            if (typeof object.data[i] !== "object")
-                                throw TypeError(".hydrosphere.contract.ModelField.Subfield.data: object expected");
-                            message.data[i] = $root.hydrosphere.contract.ModelField.fromObject(object.data[i]);
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a Subfield message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @static
-                 * @param {hydrosphere.contract.ModelField.Subfield} message Subfield
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Subfield.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.data = [];
-                    if (message.data && message.data.length) {
-                        object.data = [];
-                        for (var j = 0; j < message.data.length; ++j)
-                            object.data[j] = $root.hydrosphere.contract.ModelField.toObject(message.data[j], options);
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this Subfield to JSON.
-                 * @function toJSON
-                 * @memberof hydrosphere.contract.ModelField.Subfield
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Subfield.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                return Subfield;
-            })();
-
-            return ModelField;
-        })();
-
-        contract.ModelContract = (function() {
-
-            /**
-             * Properties of a ModelContract.
-             * @memberof hydrosphere.contract
-             * @interface IModelContract
-             * @property {string|null} [modelName] ModelContract modelName
-             * @property {Array.<hydrosphere.contract.IModelSignature>|null} [signatures] ModelContract signatures
-             */
-
-            /**
-             * Constructs a new ModelContract.
-             * @memberof hydrosphere.contract
-             * @classdesc Represents a ModelContract.
-             * @implements IModelContract
-             * @constructor
-             * @param {hydrosphere.contract.IModelContract=} [properties] Properties to set
-             */
-            function ModelContract(properties) {
-                this.signatures = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * ModelContract modelName.
-             * @member {string} modelName
-             * @memberof hydrosphere.contract.ModelContract
-             * @instance
-             */
-            ModelContract.prototype.modelName = "";
-
-            /**
-             * ModelContract signatures.
-             * @member {Array.<hydrosphere.contract.IModelSignature>} signatures
-             * @memberof hydrosphere.contract.ModelContract
-             * @instance
-             */
-            ModelContract.prototype.signatures = $util.emptyArray;
-
-            /**
-             * Creates a new ModelContract instance using the specified properties.
-             * @function create
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {hydrosphere.contract.IModelContract=} [properties] Properties to set
-             * @returns {hydrosphere.contract.ModelContract} ModelContract instance
-             */
-            ModelContract.create = function create(properties) {
-                return new ModelContract(properties);
-            };
-
-            /**
-             * Encodes the specified ModelContract message. Does not implicitly {@link hydrosphere.contract.ModelContract.verify|verify} messages.
-             * @function encode
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {hydrosphere.contract.IModelContract} message ModelContract message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelContract.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.modelName);
-                if (message.signatures != null && message.signatures.length)
-                    for (var i = 0; i < message.signatures.length; ++i)
-                        $root.hydrosphere.contract.ModelSignature.encode(message.signatures[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                return writer;
-            };
-
-            /**
-             * Encodes the specified ModelContract message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelContract.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {hydrosphere.contract.IModelContract} message ModelContract message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ModelContract.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-
-            /**
-             * Decodes a ModelContract message from the specified reader or buffer.
-             * @function decode
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {hydrosphere.contract.ModelContract} ModelContract
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelContract.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelContract();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.modelName = reader.string();
-                        break;
-                    case 2:
-                        if (!(message.signatures && message.signatures.length))
-                            message.signatures = [];
-                        message.signatures.push($root.hydrosphere.contract.ModelSignature.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Decodes a ModelContract message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {hydrosphere.contract.ModelContract} ModelContract
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ModelContract.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a ModelContract message.
-             * @function verify
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ModelContract.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    if (!$util.isString(message.modelName))
-                        return "modelName: string expected";
-                if (message.signatures != null && message.hasOwnProperty("signatures")) {
-                    if (!Array.isArray(message.signatures))
-                        return "signatures: array expected";
-                    for (var i = 0; i < message.signatures.length; ++i) {
-                        var error = $root.hydrosphere.contract.ModelSignature.verify(message.signatures[i]);
-                        if (error)
-                            return "signatures." + error;
-                    }
-                }
-                return null;
-            };
-
-            /**
-             * Creates a ModelContract message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {hydrosphere.contract.ModelContract} ModelContract
-             */
-            ModelContract.fromObject = function fromObject(object) {
-                if (object instanceof $root.hydrosphere.contract.ModelContract)
-                    return object;
-                var message = new $root.hydrosphere.contract.ModelContract();
-                if (object.modelName != null)
-                    message.modelName = String(object.modelName);
-                if (object.signatures) {
-                    if (!Array.isArray(object.signatures))
-                        throw TypeError(".hydrosphere.contract.ModelContract.signatures: array expected");
-                    message.signatures = [];
-                    for (var i = 0; i < object.signatures.length; ++i) {
-                        if (typeof object.signatures[i] !== "object")
-                            throw TypeError(".hydrosphere.contract.ModelContract.signatures: object expected");
-                        message.signatures[i] = $root.hydrosphere.contract.ModelSignature.fromObject(object.signatures[i]);
-                    }
-                }
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a ModelContract message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof hydrosphere.contract.ModelContract
-             * @static
-             * @param {hydrosphere.contract.ModelContract} message ModelContract
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ModelContract.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.signatures = [];
-                if (options.defaults)
-                    object.modelName = "";
-                if (message.modelName != null && message.hasOwnProperty("modelName"))
-                    object.modelName = message.modelName;
-                if (message.signatures && message.signatures.length) {
-                    object.signatures = [];
-                    for (var j = 0; j < message.signatures.length; ++j)
-                        object.signatures[j] = $root.hydrosphere.contract.ModelSignature.toObject(message.signatures[j], options);
-                }
-                return object;
-            };
-
-            /**
-             * Converts this ModelContract to JSON.
-             * @function toJSON
-             * @memberof hydrosphere.contract.ModelContract
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ModelContract.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            return ModelContract;
-        })();
 
         contract.ModelSignature = (function() {
 
@@ -8997,6 +300,966 @@ $root.hydrosphere = (function() {
             };
 
             return ModelSignature;
+        })();
+
+        contract.ModelField = (function() {
+
+            /**
+             * Properties of a ModelField.
+             * @memberof hydrosphere.contract
+             * @interface IModelField
+             * @property {string|null} [name] ModelField name
+             * @property {hydrosphere.tensorflow.ITensorShapeProto|null} [shape] ModelField shape
+             * @property {hydrosphere.contract.ModelField.ISubfield|null} [subfields] ModelField subfields
+             * @property {hydrosphere.tensorflow.DataType|null} [dtype] ModelField dtype
+             * @property {hydrosphere.contract.DataProfileType|null} [profile] ModelField profile
+             */
+
+            /**
+             * Constructs a new ModelField.
+             * @memberof hydrosphere.contract
+             * @classdesc Represents a ModelField.
+             * @implements IModelField
+             * @constructor
+             * @param {hydrosphere.contract.IModelField=} [properties] Properties to set
+             */
+            function ModelField(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ModelField name.
+             * @member {string} name
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            ModelField.prototype.name = "";
+
+            /**
+             * ModelField shape.
+             * @member {hydrosphere.tensorflow.ITensorShapeProto|null|undefined} shape
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            ModelField.prototype.shape = null;
+
+            /**
+             * ModelField subfields.
+             * @member {hydrosphere.contract.ModelField.ISubfield|null|undefined} subfields
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            ModelField.prototype.subfields = null;
+
+            /**
+             * ModelField dtype.
+             * @member {hydrosphere.tensorflow.DataType} dtype
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            ModelField.prototype.dtype = 0;
+
+            /**
+             * ModelField profile.
+             * @member {hydrosphere.contract.DataProfileType} profile
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            ModelField.prototype.profile = 0;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            /**
+             * ModelField typeOrSubfields.
+             * @member {"subfields"|"dtype"|undefined} typeOrSubfields
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             */
+            Object.defineProperty(ModelField.prototype, "typeOrSubfields", {
+                get: $util.oneOfGetter($oneOfFields = ["subfields", "dtype"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new ModelField instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {hydrosphere.contract.IModelField=} [properties] Properties to set
+             * @returns {hydrosphere.contract.ModelField} ModelField instance
+             */
+            ModelField.create = function create(properties) {
+                return new ModelField(properties);
+            };
+
+            /**
+             * Encodes the specified ModelField message. Does not implicitly {@link hydrosphere.contract.ModelField.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {hydrosphere.contract.IModelField} message ModelField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelField.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                if (message.shape != null && message.hasOwnProperty("shape"))
+                    $root.hydrosphere.tensorflow.TensorShapeProto.encode(message.shape, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.subfields != null && message.hasOwnProperty("subfields"))
+                    $root.hydrosphere.contract.ModelField.Subfield.encode(message.subfields, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                if (message.dtype != null && message.hasOwnProperty("dtype"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.dtype);
+                if (message.profile != null && message.hasOwnProperty("profile"))
+                    writer.uint32(/* id 10, wireType 0 =*/80).int32(message.profile);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ModelField message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelField.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {hydrosphere.contract.IModelField} message ModelField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelField.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ModelField message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.contract.ModelField} ModelField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelField.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelField();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    case 2:
+                        message.shape = $root.hydrosphere.tensorflow.TensorShapeProto.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.subfields = $root.hydrosphere.contract.ModelField.Subfield.decode(reader, reader.uint32());
+                        break;
+                    case 4:
+                        message.dtype = reader.int32();
+                        break;
+                    case 10:
+                        message.profile = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ModelField message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.contract.ModelField} ModelField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelField.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ModelField message.
+             * @function verify
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ModelField.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                if (message.shape != null && message.hasOwnProperty("shape")) {
+                    var error = $root.hydrosphere.tensorflow.TensorShapeProto.verify(message.shape);
+                    if (error)
+                        return "shape." + error;
+                }
+                if (message.subfields != null && message.hasOwnProperty("subfields")) {
+                    properties.typeOrSubfields = 1;
+                    {
+                        var error = $root.hydrosphere.contract.ModelField.Subfield.verify(message.subfields);
+                        if (error)
+                            return "subfields." + error;
+                    }
+                }
+                if (message.dtype != null && message.hasOwnProperty("dtype")) {
+                    if (properties.typeOrSubfields === 1)
+                        return "typeOrSubfields: multiple values";
+                    properties.typeOrSubfields = 1;
+                    switch (message.dtype) {
+                    default:
+                        return "dtype: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 27:
+                        break;
+                    }
+                }
+                if (message.profile != null && message.hasOwnProperty("profile"))
+                    switch (message.profile) {
+                    default:
+                        return "profile: enum value expected";
+                    case 0:
+                    case 1:
+                    case 11:
+                    case 12:
+                    case 2:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        break;
+                    }
+                return null;
+            };
+
+            /**
+             * Creates a ModelField message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.contract.ModelField} ModelField
+             */
+            ModelField.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.contract.ModelField)
+                    return object;
+                var message = new $root.hydrosphere.contract.ModelField();
+                if (object.name != null)
+                    message.name = String(object.name);
+                if (object.shape != null) {
+                    if (typeof object.shape !== "object")
+                        throw TypeError(".hydrosphere.contract.ModelField.shape: object expected");
+                    message.shape = $root.hydrosphere.tensorflow.TensorShapeProto.fromObject(object.shape);
+                }
+                if (object.subfields != null) {
+                    if (typeof object.subfields !== "object")
+                        throw TypeError(".hydrosphere.contract.ModelField.subfields: object expected");
+                    message.subfields = $root.hydrosphere.contract.ModelField.Subfield.fromObject(object.subfields);
+                }
+                switch (object.dtype) {
+                case "DT_INVALID":
+                case 0:
+                    message.dtype = 0;
+                    break;
+                case "DT_FLOAT":
+                case 1:
+                    message.dtype = 1;
+                    break;
+                case "DT_DOUBLE":
+                case 2:
+                    message.dtype = 2;
+                    break;
+                case "DT_INT32":
+                case 3:
+                    message.dtype = 3;
+                    break;
+                case "DT_UINT8":
+                case 4:
+                    message.dtype = 4;
+                    break;
+                case "DT_INT16":
+                case 5:
+                    message.dtype = 5;
+                    break;
+                case "DT_INT8":
+                case 6:
+                    message.dtype = 6;
+                    break;
+                case "DT_STRING":
+                case 7:
+                    message.dtype = 7;
+                    break;
+                case "DT_COMPLEX64":
+                case 8:
+                    message.dtype = 8;
+                    break;
+                case "DT_INT64":
+                case 9:
+                    message.dtype = 9;
+                    break;
+                case "DT_BOOL":
+                case 10:
+                    message.dtype = 10;
+                    break;
+                case "DT_QINT8":
+                case 11:
+                    message.dtype = 11;
+                    break;
+                case "DT_QUINT8":
+                case 12:
+                    message.dtype = 12;
+                    break;
+                case "DT_QINT32":
+                case 13:
+                    message.dtype = 13;
+                    break;
+                case "DT_BFLOAT16":
+                case 14:
+                    message.dtype = 14;
+                    break;
+                case "DT_QINT16":
+                case 15:
+                    message.dtype = 15;
+                    break;
+                case "DT_QUINT16":
+                case 16:
+                    message.dtype = 16;
+                    break;
+                case "DT_UINT16":
+                case 17:
+                    message.dtype = 17;
+                    break;
+                case "DT_COMPLEX128":
+                case 18:
+                    message.dtype = 18;
+                    break;
+                case "DT_HALF":
+                case 19:
+                    message.dtype = 19;
+                    break;
+                case "DT_RESOURCE":
+                case 20:
+                    message.dtype = 20;
+                    break;
+                case "DT_VARIANT":
+                case 21:
+                    message.dtype = 21;
+                    break;
+                case "DT_UINT32":
+                case 22:
+                    message.dtype = 22;
+                    break;
+                case "DT_UINT64":
+                case 23:
+                    message.dtype = 23;
+                    break;
+                case "DT_MAP":
+                case 27:
+                    message.dtype = 27;
+                    break;
+                }
+                switch (object.profile) {
+                case "NONE":
+                case 0:
+                    message.profile = 0;
+                    break;
+                case "CATEGORICAL":
+                case 1:
+                    message.profile = 1;
+                    break;
+                case "NOMINAL":
+                case 11:
+                    message.profile = 11;
+                    break;
+                case "ORDINAL":
+                case 12:
+                    message.profile = 12;
+                    break;
+                case "NUMERICAL":
+                case 2:
+                    message.profile = 2;
+                    break;
+                case "CONTINUOUS":
+                case 21:
+                    message.profile = 21;
+                    break;
+                case "INTERVAL":
+                case 22:
+                    message.profile = 22;
+                    break;
+                case "RATIO":
+                case 23:
+                    message.profile = 23;
+                    break;
+                case "IMAGE":
+                case 3:
+                    message.profile = 3;
+                    break;
+                case "VIDEO":
+                case 4:
+                    message.profile = 4;
+                    break;
+                case "AUDIO":
+                case 5:
+                    message.profile = 5;
+                    break;
+                case "TEXT":
+                case 6:
+                    message.profile = 6;
+                    break;
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ModelField message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.contract.ModelField
+             * @static
+             * @param {hydrosphere.contract.ModelField} message ModelField
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ModelField.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.name = "";
+                    object.shape = null;
+                    object.profile = options.enums === String ? "NONE" : 0;
+                }
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                if (message.shape != null && message.hasOwnProperty("shape"))
+                    object.shape = $root.hydrosphere.tensorflow.TensorShapeProto.toObject(message.shape, options);
+                if (message.subfields != null && message.hasOwnProperty("subfields")) {
+                    object.subfields = $root.hydrosphere.contract.ModelField.Subfield.toObject(message.subfields, options);
+                    if (options.oneofs)
+                        object.typeOrSubfields = "subfields";
+                }
+                if (message.dtype != null && message.hasOwnProperty("dtype")) {
+                    object.dtype = options.enums === String ? $root.hydrosphere.tensorflow.DataType[message.dtype] : message.dtype;
+                    if (options.oneofs)
+                        object.typeOrSubfields = "dtype";
+                }
+                if (message.profile != null && message.hasOwnProperty("profile"))
+                    object.profile = options.enums === String ? $root.hydrosphere.contract.DataProfileType[message.profile] : message.profile;
+                return object;
+            };
+
+            /**
+             * Converts this ModelField to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.contract.ModelField
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ModelField.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            ModelField.Subfield = (function() {
+
+                /**
+                 * Properties of a Subfield.
+                 * @memberof hydrosphere.contract.ModelField
+                 * @interface ISubfield
+                 * @property {Array.<hydrosphere.contract.IModelField>|null} [data] Subfield data
+                 */
+
+                /**
+                 * Constructs a new Subfield.
+                 * @memberof hydrosphere.contract.ModelField
+                 * @classdesc Represents a Subfield.
+                 * @implements ISubfield
+                 * @constructor
+                 * @param {hydrosphere.contract.ModelField.ISubfield=} [properties] Properties to set
+                 */
+                function Subfield(properties) {
+                    this.data = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Subfield data.
+                 * @member {Array.<hydrosphere.contract.IModelField>} data
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @instance
+                 */
+                Subfield.prototype.data = $util.emptyArray;
+
+                /**
+                 * Creates a new Subfield instance using the specified properties.
+                 * @function create
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {hydrosphere.contract.ModelField.ISubfield=} [properties] Properties to set
+                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield instance
+                 */
+                Subfield.create = function create(properties) {
+                    return new Subfield(properties);
+                };
+
+                /**
+                 * Encodes the specified Subfield message. Does not implicitly {@link hydrosphere.contract.ModelField.Subfield.verify|verify} messages.
+                 * @function encode
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {hydrosphere.contract.ModelField.ISubfield} message Subfield message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Subfield.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.data != null && message.data.length)
+                        for (var i = 0; i < message.data.length; ++i)
+                            $root.hydrosphere.contract.ModelField.encode(message.data[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Subfield message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelField.Subfield.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {hydrosphere.contract.ModelField.ISubfield} message Subfield message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Subfield.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a Subfield message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Subfield.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelField.Subfield();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            if (!(message.data && message.data.length))
+                                message.data = [];
+                            message.data.push($root.hydrosphere.contract.ModelField.decode(reader, reader.uint32()));
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a Subfield message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Subfield.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a Subfield message.
+                 * @function verify
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Subfield.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.data != null && message.hasOwnProperty("data")) {
+                        if (!Array.isArray(message.data))
+                            return "data: array expected";
+                        for (var i = 0; i < message.data.length; ++i) {
+                            var error = $root.hydrosphere.contract.ModelField.verify(message.data[i]);
+                            if (error)
+                                return "data." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a Subfield message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {hydrosphere.contract.ModelField.Subfield} Subfield
+                 */
+                Subfield.fromObject = function fromObject(object) {
+                    if (object instanceof $root.hydrosphere.contract.ModelField.Subfield)
+                        return object;
+                    var message = new $root.hydrosphere.contract.ModelField.Subfield();
+                    if (object.data) {
+                        if (!Array.isArray(object.data))
+                            throw TypeError(".hydrosphere.contract.ModelField.Subfield.data: array expected");
+                        message.data = [];
+                        for (var i = 0; i < object.data.length; ++i) {
+                            if (typeof object.data[i] !== "object")
+                                throw TypeError(".hydrosphere.contract.ModelField.Subfield.data: object expected");
+                            message.data[i] = $root.hydrosphere.contract.ModelField.fromObject(object.data[i]);
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a Subfield message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @static
+                 * @param {hydrosphere.contract.ModelField.Subfield} message Subfield
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Subfield.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.data = [];
+                    if (message.data && message.data.length) {
+                        object.data = [];
+                        for (var j = 0; j < message.data.length; ++j)
+                            object.data[j] = $root.hydrosphere.contract.ModelField.toObject(message.data[j], options);
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this Subfield to JSON.
+                 * @function toJSON
+                 * @memberof hydrosphere.contract.ModelField.Subfield
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Subfield.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return Subfield;
+            })();
+
+            return ModelField;
+        })();
+
+        /**
+         * DataProfileType enum.
+         * @name hydrosphere.contract.DataProfileType
+         * @enum {string}
+         * @property {number} NONE=0 NONE value
+         * @property {number} CATEGORICAL=1 CATEGORICAL value
+         * @property {number} NOMINAL=11 NOMINAL value
+         * @property {number} ORDINAL=12 ORDINAL value
+         * @property {number} NUMERICAL=2 NUMERICAL value
+         * @property {number} CONTINUOUS=21 CONTINUOUS value
+         * @property {number} INTERVAL=22 INTERVAL value
+         * @property {number} RATIO=23 RATIO value
+         * @property {number} IMAGE=3 IMAGE value
+         * @property {number} VIDEO=4 VIDEO value
+         * @property {number} AUDIO=5 AUDIO value
+         * @property {number} TEXT=6 TEXT value
+         */
+        contract.DataProfileType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "NONE"] = 0;
+            values[valuesById[1] = "CATEGORICAL"] = 1;
+            values[valuesById[11] = "NOMINAL"] = 11;
+            values[valuesById[12] = "ORDINAL"] = 12;
+            values[valuesById[2] = "NUMERICAL"] = 2;
+            values[valuesById[21] = "CONTINUOUS"] = 21;
+            values[valuesById[22] = "INTERVAL"] = 22;
+            values[valuesById[23] = "RATIO"] = 23;
+            values[valuesById[3] = "IMAGE"] = 3;
+            values[valuesById[4] = "VIDEO"] = 4;
+            values[valuesById[5] = "AUDIO"] = 5;
+            values[valuesById[6] = "TEXT"] = 6;
+            return values;
+        })();
+
+        contract.ModelContract = (function() {
+
+            /**
+             * Properties of a ModelContract.
+             * @memberof hydrosphere.contract
+             * @interface IModelContract
+             * @property {string|null} [modelName] ModelContract modelName
+             * @property {hydrosphere.contract.IModelSignature|null} [predict] ModelContract predict
+             */
+
+            /**
+             * Constructs a new ModelContract.
+             * @memberof hydrosphere.contract
+             * @classdesc Represents a ModelContract.
+             * @implements IModelContract
+             * @constructor
+             * @param {hydrosphere.contract.IModelContract=} [properties] Properties to set
+             */
+            function ModelContract(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ModelContract modelName.
+             * @member {string} modelName
+             * @memberof hydrosphere.contract.ModelContract
+             * @instance
+             */
+            ModelContract.prototype.modelName = "";
+
+            /**
+             * ModelContract predict.
+             * @member {hydrosphere.contract.IModelSignature|null|undefined} predict
+             * @memberof hydrosphere.contract.ModelContract
+             * @instance
+             */
+            ModelContract.prototype.predict = null;
+
+            /**
+             * Creates a new ModelContract instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {hydrosphere.contract.IModelContract=} [properties] Properties to set
+             * @returns {hydrosphere.contract.ModelContract} ModelContract instance
+             */
+            ModelContract.create = function create(properties) {
+                return new ModelContract(properties);
+            };
+
+            /**
+             * Encodes the specified ModelContract message. Does not implicitly {@link hydrosphere.contract.ModelContract.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {hydrosphere.contract.IModelContract} message ModelContract message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelContract.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.modelName);
+                if (message.predict != null && message.hasOwnProperty("predict"))
+                    $root.hydrosphere.contract.ModelSignature.encode(message.predict, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ModelContract message, length delimited. Does not implicitly {@link hydrosphere.contract.ModelContract.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {hydrosphere.contract.IModelContract} message ModelContract message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelContract.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ModelContract message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.contract.ModelContract} ModelContract
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelContract.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.contract.ModelContract();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.modelName = reader.string();
+                        break;
+                    case 2:
+                        message.predict = $root.hydrosphere.contract.ModelSignature.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ModelContract message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.contract.ModelContract} ModelContract
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelContract.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ModelContract message.
+             * @function verify
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ModelContract.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    if (!$util.isString(message.modelName))
+                        return "modelName: string expected";
+                if (message.predict != null && message.hasOwnProperty("predict")) {
+                    var error = $root.hydrosphere.contract.ModelSignature.verify(message.predict);
+                    if (error)
+                        return "predict." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ModelContract message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.contract.ModelContract} ModelContract
+             */
+            ModelContract.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.contract.ModelContract)
+                    return object;
+                var message = new $root.hydrosphere.contract.ModelContract();
+                if (object.modelName != null)
+                    message.modelName = String(object.modelName);
+                if (object.predict != null) {
+                    if (typeof object.predict !== "object")
+                        throw TypeError(".hydrosphere.contract.ModelContract.predict: object expected");
+                    message.predict = $root.hydrosphere.contract.ModelSignature.fromObject(object.predict);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ModelContract message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.contract.ModelContract
+             * @static
+             * @param {hydrosphere.contract.ModelContract} message ModelContract
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ModelContract.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.modelName = "";
+                    object.predict = null;
+                }
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    object.modelName = message.modelName;
+                if (message.predict != null && message.hasOwnProperty("predict"))
+                    object.predict = $root.hydrosphere.contract.ModelSignature.toObject(message.predict, options);
+                return object;
+            };
+
+            /**
+             * Converts this ModelContract to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.contract.ModelContract
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ModelContract.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ModelContract;
         })();
 
         return contract;
@@ -13969,6 +6232,8858 @@ $root.hydrosphere = (function() {
         return onnx;
     })();
 
+    hydrosphere.discovery = (function() {
+
+        /**
+         * Namespace discovery.
+         * @memberof hydrosphere
+         * @namespace
+         */
+        var discovery = {};
+
+        discovery.WatchResp = (function() {
+
+            /**
+             * Properties of a WatchResp.
+             * @memberof hydrosphere.discovery
+             * @interface IWatchResp
+             * @property {Array.<string>|null} [removedIds] WatchResp removedIds
+             * @property {Array.<hydrosphere.manager.IServingApp>|null} [added] WatchResp added
+             */
+
+            /**
+             * Constructs a new WatchResp.
+             * @memberof hydrosphere.discovery
+             * @classdesc Represents a WatchResp.
+             * @implements IWatchResp
+             * @constructor
+             * @param {hydrosphere.discovery.IWatchResp=} [properties] Properties to set
+             */
+            function WatchResp(properties) {
+                this.removedIds = [];
+                this.added = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * WatchResp removedIds.
+             * @member {Array.<string>} removedIds
+             * @memberof hydrosphere.discovery.WatchResp
+             * @instance
+             */
+            WatchResp.prototype.removedIds = $util.emptyArray;
+
+            /**
+             * WatchResp added.
+             * @member {Array.<hydrosphere.manager.IServingApp>} added
+             * @memberof hydrosphere.discovery.WatchResp
+             * @instance
+             */
+            WatchResp.prototype.added = $util.emptyArray;
+
+            /**
+             * Creates a new WatchResp instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {hydrosphere.discovery.IWatchResp=} [properties] Properties to set
+             * @returns {hydrosphere.discovery.WatchResp} WatchResp instance
+             */
+            WatchResp.create = function create(properties) {
+                return new WatchResp(properties);
+            };
+
+            /**
+             * Encodes the specified WatchResp message. Does not implicitly {@link hydrosphere.discovery.WatchResp.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {hydrosphere.discovery.IWatchResp} message WatchResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            WatchResp.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.removedIds != null && message.removedIds.length)
+                    for (var i = 0; i < message.removedIds.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.removedIds[i]);
+                if (message.added != null && message.added.length)
+                    for (var i = 0; i < message.added.length; ++i)
+                        $root.hydrosphere.manager.ServingApp.encode(message.added[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified WatchResp message, length delimited. Does not implicitly {@link hydrosphere.discovery.WatchResp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {hydrosphere.discovery.IWatchResp} message WatchResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            WatchResp.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a WatchResp message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.discovery.WatchResp} WatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            WatchResp.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.discovery.WatchResp();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        if (!(message.removedIds && message.removedIds.length))
+                            message.removedIds = [];
+                        message.removedIds.push(reader.string());
+                        break;
+                    case 2:
+                        if (!(message.added && message.added.length))
+                            message.added = [];
+                        message.added.push($root.hydrosphere.manager.ServingApp.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a WatchResp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.discovery.WatchResp} WatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            WatchResp.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a WatchResp message.
+             * @function verify
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            WatchResp.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.removedIds != null && message.hasOwnProperty("removedIds")) {
+                    if (!Array.isArray(message.removedIds))
+                        return "removedIds: array expected";
+                    for (var i = 0; i < message.removedIds.length; ++i)
+                        if (!$util.isString(message.removedIds[i]))
+                            return "removedIds: string[] expected";
+                }
+                if (message.added != null && message.hasOwnProperty("added")) {
+                    if (!Array.isArray(message.added))
+                        return "added: array expected";
+                    for (var i = 0; i < message.added.length; ++i) {
+                        var error = $root.hydrosphere.manager.ServingApp.verify(message.added[i]);
+                        if (error)
+                            return "added." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a WatchResp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.discovery.WatchResp} WatchResp
+             */
+            WatchResp.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.discovery.WatchResp)
+                    return object;
+                var message = new $root.hydrosphere.discovery.WatchResp();
+                if (object.removedIds) {
+                    if (!Array.isArray(object.removedIds))
+                        throw TypeError(".hydrosphere.discovery.WatchResp.removedIds: array expected");
+                    message.removedIds = [];
+                    for (var i = 0; i < object.removedIds.length; ++i)
+                        message.removedIds[i] = String(object.removedIds[i]);
+                }
+                if (object.added) {
+                    if (!Array.isArray(object.added))
+                        throw TypeError(".hydrosphere.discovery.WatchResp.added: array expected");
+                    message.added = [];
+                    for (var i = 0; i < object.added.length; ++i) {
+                        if (typeof object.added[i] !== "object")
+                            throw TypeError(".hydrosphere.discovery.WatchResp.added: object expected");
+                        message.added[i] = $root.hydrosphere.manager.ServingApp.fromObject(object.added[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a WatchResp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.discovery.WatchResp
+             * @static
+             * @param {hydrosphere.discovery.WatchResp} message WatchResp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            WatchResp.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object.removedIds = [];
+                    object.added = [];
+                }
+                if (message.removedIds && message.removedIds.length) {
+                    object.removedIds = [];
+                    for (var j = 0; j < message.removedIds.length; ++j)
+                        object.removedIds[j] = message.removedIds[j];
+                }
+                if (message.added && message.added.length) {
+                    object.added = [];
+                    for (var j = 0; j < message.added.length; ++j)
+                        object.added[j] = $root.hydrosphere.manager.ServingApp.toObject(message.added[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this WatchResp to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.discovery.WatchResp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            WatchResp.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return WatchResp;
+        })();
+
+        discovery.ServingDiscovery = (function() {
+
+            /**
+             * Constructs a new ServingDiscovery service.
+             * @memberof hydrosphere.discovery
+             * @classdesc Represents a ServingDiscovery
+             * @extends $protobuf.rpc.Service
+             * @constructor
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             */
+            function ServingDiscovery(rpcImpl, requestDelimited, responseDelimited) {
+                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+            }
+
+            (ServingDiscovery.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = ServingDiscovery;
+
+            /**
+             * Creates new ServingDiscovery service using the specified rpc implementation.
+             * @function create
+             * @memberof hydrosphere.discovery.ServingDiscovery
+             * @static
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             * @returns {ServingDiscovery} RPC service. Useful where requests and/or responses are streamed.
+             */
+            ServingDiscovery.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                return new this(rpcImpl, requestDelimited, responseDelimited);
+            };
+
+            /**
+             * Callback as used by {@link hydrosphere.discovery.ServingDiscovery#watch}.
+             * @memberof hydrosphere.discovery.ServingDiscovery
+             * @typedef watchCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {hydrosphere.discovery.WatchResp} [response] WatchResp
+             */
+
+            /**
+             * Calls watch.
+             * @function watch
+             * @memberof hydrosphere.discovery.ServingDiscovery
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @param {hydrosphere.discovery.ServingDiscovery.watchCallback} callback Node-style callback called with the error, if any, and WatchResp
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ServingDiscovery.prototype.watch = function watch(request, callback) {
+                return this.rpcCall(watch, $root.google.protobuf.Empty, $root.hydrosphere.discovery.WatchResp, request, callback);
+            }, "name", { value: "watch" });
+
+            /**
+             * Calls watch.
+             * @function watch
+             * @memberof hydrosphere.discovery.ServingDiscovery
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @returns {Promise<hydrosphere.discovery.WatchResp>} Promise
+             * @variation 2
+             */
+
+            return ServingDiscovery;
+        })();
+
+        return discovery;
+    })();
+
+    hydrosphere.manager = (function() {
+
+        /**
+         * Namespace manager.
+         * @memberof hydrosphere
+         * @namespace
+         */
+        var manager = {};
+
+        manager.GetVersionRequest = (function() {
+
+            /**
+             * Properties of a GetVersionRequest.
+             * @memberof hydrosphere.manager
+             * @interface IGetVersionRequest
+             * @property {number|Long|null} [id] GetVersionRequest id
+             */
+
+            /**
+             * Constructs a new GetVersionRequest.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a GetVersionRequest.
+             * @implements IGetVersionRequest
+             * @constructor
+             * @param {hydrosphere.manager.IGetVersionRequest=} [properties] Properties to set
+             */
+            function GetVersionRequest(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * GetVersionRequest id.
+             * @member {number|Long} id
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @instance
+             */
+            GetVersionRequest.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Creates a new GetVersionRequest instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {hydrosphere.manager.IGetVersionRequest=} [properties] Properties to set
+             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest instance
+             */
+            GetVersionRequest.create = function create(properties) {
+                return new GetVersionRequest(properties);
+            };
+
+            /**
+             * Encodes the specified GetVersionRequest message. Does not implicitly {@link hydrosphere.manager.GetVersionRequest.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {hydrosphere.manager.IGetVersionRequest} message GetVersionRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetVersionRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified GetVersionRequest message, length delimited. Does not implicitly {@link hydrosphere.manager.GetVersionRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {hydrosphere.manager.IGetVersionRequest} message GetVersionRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetVersionRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a GetVersionRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetVersionRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.GetVersionRequest();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.int64();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a GetVersionRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetVersionRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a GetVersionRequest message.
+             * @function verify
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            GetVersionRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
+                        return "id: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a GetVersionRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.GetVersionRequest} GetVersionRequest
+             */
+            GetVersionRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.GetVersionRequest)
+                    return object;
+                var message = new $root.hydrosphere.manager.GetVersionRequest();
+                if (object.id != null)
+                    if ($util.Long)
+                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
+                    else if (typeof object.id === "string")
+                        message.id = parseInt(object.id, 10);
+                    else if (typeof object.id === "number")
+                        message.id = object.id;
+                    else if (typeof object.id === "object")
+                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a GetVersionRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @static
+             * @param {hydrosphere.manager.GetVersionRequest} message GetVersionRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            GetVersionRequest.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.id = options.longs === String ? "0" : 0;
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (typeof message.id === "number")
+                        object.id = options.longs === String ? String(message.id) : message.id;
+                    else
+                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
+                return object;
+            };
+
+            /**
+             * Converts this GetVersionRequest to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.GetVersionRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            GetVersionRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return GetVersionRequest;
+        })();
+
+        manager.ManagerService = (function() {
+
+            /**
+             * Constructs a new ManagerService service.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a ManagerService
+             * @extends $protobuf.rpc.Service
+             * @constructor
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             */
+            function ManagerService(rpcImpl, requestDelimited, responseDelimited) {
+                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+            }
+
+            (ManagerService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = ManagerService;
+
+            /**
+             * Creates new ManagerService service using the specified rpc implementation.
+             * @function create
+             * @memberof hydrosphere.manager.ManagerService
+             * @static
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             * @returns {ManagerService} RPC service. Useful where requests and/or responses are streamed.
+             */
+            ManagerService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                return new this(rpcImpl, requestDelimited, responseDelimited);
+            };
+
+            /**
+             * Callback as used by {@link hydrosphere.manager.ManagerService#getAllVersions}.
+             * @memberof hydrosphere.manager.ManagerService
+             * @typedef GetAllVersionsCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {hydrosphere.manager.ModelVersion} [response] ModelVersion
+             */
+
+            /**
+             * Calls GetAllVersions.
+             * @function getAllVersions
+             * @memberof hydrosphere.manager.ManagerService
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @param {hydrosphere.manager.ManagerService.GetAllVersionsCallback} callback Node-style callback called with the error, if any, and ModelVersion
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ManagerService.prototype.getAllVersions = function getAllVersions(request, callback) {
+                return this.rpcCall(getAllVersions, $root.google.protobuf.Empty, $root.hydrosphere.manager.ModelVersion, request, callback);
+            }, "name", { value: "GetAllVersions" });
+
+            /**
+             * Calls GetAllVersions.
+             * @function getAllVersions
+             * @memberof hydrosphere.manager.ManagerService
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @returns {Promise<hydrosphere.manager.ModelVersion>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link hydrosphere.manager.ManagerService#getVersion}.
+             * @memberof hydrosphere.manager.ManagerService
+             * @typedef GetVersionCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {hydrosphere.manager.ModelVersion} [response] ModelVersion
+             */
+
+            /**
+             * Calls GetVersion.
+             * @function getVersion
+             * @memberof hydrosphere.manager.ManagerService
+             * @instance
+             * @param {hydrosphere.manager.IGetVersionRequest} request GetVersionRequest message or plain object
+             * @param {hydrosphere.manager.ManagerService.GetVersionCallback} callback Node-style callback called with the error, if any, and ModelVersion
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ManagerService.prototype.getVersion = function getVersion(request, callback) {
+                return this.rpcCall(getVersion, $root.hydrosphere.manager.GetVersionRequest, $root.hydrosphere.manager.ModelVersion, request, callback);
+            }, "name", { value: "GetVersion" });
+
+            /**
+             * Calls GetVersion.
+             * @function getVersion
+             * @memberof hydrosphere.manager.ManagerService
+             * @instance
+             * @param {hydrosphere.manager.IGetVersionRequest} request GetVersionRequest message or plain object
+             * @returns {Promise<hydrosphere.manager.ModelVersion>} Promise
+             * @variation 2
+             */
+
+            return ManagerService;
+        })();
+
+        manager.ExecutionService = (function() {
+
+            /**
+             * Properties of an ExecutionService.
+             * @memberof hydrosphere.manager
+             * @interface IExecutionService
+             * @property {hydrosphere.manager.IModelVersion|null} [modelVersion] ExecutionService modelVersion
+             * @property {number|null} [weight] ExecutionService weight
+             */
+
+            /**
+             * Constructs a new ExecutionService.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents an ExecutionService.
+             * @implements IExecutionService
+             * @constructor
+             * @param {hydrosphere.manager.IExecutionService=} [properties] Properties to set
+             */
+            function ExecutionService(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionService modelVersion.
+             * @member {hydrosphere.manager.IModelVersion|null|undefined} modelVersion
+             * @memberof hydrosphere.manager.ExecutionService
+             * @instance
+             */
+            ExecutionService.prototype.modelVersion = null;
+
+            /**
+             * ExecutionService weight.
+             * @member {number} weight
+             * @memberof hydrosphere.manager.ExecutionService
+             * @instance
+             */
+            ExecutionService.prototype.weight = 0;
+
+            /**
+             * Creates a new ExecutionService instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {hydrosphere.manager.IExecutionService=} [properties] Properties to set
+             * @returns {hydrosphere.manager.ExecutionService} ExecutionService instance
+             */
+            ExecutionService.create = function create(properties) {
+                return new ExecutionService(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionService message. Does not implicitly {@link hydrosphere.manager.ExecutionService.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {hydrosphere.manager.IExecutionService} message ExecutionService message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionService.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
+                    $root.hydrosphere.manager.ModelVersion.encode(message.modelVersion, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.weight);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionService message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionService.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {hydrosphere.manager.IExecutionService} message ExecutionService message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionService.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionService message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionService.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionService();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.modelVersion = $root.hydrosphere.manager.ModelVersion.decode(reader, reader.uint32());
+                        break;
+                    case 2:
+                        message.weight = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionService message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionService.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionService message.
+             * @function verify
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionService.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion")) {
+                    var error = $root.hydrosphere.manager.ModelVersion.verify(message.modelVersion);
+                    if (error)
+                        return "modelVersion." + error;
+                }
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    if (!$util.isInteger(message.weight))
+                        return "weight: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionService message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.ExecutionService} ExecutionService
+             */
+            ExecutionService.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.ExecutionService)
+                    return object;
+                var message = new $root.hydrosphere.manager.ExecutionService();
+                if (object.modelVersion != null) {
+                    if (typeof object.modelVersion !== "object")
+                        throw TypeError(".hydrosphere.manager.ExecutionService.modelVersion: object expected");
+                    message.modelVersion = $root.hydrosphere.manager.ModelVersion.fromObject(object.modelVersion);
+                }
+                if (object.weight != null)
+                    message.weight = object.weight | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionService message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.ExecutionService
+             * @static
+             * @param {hydrosphere.manager.ExecutionService} message ExecutionService
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionService.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.modelVersion = null;
+                    object.weight = 0;
+                }
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
+                    object.modelVersion = $root.hydrosphere.manager.ModelVersion.toObject(message.modelVersion, options);
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    object.weight = message.weight;
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionService to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.ExecutionService
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionService.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionService;
+        })();
+
+        manager.ExecutionStage = (function() {
+
+            /**
+             * Properties of an ExecutionStage.
+             * @memberof hydrosphere.manager
+             * @interface IExecutionStage
+             * @property {string|null} [stageId] ExecutionStage stageId
+             * @property {hydrosphere.contract.IModelSignature|null} [signature] ExecutionStage signature
+             * @property {Array.<hydrosphere.manager.IExecutionService>|null} [services] ExecutionStage services
+             */
+
+            /**
+             * Constructs a new ExecutionStage.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents an ExecutionStage.
+             * @implements IExecutionStage
+             * @constructor
+             * @param {hydrosphere.manager.IExecutionStage=} [properties] Properties to set
+             */
+            function ExecutionStage(properties) {
+                this.services = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionStage stageId.
+             * @member {string} stageId
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @instance
+             */
+            ExecutionStage.prototype.stageId = "";
+
+            /**
+             * ExecutionStage signature.
+             * @member {hydrosphere.contract.IModelSignature|null|undefined} signature
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @instance
+             */
+            ExecutionStage.prototype.signature = null;
+
+            /**
+             * ExecutionStage services.
+             * @member {Array.<hydrosphere.manager.IExecutionService>} services
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @instance
+             */
+            ExecutionStage.prototype.services = $util.emptyArray;
+
+            /**
+             * Creates a new ExecutionStage instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {hydrosphere.manager.IExecutionStage=} [properties] Properties to set
+             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage instance
+             */
+            ExecutionStage.create = function create(properties) {
+                return new ExecutionStage(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionStage message. Does not implicitly {@link hydrosphere.manager.ExecutionStage.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {hydrosphere.manager.IExecutionStage} message ExecutionStage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionStage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.stageId);
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    $root.hydrosphere.contract.ModelSignature.encode(message.signature, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.services != null && message.services.length)
+                    for (var i = 0; i < message.services.length; ++i)
+                        $root.hydrosphere.manager.ExecutionService.encode(message.services[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionStage message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionStage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {hydrosphere.manager.IExecutionStage} message ExecutionStage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionStage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionStage message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionStage.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionStage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.stageId = reader.string();
+                        break;
+                    case 2:
+                        message.signature = $root.hydrosphere.contract.ModelSignature.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        if (!(message.services && message.services.length))
+                            message.services = [];
+                        message.services.push($root.hydrosphere.manager.ExecutionService.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionStage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionStage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionStage message.
+             * @function verify
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionStage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    if (!$util.isString(message.stageId))
+                        return "stageId: string expected";
+                if (message.signature != null && message.hasOwnProperty("signature")) {
+                    var error = $root.hydrosphere.contract.ModelSignature.verify(message.signature);
+                    if (error)
+                        return "signature." + error;
+                }
+                if (message.services != null && message.hasOwnProperty("services")) {
+                    if (!Array.isArray(message.services))
+                        return "services: array expected";
+                    for (var i = 0; i < message.services.length; ++i) {
+                        var error = $root.hydrosphere.manager.ExecutionService.verify(message.services[i]);
+                        if (error)
+                            return "services." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionStage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.ExecutionStage} ExecutionStage
+             */
+            ExecutionStage.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.ExecutionStage)
+                    return object;
+                var message = new $root.hydrosphere.manager.ExecutionStage();
+                if (object.stageId != null)
+                    message.stageId = String(object.stageId);
+                if (object.signature != null) {
+                    if (typeof object.signature !== "object")
+                        throw TypeError(".hydrosphere.manager.ExecutionStage.signature: object expected");
+                    message.signature = $root.hydrosphere.contract.ModelSignature.fromObject(object.signature);
+                }
+                if (object.services) {
+                    if (!Array.isArray(object.services))
+                        throw TypeError(".hydrosphere.manager.ExecutionStage.services: array expected");
+                    message.services = [];
+                    for (var i = 0; i < object.services.length; ++i) {
+                        if (typeof object.services[i] !== "object")
+                            throw TypeError(".hydrosphere.manager.ExecutionStage.services: object expected");
+                        message.services[i] = $root.hydrosphere.manager.ExecutionService.fromObject(object.services[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionStage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @static
+             * @param {hydrosphere.manager.ExecutionStage} message ExecutionStage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionStage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.services = [];
+                if (options.defaults) {
+                    object.stageId = "";
+                    object.signature = null;
+                }
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    object.stageId = message.stageId;
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    object.signature = $root.hydrosphere.contract.ModelSignature.toObject(message.signature, options);
+                if (message.services && message.services.length) {
+                    object.services = [];
+                    for (var j = 0; j < message.services.length; ++j)
+                        object.services[j] = $root.hydrosphere.manager.ExecutionService.toObject(message.services[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionStage to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.ExecutionStage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionStage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionStage;
+        })();
+
+        manager.ExecutionGraph = (function() {
+
+            /**
+             * Properties of an ExecutionGraph.
+             * @memberof hydrosphere.manager
+             * @interface IExecutionGraph
+             * @property {Array.<hydrosphere.manager.IExecutionStage>|null} [stages] ExecutionGraph stages
+             */
+
+            /**
+             * Constructs a new ExecutionGraph.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents an ExecutionGraph.
+             * @implements IExecutionGraph
+             * @constructor
+             * @param {hydrosphere.manager.IExecutionGraph=} [properties] Properties to set
+             */
+            function ExecutionGraph(properties) {
+                this.stages = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionGraph stages.
+             * @member {Array.<hydrosphere.manager.IExecutionStage>} stages
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @instance
+             */
+            ExecutionGraph.prototype.stages = $util.emptyArray;
+
+            /**
+             * Creates a new ExecutionGraph instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {hydrosphere.manager.IExecutionGraph=} [properties] Properties to set
+             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph instance
+             */
+            ExecutionGraph.create = function create(properties) {
+                return new ExecutionGraph(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionGraph message. Does not implicitly {@link hydrosphere.manager.ExecutionGraph.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {hydrosphere.manager.IExecutionGraph} message ExecutionGraph message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionGraph.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.stages != null && message.stages.length)
+                    for (var i = 0; i < message.stages.length; ++i)
+                        $root.hydrosphere.manager.ExecutionStage.encode(message.stages[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionGraph message, length delimited. Does not implicitly {@link hydrosphere.manager.ExecutionGraph.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {hydrosphere.manager.IExecutionGraph} message ExecutionGraph message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionGraph.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionGraph message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionGraph.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ExecutionGraph();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        if (!(message.stages && message.stages.length))
+                            message.stages = [];
+                        message.stages.push($root.hydrosphere.manager.ExecutionStage.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionGraph message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionGraph.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionGraph message.
+             * @function verify
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionGraph.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.stages != null && message.hasOwnProperty("stages")) {
+                    if (!Array.isArray(message.stages))
+                        return "stages: array expected";
+                    for (var i = 0; i < message.stages.length; ++i) {
+                        var error = $root.hydrosphere.manager.ExecutionStage.verify(message.stages[i]);
+                        if (error)
+                            return "stages." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionGraph message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.ExecutionGraph} ExecutionGraph
+             */
+            ExecutionGraph.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.ExecutionGraph)
+                    return object;
+                var message = new $root.hydrosphere.manager.ExecutionGraph();
+                if (object.stages) {
+                    if (!Array.isArray(object.stages))
+                        throw TypeError(".hydrosphere.manager.ExecutionGraph.stages: array expected");
+                    message.stages = [];
+                    for (var i = 0; i < object.stages.length; ++i) {
+                        if (typeof object.stages[i] !== "object")
+                            throw TypeError(".hydrosphere.manager.ExecutionGraph.stages: object expected");
+                        message.stages[i] = $root.hydrosphere.manager.ExecutionStage.fromObject(object.stages[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionGraph message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @static
+             * @param {hydrosphere.manager.ExecutionGraph} message ExecutionGraph
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionGraph.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.stages = [];
+                if (message.stages && message.stages.length) {
+                    object.stages = [];
+                    for (var j = 0; j < message.stages.length; ++j)
+                        object.stages[j] = $root.hydrosphere.manager.ExecutionStage.toObject(message.stages[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionGraph to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.ExecutionGraph
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionGraph.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionGraph;
+        })();
+
+        manager.KafkaStreaming = (function() {
+
+            /**
+             * Properties of a KafkaStreaming.
+             * @memberof hydrosphere.manager
+             * @interface IKafkaStreaming
+             * @property {string|null} [consumerId] KafkaStreaming consumerId
+             * @property {string|null} [sourceTopic] KafkaStreaming sourceTopic
+             * @property {string|null} [destinationTopic] KafkaStreaming destinationTopic
+             * @property {string|null} [errorTopic] KafkaStreaming errorTopic
+             */
+
+            /**
+             * Constructs a new KafkaStreaming.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a KafkaStreaming.
+             * @implements IKafkaStreaming
+             * @constructor
+             * @param {hydrosphere.manager.IKafkaStreaming=} [properties] Properties to set
+             */
+            function KafkaStreaming(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * KafkaStreaming consumerId.
+             * @member {string} consumerId
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @instance
+             */
+            KafkaStreaming.prototype.consumerId = "";
+
+            /**
+             * KafkaStreaming sourceTopic.
+             * @member {string} sourceTopic
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @instance
+             */
+            KafkaStreaming.prototype.sourceTopic = "";
+
+            /**
+             * KafkaStreaming destinationTopic.
+             * @member {string} destinationTopic
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @instance
+             */
+            KafkaStreaming.prototype.destinationTopic = "";
+
+            /**
+             * KafkaStreaming errorTopic.
+             * @member {string} errorTopic
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @instance
+             */
+            KafkaStreaming.prototype.errorTopic = "";
+
+            /**
+             * Creates a new KafkaStreaming instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {hydrosphere.manager.IKafkaStreaming=} [properties] Properties to set
+             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming instance
+             */
+            KafkaStreaming.create = function create(properties) {
+                return new KafkaStreaming(properties);
+            };
+
+            /**
+             * Encodes the specified KafkaStreaming message. Does not implicitly {@link hydrosphere.manager.KafkaStreaming.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {hydrosphere.manager.IKafkaStreaming} message KafkaStreaming message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaStreaming.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.consumerId);
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.sourceTopic);
+                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.destinationTopic);
+                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.errorTopic);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified KafkaStreaming message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaStreaming.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {hydrosphere.manager.IKafkaStreaming} message KafkaStreaming message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaStreaming.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a KafkaStreaming message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaStreaming.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaStreaming();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.consumerId = reader.string();
+                        break;
+                    case 2:
+                        message.sourceTopic = reader.string();
+                        break;
+                    case 3:
+                        message.destinationTopic = reader.string();
+                        break;
+                    case 4:
+                        message.errorTopic = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a KafkaStreaming message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaStreaming.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a KafkaStreaming message.
+             * @function verify
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            KafkaStreaming.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    if (!$util.isString(message.consumerId))
+                        return "consumerId: string expected";
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    if (!$util.isString(message.sourceTopic))
+                        return "sourceTopic: string expected";
+                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
+                    if (!$util.isString(message.destinationTopic))
+                        return "destinationTopic: string expected";
+                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
+                    if (!$util.isString(message.errorTopic))
+                        return "errorTopic: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a KafkaStreaming message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.KafkaStreaming} KafkaStreaming
+             */
+            KafkaStreaming.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.KafkaStreaming)
+                    return object;
+                var message = new $root.hydrosphere.manager.KafkaStreaming();
+                if (object.consumerId != null)
+                    message.consumerId = String(object.consumerId);
+                if (object.sourceTopic != null)
+                    message.sourceTopic = String(object.sourceTopic);
+                if (object.destinationTopic != null)
+                    message.destinationTopic = String(object.destinationTopic);
+                if (object.errorTopic != null)
+                    message.errorTopic = String(object.errorTopic);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a KafkaStreaming message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @static
+             * @param {hydrosphere.manager.KafkaStreaming} message KafkaStreaming
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            KafkaStreaming.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.consumerId = "";
+                    object.sourceTopic = "";
+                    object.destinationTopic = "";
+                    object.errorTopic = "";
+                }
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    object.consumerId = message.consumerId;
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    object.sourceTopic = message.sourceTopic;
+                if (message.destinationTopic != null && message.hasOwnProperty("destinationTopic"))
+                    object.destinationTopic = message.destinationTopic;
+                if (message.errorTopic != null && message.hasOwnProperty("errorTopic"))
+                    object.errorTopic = message.errorTopic;
+                return object;
+            };
+
+            /**
+             * Converts this KafkaStreaming to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.KafkaStreaming
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            KafkaStreaming.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return KafkaStreaming;
+        })();
+
+        manager.Application = (function() {
+
+            /**
+             * Properties of an Application.
+             * @memberof hydrosphere.manager
+             * @interface IApplication
+             * @property {number|Long|null} [id] Application id
+             * @property {string|null} [name] Application name
+             * @property {hydrosphere.contract.IModelContract|null} [contract] Application contract
+             * @property {hydrosphere.manager.IExecutionGraph|null} [executionGraph] Application executionGraph
+             * @property {Array.<hydrosphere.manager.IKafkaStreaming>|null} [kafkaStreaming] Application kafkaStreaming
+             * @property {string|null} [namespace] Application namespace
+             */
+
+            /**
+             * Constructs a new Application.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents an Application.
+             * @implements IApplication
+             * @constructor
+             * @param {hydrosphere.manager.IApplication=} [properties] Properties to set
+             */
+            function Application(properties) {
+                this.kafkaStreaming = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Application id.
+             * @member {number|Long} id
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Application name.
+             * @member {string} name
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.name = "";
+
+            /**
+             * Application contract.
+             * @member {hydrosphere.contract.IModelContract|null|undefined} contract
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.contract = null;
+
+            /**
+             * Application executionGraph.
+             * @member {hydrosphere.manager.IExecutionGraph|null|undefined} executionGraph
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.executionGraph = null;
+
+            /**
+             * Application kafkaStreaming.
+             * @member {Array.<hydrosphere.manager.IKafkaStreaming>} kafkaStreaming
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.kafkaStreaming = $util.emptyArray;
+
+            /**
+             * Application namespace.
+             * @member {string} namespace
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             */
+            Application.prototype.namespace = "";
+
+            /**
+             * Creates a new Application instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {hydrosphere.manager.IApplication=} [properties] Properties to set
+             * @returns {hydrosphere.manager.Application} Application instance
+             */
+            Application.create = function create(properties) {
+                return new Application(properties);
+            };
+
+            /**
+             * Encodes the specified Application message. Does not implicitly {@link hydrosphere.manager.Application.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {hydrosphere.manager.IApplication} message Application message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Application.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    $root.hydrosphere.contract.ModelContract.encode(message.contract, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                if (message.executionGraph != null && message.hasOwnProperty("executionGraph"))
+                    $root.hydrosphere.manager.ExecutionGraph.encode(message.executionGraph, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                if (message.kafkaStreaming != null && message.kafkaStreaming.length)
+                    for (var i = 0; i < message.kafkaStreaming.length; ++i)
+                        $root.hydrosphere.manager.KafkaStreaming.encode(message.kafkaStreaming[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.namespace != null && message.hasOwnProperty("namespace"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.namespace);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Application message, length delimited. Does not implicitly {@link hydrosphere.manager.Application.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {hydrosphere.manager.IApplication} message Application message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Application.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an Application message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.Application} Application
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Application.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Application();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.int64();
+                        break;
+                    case 2:
+                        message.name = reader.string();
+                        break;
+                    case 3:
+                        message.contract = $root.hydrosphere.contract.ModelContract.decode(reader, reader.uint32());
+                        break;
+                    case 4:
+                        message.executionGraph = $root.hydrosphere.manager.ExecutionGraph.decode(reader, reader.uint32());
+                        break;
+                    case 5:
+                        if (!(message.kafkaStreaming && message.kafkaStreaming.length))
+                            message.kafkaStreaming = [];
+                        message.kafkaStreaming.push($root.hydrosphere.manager.KafkaStreaming.decode(reader, reader.uint32()));
+                        break;
+                    case 6:
+                        message.namespace = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an Application message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.Application} Application
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Application.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an Application message.
+             * @function verify
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Application.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
+                        return "id: integer|Long expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                if (message.contract != null && message.hasOwnProperty("contract")) {
+                    var error = $root.hydrosphere.contract.ModelContract.verify(message.contract);
+                    if (error)
+                        return "contract." + error;
+                }
+                if (message.executionGraph != null && message.hasOwnProperty("executionGraph")) {
+                    var error = $root.hydrosphere.manager.ExecutionGraph.verify(message.executionGraph);
+                    if (error)
+                        return "executionGraph." + error;
+                }
+                if (message.kafkaStreaming != null && message.hasOwnProperty("kafkaStreaming")) {
+                    if (!Array.isArray(message.kafkaStreaming))
+                        return "kafkaStreaming: array expected";
+                    for (var i = 0; i < message.kafkaStreaming.length; ++i) {
+                        var error = $root.hydrosphere.manager.KafkaStreaming.verify(message.kafkaStreaming[i]);
+                        if (error)
+                            return "kafkaStreaming." + error;
+                    }
+                }
+                if (message.namespace != null && message.hasOwnProperty("namespace"))
+                    if (!$util.isString(message.namespace))
+                        return "namespace: string expected";
+                return null;
+            };
+
+            /**
+             * Creates an Application message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.Application} Application
+             */
+            Application.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.Application)
+                    return object;
+                var message = new $root.hydrosphere.manager.Application();
+                if (object.id != null)
+                    if ($util.Long)
+                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
+                    else if (typeof object.id === "string")
+                        message.id = parseInt(object.id, 10);
+                    else if (typeof object.id === "number")
+                        message.id = object.id;
+                    else if (typeof object.id === "object")
+                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
+                if (object.name != null)
+                    message.name = String(object.name);
+                if (object.contract != null) {
+                    if (typeof object.contract !== "object")
+                        throw TypeError(".hydrosphere.manager.Application.contract: object expected");
+                    message.contract = $root.hydrosphere.contract.ModelContract.fromObject(object.contract);
+                }
+                if (object.executionGraph != null) {
+                    if (typeof object.executionGraph !== "object")
+                        throw TypeError(".hydrosphere.manager.Application.executionGraph: object expected");
+                    message.executionGraph = $root.hydrosphere.manager.ExecutionGraph.fromObject(object.executionGraph);
+                }
+                if (object.kafkaStreaming) {
+                    if (!Array.isArray(object.kafkaStreaming))
+                        throw TypeError(".hydrosphere.manager.Application.kafkaStreaming: array expected");
+                    message.kafkaStreaming = [];
+                    for (var i = 0; i < object.kafkaStreaming.length; ++i) {
+                        if (typeof object.kafkaStreaming[i] !== "object")
+                            throw TypeError(".hydrosphere.manager.Application.kafkaStreaming: object expected");
+                        message.kafkaStreaming[i] = $root.hydrosphere.manager.KafkaStreaming.fromObject(object.kafkaStreaming[i]);
+                    }
+                }
+                if (object.namespace != null)
+                    message.namespace = String(object.namespace);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an Application message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.Application
+             * @static
+             * @param {hydrosphere.manager.Application} message Application
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Application.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.kafkaStreaming = [];
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.id = options.longs === String ? "0" : 0;
+                    object.name = "";
+                    object.contract = null;
+                    object.executionGraph = null;
+                    object.namespace = "";
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (typeof message.id === "number")
+                        object.id = options.longs === String ? String(message.id) : message.id;
+                    else
+                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    object.contract = $root.hydrosphere.contract.ModelContract.toObject(message.contract, options);
+                if (message.executionGraph != null && message.hasOwnProperty("executionGraph"))
+                    object.executionGraph = $root.hydrosphere.manager.ExecutionGraph.toObject(message.executionGraph, options);
+                if (message.kafkaStreaming && message.kafkaStreaming.length) {
+                    object.kafkaStreaming = [];
+                    for (var j = 0; j < message.kafkaStreaming.length; ++j)
+                        object.kafkaStreaming[j] = $root.hydrosphere.manager.KafkaStreaming.toObject(message.kafkaStreaming[j], options);
+                }
+                if (message.namespace != null && message.hasOwnProperty("namespace"))
+                    object.namespace = message.namespace;
+                return object;
+            };
+
+            /**
+             * Converts this Application to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.Application
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Application.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return Application;
+        })();
+
+        manager.Model = (function() {
+
+            /**
+             * Properties of a Model.
+             * @memberof hydrosphere.manager
+             * @interface IModel
+             * @property {number|Long|null} [id] Model id
+             * @property {string|null} [name] Model name
+             */
+
+            /**
+             * Constructs a new Model.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a Model.
+             * @implements IModel
+             * @constructor
+             * @param {hydrosphere.manager.IModel=} [properties] Properties to set
+             */
+            function Model(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Model id.
+             * @member {number|Long} id
+             * @memberof hydrosphere.manager.Model
+             * @instance
+             */
+            Model.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Model name.
+             * @member {string} name
+             * @memberof hydrosphere.manager.Model
+             * @instance
+             */
+            Model.prototype.name = "";
+
+            /**
+             * Creates a new Model instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {hydrosphere.manager.IModel=} [properties] Properties to set
+             * @returns {hydrosphere.manager.Model} Model instance
+             */
+            Model.create = function create(properties) {
+                return new Model(properties);
+            };
+
+            /**
+             * Encodes the specified Model message. Does not implicitly {@link hydrosphere.manager.Model.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {hydrosphere.manager.IModel} message Model message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Model.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Model message, length delimited. Does not implicitly {@link hydrosphere.manager.Model.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {hydrosphere.manager.IModel} message Model message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Model.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a Model message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.Model} Model
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Model.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Model();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.int64();
+                        break;
+                    case 2:
+                        message.name = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a Model message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.Model} Model
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Model.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Model message.
+             * @function verify
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Model.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
+                        return "id: integer|Long expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a Model message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.Model} Model
+             */
+            Model.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.Model)
+                    return object;
+                var message = new $root.hydrosphere.manager.Model();
+                if (object.id != null)
+                    if ($util.Long)
+                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
+                    else if (typeof object.id === "string")
+                        message.id = parseInt(object.id, 10);
+                    else if (typeof object.id === "number")
+                        message.id = object.id;
+                    else if (typeof object.id === "object")
+                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
+                if (object.name != null)
+                    message.name = String(object.name);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Model message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.Model
+             * @static
+             * @param {hydrosphere.manager.Model} message Model
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Model.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.id = options.longs === String ? "0" : 0;
+                    object.name = "";
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (typeof message.id === "number")
+                        object.id = options.longs === String ? String(message.id) : message.id;
+                    else
+                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                return object;
+            };
+
+            /**
+             * Converts this Model to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.Model
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Model.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return Model;
+        })();
+
+        manager.DockerImage = (function() {
+
+            /**
+             * Properties of a DockerImage.
+             * @memberof hydrosphere.manager
+             * @interface IDockerImage
+             * @property {string|null} [name] DockerImage name
+             * @property {string|null} [tag] DockerImage tag
+             */
+
+            /**
+             * Constructs a new DockerImage.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a DockerImage.
+             * @implements IDockerImage
+             * @constructor
+             * @param {hydrosphere.manager.IDockerImage=} [properties] Properties to set
+             */
+            function DockerImage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * DockerImage name.
+             * @member {string} name
+             * @memberof hydrosphere.manager.DockerImage
+             * @instance
+             */
+            DockerImage.prototype.name = "";
+
+            /**
+             * DockerImage tag.
+             * @member {string} tag
+             * @memberof hydrosphere.manager.DockerImage
+             * @instance
+             */
+            DockerImage.prototype.tag = "";
+
+            /**
+             * Creates a new DockerImage instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {hydrosphere.manager.IDockerImage=} [properties] Properties to set
+             * @returns {hydrosphere.manager.DockerImage} DockerImage instance
+             */
+            DockerImage.create = function create(properties) {
+                return new DockerImage(properties);
+            };
+
+            /**
+             * Encodes the specified DockerImage message. Does not implicitly {@link hydrosphere.manager.DockerImage.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {hydrosphere.manager.IDockerImage} message DockerImage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            DockerImage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                if (message.tag != null && message.hasOwnProperty("tag"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.tag);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified DockerImage message, length delimited. Does not implicitly {@link hydrosphere.manager.DockerImage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {hydrosphere.manager.IDockerImage} message DockerImage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            DockerImage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a DockerImage message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.DockerImage} DockerImage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            DockerImage.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.DockerImage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    case 2:
+                        message.tag = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a DockerImage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.DockerImage} DockerImage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            DockerImage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a DockerImage message.
+             * @function verify
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            DockerImage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                if (message.tag != null && message.hasOwnProperty("tag"))
+                    if (!$util.isString(message.tag))
+                        return "tag: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a DockerImage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.DockerImage} DockerImage
+             */
+            DockerImage.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.DockerImage)
+                    return object;
+                var message = new $root.hydrosphere.manager.DockerImage();
+                if (object.name != null)
+                    message.name = String(object.name);
+                if (object.tag != null)
+                    message.tag = String(object.tag);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a DockerImage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.DockerImage
+             * @static
+             * @param {hydrosphere.manager.DockerImage} message DockerImage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            DockerImage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.name = "";
+                    object.tag = "";
+                }
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                if (message.tag != null && message.hasOwnProperty("tag"))
+                    object.tag = message.tag;
+                return object;
+            };
+
+            /**
+             * Converts this DockerImage to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.DockerImage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            DockerImage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return DockerImage;
+        })();
+
+        manager.ModelVersion = (function() {
+
+            /**
+             * Properties of a ModelVersion.
+             * @memberof hydrosphere.manager
+             * @interface IModelVersion
+             * @property {number|Long|null} [id] ModelVersion id
+             * @property {number|Long|null} [version] ModelVersion version
+             * @property {string|null} [modelType] ModelVersion modelType
+             * @property {string|null} [status] ModelVersion status
+             * @property {hydrosphere.manager.IHostSelector|null} [selector] ModelVersion selector
+             * @property {hydrosphere.manager.IModel|null} [model] ModelVersion model
+             * @property {hydrosphere.contract.IModelContract|null} [contract] ModelVersion contract
+             * @property {hydrosphere.manager.IDockerImage|null} [image] ModelVersion image
+             * @property {string|null} [imageSha] ModelVersion imageSha
+             * @property {hydrosphere.manager.IDockerImage|null} [runtime] ModelVersion runtime
+             */
+
+            /**
+             * Constructs a new ModelVersion.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a ModelVersion.
+             * @implements IModelVersion
+             * @constructor
+             * @param {hydrosphere.manager.IModelVersion=} [properties] Properties to set
+             */
+            function ModelVersion(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ModelVersion id.
+             * @member {number|Long} id
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * ModelVersion version.
+             * @member {number|Long} version
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * ModelVersion modelType.
+             * @member {string} modelType
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.modelType = "";
+
+            /**
+             * ModelVersion status.
+             * @member {string} status
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.status = "";
+
+            /**
+             * ModelVersion selector.
+             * @member {hydrosphere.manager.IHostSelector|null|undefined} selector
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.selector = null;
+
+            /**
+             * ModelVersion model.
+             * @member {hydrosphere.manager.IModel|null|undefined} model
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.model = null;
+
+            /**
+             * ModelVersion contract.
+             * @member {hydrosphere.contract.IModelContract|null|undefined} contract
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.contract = null;
+
+            /**
+             * ModelVersion image.
+             * @member {hydrosphere.manager.IDockerImage|null|undefined} image
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.image = null;
+
+            /**
+             * ModelVersion imageSha.
+             * @member {string} imageSha
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.imageSha = "";
+
+            /**
+             * ModelVersion runtime.
+             * @member {hydrosphere.manager.IDockerImage|null|undefined} runtime
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             */
+            ModelVersion.prototype.runtime = null;
+
+            /**
+             * Creates a new ModelVersion instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {hydrosphere.manager.IModelVersion=} [properties] Properties to set
+             * @returns {hydrosphere.manager.ModelVersion} ModelVersion instance
+             */
+            ModelVersion.create = function create(properties) {
+                return new ModelVersion(properties);
+            };
+
+            /**
+             * Encodes the specified ModelVersion message. Does not implicitly {@link hydrosphere.manager.ModelVersion.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {hydrosphere.manager.IModelVersion} message ModelVersion message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelVersion.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
+                if (message.version != null && message.hasOwnProperty("version"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.version);
+                if (message.modelType != null && message.hasOwnProperty("modelType"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.modelType);
+                if (message.status != null && message.hasOwnProperty("status"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.status);
+                if (message.selector != null && message.hasOwnProperty("selector"))
+                    $root.hydrosphere.manager.HostSelector.encode(message.selector, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.model != null && message.hasOwnProperty("model"))
+                    $root.hydrosphere.manager.Model.encode(message.model, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    $root.hydrosphere.contract.ModelContract.encode(message.contract, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                if (message.image != null && message.hasOwnProperty("image"))
+                    $root.hydrosphere.manager.DockerImage.encode(message.image, writer.uint32(/* id 31, wireType 2 =*/250).fork()).ldelim();
+                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
+                    writer.uint32(/* id 32, wireType 2 =*/258).string(message.imageSha);
+                if (message.runtime != null && message.hasOwnProperty("runtime"))
+                    $root.hydrosphere.manager.DockerImage.encode(message.runtime, writer.uint32(/* id 33, wireType 2 =*/266).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ModelVersion message, length delimited. Does not implicitly {@link hydrosphere.manager.ModelVersion.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {hydrosphere.manager.IModelVersion} message ModelVersion message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ModelVersion.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ModelVersion message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelVersion.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ModelVersion();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.int64();
+                        break;
+                    case 2:
+                        message.version = reader.int64();
+                        break;
+                    case 3:
+                        message.modelType = reader.string();
+                        break;
+                    case 4:
+                        message.status = reader.string();
+                        break;
+                    case 5:
+                        message.selector = $root.hydrosphere.manager.HostSelector.decode(reader, reader.uint32());
+                        break;
+                    case 6:
+                        message.model = $root.hydrosphere.manager.Model.decode(reader, reader.uint32());
+                        break;
+                    case 7:
+                        message.contract = $root.hydrosphere.contract.ModelContract.decode(reader, reader.uint32());
+                        break;
+                    case 31:
+                        message.image = $root.hydrosphere.manager.DockerImage.decode(reader, reader.uint32());
+                        break;
+                    case 32:
+                        message.imageSha = reader.string();
+                        break;
+                    case 33:
+                        message.runtime = $root.hydrosphere.manager.DockerImage.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ModelVersion message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ModelVersion.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ModelVersion message.
+             * @function verify
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ModelVersion.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
+                        return "id: integer|Long expected";
+                if (message.version != null && message.hasOwnProperty("version"))
+                    if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
+                        return "version: integer|Long expected";
+                if (message.modelType != null && message.hasOwnProperty("modelType"))
+                    if (!$util.isString(message.modelType))
+                        return "modelType: string expected";
+                if (message.status != null && message.hasOwnProperty("status"))
+                    if (!$util.isString(message.status))
+                        return "status: string expected";
+                if (message.selector != null && message.hasOwnProperty("selector")) {
+                    var error = $root.hydrosphere.manager.HostSelector.verify(message.selector);
+                    if (error)
+                        return "selector." + error;
+                }
+                if (message.model != null && message.hasOwnProperty("model")) {
+                    var error = $root.hydrosphere.manager.Model.verify(message.model);
+                    if (error)
+                        return "model." + error;
+                }
+                if (message.contract != null && message.hasOwnProperty("contract")) {
+                    var error = $root.hydrosphere.contract.ModelContract.verify(message.contract);
+                    if (error)
+                        return "contract." + error;
+                }
+                if (message.image != null && message.hasOwnProperty("image")) {
+                    var error = $root.hydrosphere.manager.DockerImage.verify(message.image);
+                    if (error)
+                        return "image." + error;
+                }
+                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
+                    if (!$util.isString(message.imageSha))
+                        return "imageSha: string expected";
+                if (message.runtime != null && message.hasOwnProperty("runtime")) {
+                    var error = $root.hydrosphere.manager.DockerImage.verify(message.runtime);
+                    if (error)
+                        return "runtime." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ModelVersion message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.ModelVersion} ModelVersion
+             */
+            ModelVersion.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.ModelVersion)
+                    return object;
+                var message = new $root.hydrosphere.manager.ModelVersion();
+                if (object.id != null)
+                    if ($util.Long)
+                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
+                    else if (typeof object.id === "string")
+                        message.id = parseInt(object.id, 10);
+                    else if (typeof object.id === "number")
+                        message.id = object.id;
+                    else if (typeof object.id === "object")
+                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
+                if (object.version != null)
+                    if ($util.Long)
+                        (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    else if (typeof object.version === "string")
+                        message.version = parseInt(object.version, 10);
+                    else if (typeof object.version === "number")
+                        message.version = object.version;
+                    else if (typeof object.version === "object")
+                        message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                if (object.modelType != null)
+                    message.modelType = String(object.modelType);
+                if (object.status != null)
+                    message.status = String(object.status);
+                if (object.selector != null) {
+                    if (typeof object.selector !== "object")
+                        throw TypeError(".hydrosphere.manager.ModelVersion.selector: object expected");
+                    message.selector = $root.hydrosphere.manager.HostSelector.fromObject(object.selector);
+                }
+                if (object.model != null) {
+                    if (typeof object.model !== "object")
+                        throw TypeError(".hydrosphere.manager.ModelVersion.model: object expected");
+                    message.model = $root.hydrosphere.manager.Model.fromObject(object.model);
+                }
+                if (object.contract != null) {
+                    if (typeof object.contract !== "object")
+                        throw TypeError(".hydrosphere.manager.ModelVersion.contract: object expected");
+                    message.contract = $root.hydrosphere.contract.ModelContract.fromObject(object.contract);
+                }
+                if (object.image != null) {
+                    if (typeof object.image !== "object")
+                        throw TypeError(".hydrosphere.manager.ModelVersion.image: object expected");
+                    message.image = $root.hydrosphere.manager.DockerImage.fromObject(object.image);
+                }
+                if (object.imageSha != null)
+                    message.imageSha = String(object.imageSha);
+                if (object.runtime != null) {
+                    if (typeof object.runtime !== "object")
+                        throw TypeError(".hydrosphere.manager.ModelVersion.runtime: object expected");
+                    message.runtime = $root.hydrosphere.manager.DockerImage.fromObject(object.runtime);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ModelVersion message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.ModelVersion
+             * @static
+             * @param {hydrosphere.manager.ModelVersion} message ModelVersion
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ModelVersion.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.id = options.longs === String ? "0" : 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.version = options.longs === String ? "0" : 0;
+                    object.modelType = "";
+                    object.status = "";
+                    object.selector = null;
+                    object.model = null;
+                    object.contract = null;
+                    object.image = null;
+                    object.imageSha = "";
+                    object.runtime = null;
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (typeof message.id === "number")
+                        object.id = options.longs === String ? String(message.id) : message.id;
+                    else
+                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
+                if (message.version != null && message.hasOwnProperty("version"))
+                    if (typeof message.version === "number")
+                        object.version = options.longs === String ? String(message.version) : message.version;
+                    else
+                        object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
+                if (message.modelType != null && message.hasOwnProperty("modelType"))
+                    object.modelType = message.modelType;
+                if (message.status != null && message.hasOwnProperty("status"))
+                    object.status = message.status;
+                if (message.selector != null && message.hasOwnProperty("selector"))
+                    object.selector = $root.hydrosphere.manager.HostSelector.toObject(message.selector, options);
+                if (message.model != null && message.hasOwnProperty("model"))
+                    object.model = $root.hydrosphere.manager.Model.toObject(message.model, options);
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    object.contract = $root.hydrosphere.contract.ModelContract.toObject(message.contract, options);
+                if (message.image != null && message.hasOwnProperty("image"))
+                    object.image = $root.hydrosphere.manager.DockerImage.toObject(message.image, options);
+                if (message.imageSha != null && message.hasOwnProperty("imageSha"))
+                    object.imageSha = message.imageSha;
+                if (message.runtime != null && message.hasOwnProperty("runtime"))
+                    object.runtime = $root.hydrosphere.manager.DockerImage.toObject(message.runtime, options);
+                return object;
+            };
+
+            /**
+             * Converts this ModelVersion to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.ModelVersion
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ModelVersion.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ModelVersion;
+        })();
+
+        manager.HostSelector = (function() {
+
+            /**
+             * Properties of a HostSelector.
+             * @memberof hydrosphere.manager
+             * @interface IHostSelector
+             * @property {number|Long|null} [id] HostSelector id
+             * @property {string|null} [name] HostSelector name
+             */
+
+            /**
+             * Constructs a new HostSelector.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a HostSelector.
+             * @implements IHostSelector
+             * @constructor
+             * @param {hydrosphere.manager.IHostSelector=} [properties] Properties to set
+             */
+            function HostSelector(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * HostSelector id.
+             * @member {number|Long} id
+             * @memberof hydrosphere.manager.HostSelector
+             * @instance
+             */
+            HostSelector.prototype.id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * HostSelector name.
+             * @member {string} name
+             * @memberof hydrosphere.manager.HostSelector
+             * @instance
+             */
+            HostSelector.prototype.name = "";
+
+            /**
+             * Creates a new HostSelector instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {hydrosphere.manager.IHostSelector=} [properties] Properties to set
+             * @returns {hydrosphere.manager.HostSelector} HostSelector instance
+             */
+            HostSelector.create = function create(properties) {
+                return new HostSelector(properties);
+            };
+
+            /**
+             * Encodes the specified HostSelector message. Does not implicitly {@link hydrosphere.manager.HostSelector.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {hydrosphere.manager.IHostSelector} message HostSelector message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HostSelector.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.id);
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified HostSelector message, length delimited. Does not implicitly {@link hydrosphere.manager.HostSelector.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {hydrosphere.manager.IHostSelector} message HostSelector message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HostSelector.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a HostSelector message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.HostSelector} HostSelector
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HostSelector.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.HostSelector();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.int64();
+                        break;
+                    case 2:
+                        message.name = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a HostSelector message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.HostSelector} HostSelector
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HostSelector.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a HostSelector message.
+             * @function verify
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            HostSelector.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
+                        return "id: integer|Long expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a HostSelector message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.HostSelector} HostSelector
+             */
+            HostSelector.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.HostSelector)
+                    return object;
+                var message = new $root.hydrosphere.manager.HostSelector();
+                if (object.id != null)
+                    if ($util.Long)
+                        (message.id = $util.Long.fromValue(object.id)).unsigned = false;
+                    else if (typeof object.id === "string")
+                        message.id = parseInt(object.id, 10);
+                    else if (typeof object.id === "number")
+                        message.id = object.id;
+                    else if (typeof object.id === "object")
+                        message.id = new $util.LongBits(object.id.low >>> 0, object.id.high >>> 0).toNumber();
+                if (object.name != null)
+                    message.name = String(object.name);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a HostSelector message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.HostSelector
+             * @static
+             * @param {hydrosphere.manager.HostSelector} message HostSelector
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            HostSelector.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.id = options.longs === String ? "0" : 0;
+                    object.name = "";
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (typeof message.id === "number")
+                        object.id = options.longs === String ? String(message.id) : message.id;
+                    else
+                        object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber() : message.id;
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                return object;
+            };
+
+            /**
+             * Converts this HostSelector to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.HostSelector
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            HostSelector.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return HostSelector;
+        })();
+
+        manager.Servable = (function() {
+
+            /**
+             * Properties of a Servable.
+             * @memberof hydrosphere.manager
+             * @interface IServable
+             * @property {string|null} [host] Servable host
+             * @property {number|null} [port] Servable port
+             * @property {number|null} [weight] Servable weight
+             * @property {hydrosphere.manager.IModelVersion|null} [modelVersion] Servable modelVersion
+             */
+
+            /**
+             * Constructs a new Servable.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a Servable.
+             * @implements IServable
+             * @constructor
+             * @param {hydrosphere.manager.IServable=} [properties] Properties to set
+             */
+            function Servable(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Servable host.
+             * @member {string} host
+             * @memberof hydrosphere.manager.Servable
+             * @instance
+             */
+            Servable.prototype.host = "";
+
+            /**
+             * Servable port.
+             * @member {number} port
+             * @memberof hydrosphere.manager.Servable
+             * @instance
+             */
+            Servable.prototype.port = 0;
+
+            /**
+             * Servable weight.
+             * @member {number} weight
+             * @memberof hydrosphere.manager.Servable
+             * @instance
+             */
+            Servable.prototype.weight = 0;
+
+            /**
+             * Servable modelVersion.
+             * @member {hydrosphere.manager.IModelVersion|null|undefined} modelVersion
+             * @memberof hydrosphere.manager.Servable
+             * @instance
+             */
+            Servable.prototype.modelVersion = null;
+
+            /**
+             * Creates a new Servable instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {hydrosphere.manager.IServable=} [properties] Properties to set
+             * @returns {hydrosphere.manager.Servable} Servable instance
+             */
+            Servable.create = function create(properties) {
+                return new Servable(properties);
+            };
+
+            /**
+             * Encodes the specified Servable message. Does not implicitly {@link hydrosphere.manager.Servable.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {hydrosphere.manager.IServable} message Servable message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Servable.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.host != null && message.hasOwnProperty("host"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.host);
+                if (message.port != null && message.hasOwnProperty("port"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.port);
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.weight);
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
+                    $root.hydrosphere.manager.ModelVersion.encode(message.modelVersion, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Servable message, length delimited. Does not implicitly {@link hydrosphere.manager.Servable.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {hydrosphere.manager.IServable} message Servable message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Servable.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a Servable message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.Servable} Servable
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Servable.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Servable();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.host = reader.string();
+                        break;
+                    case 2:
+                        message.port = reader.int32();
+                        break;
+                    case 3:
+                        message.weight = reader.int32();
+                        break;
+                    case 4:
+                        message.modelVersion = $root.hydrosphere.manager.ModelVersion.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a Servable message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.Servable} Servable
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Servable.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Servable message.
+             * @function verify
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Servable.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.host != null && message.hasOwnProperty("host"))
+                    if (!$util.isString(message.host))
+                        return "host: string expected";
+                if (message.port != null && message.hasOwnProperty("port"))
+                    if (!$util.isInteger(message.port))
+                        return "port: integer expected";
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    if (!$util.isInteger(message.weight))
+                        return "weight: integer expected";
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion")) {
+                    var error = $root.hydrosphere.manager.ModelVersion.verify(message.modelVersion);
+                    if (error)
+                        return "modelVersion." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a Servable message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.Servable} Servable
+             */
+            Servable.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.Servable)
+                    return object;
+                var message = new $root.hydrosphere.manager.Servable();
+                if (object.host != null)
+                    message.host = String(object.host);
+                if (object.port != null)
+                    message.port = object.port | 0;
+                if (object.weight != null)
+                    message.weight = object.weight | 0;
+                if (object.modelVersion != null) {
+                    if (typeof object.modelVersion !== "object")
+                        throw TypeError(".hydrosphere.manager.Servable.modelVersion: object expected");
+                    message.modelVersion = $root.hydrosphere.manager.ModelVersion.fromObject(object.modelVersion);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Servable message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.Servable
+             * @static
+             * @param {hydrosphere.manager.Servable} message Servable
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Servable.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.host = "";
+                    object.port = 0;
+                    object.weight = 0;
+                    object.modelVersion = null;
+                }
+                if (message.host != null && message.hasOwnProperty("host"))
+                    object.host = message.host;
+                if (message.port != null && message.hasOwnProperty("port"))
+                    object.port = message.port;
+                if (message.weight != null && message.hasOwnProperty("weight"))
+                    object.weight = message.weight;
+                if (message.modelVersion != null && message.hasOwnProperty("modelVersion"))
+                    object.modelVersion = $root.hydrosphere.manager.ModelVersion.toObject(message.modelVersion, options);
+                return object;
+            };
+
+            /**
+             * Converts this Servable to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.Servable
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Servable.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return Servable;
+        })();
+
+        manager.Stage = (function() {
+
+            /**
+             * Properties of a Stage.
+             * @memberof hydrosphere.manager
+             * @interface IStage
+             * @property {string|null} [stageId] Stage stageId
+             * @property {hydrosphere.contract.IModelSignature|null} [signature] Stage signature
+             * @property {Array.<hydrosphere.manager.IServable>|null} [servable] Stage servable
+             */
+
+            /**
+             * Constructs a new Stage.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a Stage.
+             * @implements IStage
+             * @constructor
+             * @param {hydrosphere.manager.IStage=} [properties] Properties to set
+             */
+            function Stage(properties) {
+                this.servable = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Stage stageId.
+             * @member {string} stageId
+             * @memberof hydrosphere.manager.Stage
+             * @instance
+             */
+            Stage.prototype.stageId = "";
+
+            /**
+             * Stage signature.
+             * @member {hydrosphere.contract.IModelSignature|null|undefined} signature
+             * @memberof hydrosphere.manager.Stage
+             * @instance
+             */
+            Stage.prototype.signature = null;
+
+            /**
+             * Stage servable.
+             * @member {Array.<hydrosphere.manager.IServable>} servable
+             * @memberof hydrosphere.manager.Stage
+             * @instance
+             */
+            Stage.prototype.servable = $util.emptyArray;
+
+            /**
+             * Creates a new Stage instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {hydrosphere.manager.IStage=} [properties] Properties to set
+             * @returns {hydrosphere.manager.Stage} Stage instance
+             */
+            Stage.create = function create(properties) {
+                return new Stage(properties);
+            };
+
+            /**
+             * Encodes the specified Stage message. Does not implicitly {@link hydrosphere.manager.Stage.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {hydrosphere.manager.IStage} message Stage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Stage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.stageId);
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    $root.hydrosphere.contract.ModelSignature.encode(message.signature, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.servable != null && message.servable.length)
+                    for (var i = 0; i < message.servable.length; ++i)
+                        $root.hydrosphere.manager.Servable.encode(message.servable[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Stage message, length delimited. Does not implicitly {@link hydrosphere.manager.Stage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {hydrosphere.manager.IStage} message Stage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Stage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a Stage message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.Stage} Stage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Stage.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.Stage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.stageId = reader.string();
+                        break;
+                    case 2:
+                        message.signature = $root.hydrosphere.contract.ModelSignature.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        if (!(message.servable && message.servable.length))
+                            message.servable = [];
+                        message.servable.push($root.hydrosphere.manager.Servable.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a Stage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.Stage} Stage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Stage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Stage message.
+             * @function verify
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Stage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    if (!$util.isString(message.stageId))
+                        return "stageId: string expected";
+                if (message.signature != null && message.hasOwnProperty("signature")) {
+                    var error = $root.hydrosphere.contract.ModelSignature.verify(message.signature);
+                    if (error)
+                        return "signature." + error;
+                }
+                if (message.servable != null && message.hasOwnProperty("servable")) {
+                    if (!Array.isArray(message.servable))
+                        return "servable: array expected";
+                    for (var i = 0; i < message.servable.length; ++i) {
+                        var error = $root.hydrosphere.manager.Servable.verify(message.servable[i]);
+                        if (error)
+                            return "servable." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a Stage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.Stage} Stage
+             */
+            Stage.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.Stage)
+                    return object;
+                var message = new $root.hydrosphere.manager.Stage();
+                if (object.stageId != null)
+                    message.stageId = String(object.stageId);
+                if (object.signature != null) {
+                    if (typeof object.signature !== "object")
+                        throw TypeError(".hydrosphere.manager.Stage.signature: object expected");
+                    message.signature = $root.hydrosphere.contract.ModelSignature.fromObject(object.signature);
+                }
+                if (object.servable) {
+                    if (!Array.isArray(object.servable))
+                        throw TypeError(".hydrosphere.manager.Stage.servable: array expected");
+                    message.servable = [];
+                    for (var i = 0; i < object.servable.length; ++i) {
+                        if (typeof object.servable[i] !== "object")
+                            throw TypeError(".hydrosphere.manager.Stage.servable: object expected");
+                        message.servable[i] = $root.hydrosphere.manager.Servable.fromObject(object.servable[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Stage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.Stage
+             * @static
+             * @param {hydrosphere.manager.Stage} message Stage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Stage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.servable = [];
+                if (options.defaults) {
+                    object.stageId = "";
+                    object.signature = null;
+                }
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    object.stageId = message.stageId;
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    object.signature = $root.hydrosphere.contract.ModelSignature.toObject(message.signature, options);
+                if (message.servable && message.servable.length) {
+                    object.servable = [];
+                    for (var j = 0; j < message.servable.length; ++j)
+                        object.servable[j] = $root.hydrosphere.manager.Servable.toObject(message.servable[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this Stage to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.Stage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Stage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return Stage;
+        })();
+
+        manager.ServingApp = (function() {
+
+            /**
+             * Properties of a ServingApp.
+             * @memberof hydrosphere.manager
+             * @interface IServingApp
+             * @property {string|null} [id] ServingApp id
+             * @property {string|null} [name] ServingApp name
+             * @property {hydrosphere.contract.IModelContract|null} [contract] ServingApp contract
+             * @property {Array.<hydrosphere.manager.IStage>|null} [pipeline] ServingApp pipeline
+             */
+
+            /**
+             * Constructs a new ServingApp.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a ServingApp.
+             * @implements IServingApp
+             * @constructor
+             * @param {hydrosphere.manager.IServingApp=} [properties] Properties to set
+             */
+            function ServingApp(properties) {
+                this.pipeline = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ServingApp id.
+             * @member {string} id
+             * @memberof hydrosphere.manager.ServingApp
+             * @instance
+             */
+            ServingApp.prototype.id = "";
+
+            /**
+             * ServingApp name.
+             * @member {string} name
+             * @memberof hydrosphere.manager.ServingApp
+             * @instance
+             */
+            ServingApp.prototype.name = "";
+
+            /**
+             * ServingApp contract.
+             * @member {hydrosphere.contract.IModelContract|null|undefined} contract
+             * @memberof hydrosphere.manager.ServingApp
+             * @instance
+             */
+            ServingApp.prototype.contract = null;
+
+            /**
+             * ServingApp pipeline.
+             * @member {Array.<hydrosphere.manager.IStage>} pipeline
+             * @memberof hydrosphere.manager.ServingApp
+             * @instance
+             */
+            ServingApp.prototype.pipeline = $util.emptyArray;
+
+            /**
+             * Creates a new ServingApp instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {hydrosphere.manager.IServingApp=} [properties] Properties to set
+             * @returns {hydrosphere.manager.ServingApp} ServingApp instance
+             */
+            ServingApp.create = function create(properties) {
+                return new ServingApp(properties);
+            };
+
+            /**
+             * Encodes the specified ServingApp message. Does not implicitly {@link hydrosphere.manager.ServingApp.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {hydrosphere.manager.IServingApp} message ServingApp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ServingApp.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    $root.hydrosphere.contract.ModelContract.encode(message.contract, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                if (message.pipeline != null && message.pipeline.length)
+                    for (var i = 0; i < message.pipeline.length; ++i)
+                        $root.hydrosphere.manager.Stage.encode(message.pipeline[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ServingApp message, length delimited. Does not implicitly {@link hydrosphere.manager.ServingApp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {hydrosphere.manager.IServingApp} message ServingApp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ServingApp.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ServingApp message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.ServingApp} ServingApp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ServingApp.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.ServingApp();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.string();
+                        break;
+                    case 2:
+                        message.name = reader.string();
+                        break;
+                    case 3:
+                        message.contract = $root.hydrosphere.contract.ModelContract.decode(reader, reader.uint32());
+                        break;
+                    case 4:
+                        if (!(message.pipeline && message.pipeline.length))
+                            message.pipeline = [];
+                        message.pipeline.push($root.hydrosphere.manager.Stage.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ServingApp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.ServingApp} ServingApp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ServingApp.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ServingApp message.
+             * @function verify
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ServingApp.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isString(message.id))
+                        return "id: string expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                if (message.contract != null && message.hasOwnProperty("contract")) {
+                    var error = $root.hydrosphere.contract.ModelContract.verify(message.contract);
+                    if (error)
+                        return "contract." + error;
+                }
+                if (message.pipeline != null && message.hasOwnProperty("pipeline")) {
+                    if (!Array.isArray(message.pipeline))
+                        return "pipeline: array expected";
+                    for (var i = 0; i < message.pipeline.length; ++i) {
+                        var error = $root.hydrosphere.manager.Stage.verify(message.pipeline[i]);
+                        if (error)
+                            return "pipeline." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a ServingApp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.ServingApp} ServingApp
+             */
+            ServingApp.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.ServingApp)
+                    return object;
+                var message = new $root.hydrosphere.manager.ServingApp();
+                if (object.id != null)
+                    message.id = String(object.id);
+                if (object.name != null)
+                    message.name = String(object.name);
+                if (object.contract != null) {
+                    if (typeof object.contract !== "object")
+                        throw TypeError(".hydrosphere.manager.ServingApp.contract: object expected");
+                    message.contract = $root.hydrosphere.contract.ModelContract.fromObject(object.contract);
+                }
+                if (object.pipeline) {
+                    if (!Array.isArray(object.pipeline))
+                        throw TypeError(".hydrosphere.manager.ServingApp.pipeline: array expected");
+                    message.pipeline = [];
+                    for (var i = 0; i < object.pipeline.length; ++i) {
+                        if (typeof object.pipeline[i] !== "object")
+                            throw TypeError(".hydrosphere.manager.ServingApp.pipeline: object expected");
+                        message.pipeline[i] = $root.hydrosphere.manager.Stage.fromObject(object.pipeline[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a ServingApp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.ServingApp
+             * @static
+             * @param {hydrosphere.manager.ServingApp} message ServingApp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ServingApp.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.pipeline = [];
+                if (options.defaults) {
+                    object.id = "";
+                    object.name = "";
+                    object.contract = null;
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    object.contract = $root.hydrosphere.contract.ModelContract.toObject(message.contract, options);
+                if (message.pipeline && message.pipeline.length) {
+                    object.pipeline = [];
+                    for (var j = 0; j < message.pipeline.length; ++j)
+                        object.pipeline[j] = $root.hydrosphere.manager.Stage.toObject(message.pipeline[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this ServingApp to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.ServingApp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ServingApp.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ServingApp;
+        })();
+
+        manager.KafkaError = (function() {
+
+            /**
+             * Properties of a KafkaError.
+             * @memberof hydrosphere.manager
+             * @interface IKafkaError
+             * @property {string|null} [errorMessage] KafkaError errorMessage
+             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [lastKnownRequest] KafkaError lastKnownRequest
+             */
+
+            /**
+             * Constructs a new KafkaError.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a KafkaError.
+             * @implements IKafkaError
+             * @constructor
+             * @param {hydrosphere.manager.IKafkaError=} [properties] Properties to set
+             */
+            function KafkaError(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * KafkaError errorMessage.
+             * @member {string} errorMessage
+             * @memberof hydrosphere.manager.KafkaError
+             * @instance
+             */
+            KafkaError.prototype.errorMessage = "";
+
+            /**
+             * KafkaError lastKnownRequest.
+             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} lastKnownRequest
+             * @memberof hydrosphere.manager.KafkaError
+             * @instance
+             */
+            KafkaError.prototype.lastKnownRequest = null;
+
+            /**
+             * Creates a new KafkaError instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {hydrosphere.manager.IKafkaError=} [properties] Properties to set
+             * @returns {hydrosphere.manager.KafkaError} KafkaError instance
+             */
+            KafkaError.create = function create(properties) {
+                return new KafkaError(properties);
+            };
+
+            /**
+             * Encodes the specified KafkaError message. Does not implicitly {@link hydrosphere.manager.KafkaError.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {hydrosphere.manager.IKafkaError} message KafkaError message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaError.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.errorMessage);
+                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest"))
+                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.lastKnownRequest, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified KafkaError message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaError.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {hydrosphere.manager.IKafkaError} message KafkaError message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaError.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a KafkaError message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.KafkaError} KafkaError
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaError.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaError();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 5:
+                        message.errorMessage = reader.string();
+                        break;
+                    case 8:
+                        message.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a KafkaError message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.KafkaError} KafkaError
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaError.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a KafkaError message.
+             * @function verify
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            KafkaError.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    if (!$util.isString(message.errorMessage))
+                        return "errorMessage: string expected";
+                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest")) {
+                    var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.lastKnownRequest);
+                    if (error)
+                        return "lastKnownRequest." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a KafkaError message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.KafkaError} KafkaError
+             */
+            KafkaError.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.KafkaError)
+                    return object;
+                var message = new $root.hydrosphere.manager.KafkaError();
+                if (object.errorMessage != null)
+                    message.errorMessage = String(object.errorMessage);
+                if (object.lastKnownRequest != null) {
+                    if (typeof object.lastKnownRequest !== "object")
+                        throw TypeError(".hydrosphere.manager.KafkaError.lastKnownRequest: object expected");
+                    message.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.lastKnownRequest);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a KafkaError message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.KafkaError
+             * @static
+             * @param {hydrosphere.manager.KafkaError} message KafkaError
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            KafkaError.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.errorMessage = "";
+                    object.lastKnownRequest = null;
+                }
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    object.errorMessage = message.errorMessage;
+                if (message.lastKnownRequest != null && message.hasOwnProperty("lastKnownRequest"))
+                    object.lastKnownRequest = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.lastKnownRequest, options);
+                return object;
+            };
+
+            /**
+             * Converts this KafkaError to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.KafkaError
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            KafkaError.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return KafkaError;
+        })();
+
+        manager.KafkaMessageLocation = (function() {
+
+            /**
+             * Properties of a KafkaMessageLocation.
+             * @memberof hydrosphere.manager
+             * @interface IKafkaMessageLocation
+             * @property {string|null} [sourceTopic] KafkaMessageLocation sourceTopic
+             * @property {string|null} [consumerId] KafkaMessageLocation consumerId
+             * @property {number|Long|null} [offset] KafkaMessageLocation offset
+             * @property {number|null} [partition] KafkaMessageLocation partition
+             */
+
+            /**
+             * Constructs a new KafkaMessageLocation.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a KafkaMessageLocation.
+             * @implements IKafkaMessageLocation
+             * @constructor
+             * @param {hydrosphere.manager.IKafkaMessageLocation=} [properties] Properties to set
+             */
+            function KafkaMessageLocation(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * KafkaMessageLocation sourceTopic.
+             * @member {string} sourceTopic
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @instance
+             */
+            KafkaMessageLocation.prototype.sourceTopic = "";
+
+            /**
+             * KafkaMessageLocation consumerId.
+             * @member {string} consumerId
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @instance
+             */
+            KafkaMessageLocation.prototype.consumerId = "";
+
+            /**
+             * KafkaMessageLocation offset.
+             * @member {number|Long} offset
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @instance
+             */
+            KafkaMessageLocation.prototype.offset = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * KafkaMessageLocation partition.
+             * @member {number} partition
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @instance
+             */
+            KafkaMessageLocation.prototype.partition = 0;
+
+            /**
+             * Creates a new KafkaMessageLocation instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageLocation=} [properties] Properties to set
+             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation instance
+             */
+            KafkaMessageLocation.create = function create(properties) {
+                return new KafkaMessageLocation(properties);
+            };
+
+            /**
+             * Encodes the specified KafkaMessageLocation message. Does not implicitly {@link hydrosphere.manager.KafkaMessageLocation.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageLocation} message KafkaMessageLocation message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaMessageLocation.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.sourceTopic);
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.consumerId);
+                if (message.offset != null && message.hasOwnProperty("offset"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.offset);
+                if (message.partition != null && message.hasOwnProperty("partition"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.partition);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified KafkaMessageLocation message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaMessageLocation.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageLocation} message KafkaMessageLocation message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaMessageLocation.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a KafkaMessageLocation message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaMessageLocation.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaMessageLocation();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.sourceTopic = reader.string();
+                        break;
+                    case 2:
+                        message.consumerId = reader.string();
+                        break;
+                    case 3:
+                        message.offset = reader.int64();
+                        break;
+                    case 4:
+                        message.partition = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a KafkaMessageLocation message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaMessageLocation.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a KafkaMessageLocation message.
+             * @function verify
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            KafkaMessageLocation.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    if (!$util.isString(message.sourceTopic))
+                        return "sourceTopic: string expected";
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    if (!$util.isString(message.consumerId))
+                        return "consumerId: string expected";
+                if (message.offset != null && message.hasOwnProperty("offset"))
+                    if (!$util.isInteger(message.offset) && !(message.offset && $util.isInteger(message.offset.low) && $util.isInteger(message.offset.high)))
+                        return "offset: integer|Long expected";
+                if (message.partition != null && message.hasOwnProperty("partition"))
+                    if (!$util.isInteger(message.partition))
+                        return "partition: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a KafkaMessageLocation message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.KafkaMessageLocation} KafkaMessageLocation
+             */
+            KafkaMessageLocation.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.KafkaMessageLocation)
+                    return object;
+                var message = new $root.hydrosphere.manager.KafkaMessageLocation();
+                if (object.sourceTopic != null)
+                    message.sourceTopic = String(object.sourceTopic);
+                if (object.consumerId != null)
+                    message.consumerId = String(object.consumerId);
+                if (object.offset != null)
+                    if ($util.Long)
+                        (message.offset = $util.Long.fromValue(object.offset)).unsigned = false;
+                    else if (typeof object.offset === "string")
+                        message.offset = parseInt(object.offset, 10);
+                    else if (typeof object.offset === "number")
+                        message.offset = object.offset;
+                    else if (typeof object.offset === "object")
+                        message.offset = new $util.LongBits(object.offset.low >>> 0, object.offset.high >>> 0).toNumber();
+                if (object.partition != null)
+                    message.partition = object.partition | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a KafkaMessageLocation message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @static
+             * @param {hydrosphere.manager.KafkaMessageLocation} message KafkaMessageLocation
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            KafkaMessageLocation.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.sourceTopic = "";
+                    object.consumerId = "";
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.offset = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.offset = options.longs === String ? "0" : 0;
+                    object.partition = 0;
+                }
+                if (message.sourceTopic != null && message.hasOwnProperty("sourceTopic"))
+                    object.sourceTopic = message.sourceTopic;
+                if (message.consumerId != null && message.hasOwnProperty("consumerId"))
+                    object.consumerId = message.consumerId;
+                if (message.offset != null && message.hasOwnProperty("offset"))
+                    if (typeof message.offset === "number")
+                        object.offset = options.longs === String ? String(message.offset) : message.offset;
+                    else
+                        object.offset = options.longs === String ? $util.Long.prototype.toString.call(message.offset) : options.longs === Number ? new $util.LongBits(message.offset.low >>> 0, message.offset.high >>> 0).toNumber() : message.offset;
+                if (message.partition != null && message.hasOwnProperty("partition"))
+                    object.partition = message.partition;
+                return object;
+            };
+
+            /**
+             * Converts this KafkaMessageLocation to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.KafkaMessageLocation
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            KafkaMessageLocation.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return KafkaMessageLocation;
+        })();
+
+        manager.KafkaMessageMeta = (function() {
+
+            /**
+             * Properties of a KafkaMessageMeta.
+             * @memberof hydrosphere.manager
+             * @interface IKafkaMessageMeta
+             * @property {string|null} [traceId] KafkaMessageMeta traceId
+             * @property {string|null} [applicationId] KafkaMessageMeta applicationId
+             * @property {string|null} [stageId] KafkaMessageMeta stageId
+             * @property {string|null} [stageName] KafkaMessageMeta stageName
+             * @property {hydrosphere.manager.IKafkaMessageLocation|null} [location] KafkaMessageMeta location
+             */
+
+            /**
+             * Constructs a new KafkaMessageMeta.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a KafkaMessageMeta.
+             * @implements IKafkaMessageMeta
+             * @constructor
+             * @param {hydrosphere.manager.IKafkaMessageMeta=} [properties] Properties to set
+             */
+            function KafkaMessageMeta(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * KafkaMessageMeta traceId.
+             * @member {string} traceId
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             */
+            KafkaMessageMeta.prototype.traceId = "";
+
+            /**
+             * KafkaMessageMeta applicationId.
+             * @member {string} applicationId
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             */
+            KafkaMessageMeta.prototype.applicationId = "";
+
+            /**
+             * KafkaMessageMeta stageId.
+             * @member {string} stageId
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             */
+            KafkaMessageMeta.prototype.stageId = "";
+
+            /**
+             * KafkaMessageMeta stageName.
+             * @member {string} stageName
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             */
+            KafkaMessageMeta.prototype.stageName = "";
+
+            /**
+             * KafkaMessageMeta location.
+             * @member {hydrosphere.manager.IKafkaMessageLocation|null|undefined} location
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             */
+            KafkaMessageMeta.prototype.location = null;
+
+            /**
+             * Creates a new KafkaMessageMeta instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageMeta=} [properties] Properties to set
+             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta instance
+             */
+            KafkaMessageMeta.create = function create(properties) {
+                return new KafkaMessageMeta(properties);
+            };
+
+            /**
+             * Encodes the specified KafkaMessageMeta message. Does not implicitly {@link hydrosphere.manager.KafkaMessageMeta.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageMeta} message KafkaMessageMeta message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaMessageMeta.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.traceId != null && message.hasOwnProperty("traceId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.traceId);
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.applicationId);
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.stageId);
+                if (message.stageName != null && message.hasOwnProperty("stageName"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.stageName);
+                if (message.location != null && message.hasOwnProperty("location"))
+                    $root.hydrosphere.manager.KafkaMessageLocation.encode(message.location, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified KafkaMessageMeta message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaMessageMeta.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {hydrosphere.manager.IKafkaMessageMeta} message KafkaMessageMeta message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaMessageMeta.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a KafkaMessageMeta message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaMessageMeta.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaMessageMeta();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.traceId = reader.string();
+                        break;
+                    case 2:
+                        message.applicationId = reader.string();
+                        break;
+                    case 3:
+                        message.stageId = reader.string();
+                        break;
+                    case 4:
+                        message.stageName = reader.string();
+                        break;
+                    case 5:
+                        message.location = $root.hydrosphere.manager.KafkaMessageLocation.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a KafkaMessageMeta message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaMessageMeta.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a KafkaMessageMeta message.
+             * @function verify
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            KafkaMessageMeta.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.traceId != null && message.hasOwnProperty("traceId"))
+                    if (!$util.isString(message.traceId))
+                        return "traceId: string expected";
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    if (!$util.isString(message.applicationId))
+                        return "applicationId: string expected";
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    if (!$util.isString(message.stageId))
+                        return "stageId: string expected";
+                if (message.stageName != null && message.hasOwnProperty("stageName"))
+                    if (!$util.isString(message.stageName))
+                        return "stageName: string expected";
+                if (message.location != null && message.hasOwnProperty("location")) {
+                    var error = $root.hydrosphere.manager.KafkaMessageLocation.verify(message.location);
+                    if (error)
+                        return "location." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a KafkaMessageMeta message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.KafkaMessageMeta} KafkaMessageMeta
+             */
+            KafkaMessageMeta.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.KafkaMessageMeta)
+                    return object;
+                var message = new $root.hydrosphere.manager.KafkaMessageMeta();
+                if (object.traceId != null)
+                    message.traceId = String(object.traceId);
+                if (object.applicationId != null)
+                    message.applicationId = String(object.applicationId);
+                if (object.stageId != null)
+                    message.stageId = String(object.stageId);
+                if (object.stageName != null)
+                    message.stageName = String(object.stageName);
+                if (object.location != null) {
+                    if (typeof object.location !== "object")
+                        throw TypeError(".hydrosphere.manager.KafkaMessageMeta.location: object expected");
+                    message.location = $root.hydrosphere.manager.KafkaMessageLocation.fromObject(object.location);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a KafkaMessageMeta message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @static
+             * @param {hydrosphere.manager.KafkaMessageMeta} message KafkaMessageMeta
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            KafkaMessageMeta.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.traceId = "";
+                    object.applicationId = "";
+                    object.stageId = "";
+                    object.stageName = "";
+                    object.location = null;
+                }
+                if (message.traceId != null && message.hasOwnProperty("traceId"))
+                    object.traceId = message.traceId;
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    object.applicationId = message.applicationId;
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    object.stageId = message.stageId;
+                if (message.stageName != null && message.hasOwnProperty("stageName"))
+                    object.stageName = message.stageName;
+                if (message.location != null && message.hasOwnProperty("location"))
+                    object.location = $root.hydrosphere.manager.KafkaMessageLocation.toObject(message.location, options);
+                return object;
+            };
+
+            /**
+             * Converts this KafkaMessageMeta to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.KafkaMessageMeta
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            KafkaMessageMeta.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return KafkaMessageMeta;
+        })();
+
+        manager.KafkaServingMessage = (function() {
+
+            /**
+             * Properties of a KafkaServingMessage.
+             * @memberof hydrosphere.manager
+             * @interface IKafkaServingMessage
+             * @property {hydrosphere.manager.IKafkaError|null} [error] KafkaServingMessage error
+             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [request] KafkaServingMessage request
+             * @property {hydrosphere.manager.IKafkaMessageMeta|null} [meta] KafkaServingMessage meta
+             */
+
+            /**
+             * Constructs a new KafkaServingMessage.
+             * @memberof hydrosphere.manager
+             * @classdesc Represents a KafkaServingMessage.
+             * @implements IKafkaServingMessage
+             * @constructor
+             * @param {hydrosphere.manager.IKafkaServingMessage=} [properties] Properties to set
+             */
+            function KafkaServingMessage(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * KafkaServingMessage error.
+             * @member {hydrosphere.manager.IKafkaError|null|undefined} error
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @instance
+             */
+            KafkaServingMessage.prototype.error = null;
+
+            /**
+             * KafkaServingMessage request.
+             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} request
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @instance
+             */
+            KafkaServingMessage.prototype.request = null;
+
+            /**
+             * KafkaServingMessage meta.
+             * @member {hydrosphere.manager.IKafkaMessageMeta|null|undefined} meta
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @instance
+             */
+            KafkaServingMessage.prototype.meta = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            /**
+             * KafkaServingMessage requestOrError.
+             * @member {"error"|"request"|undefined} requestOrError
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @instance
+             */
+            Object.defineProperty(KafkaServingMessage.prototype, "requestOrError", {
+                get: $util.oneOfGetter($oneOfFields = ["error", "request"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new KafkaServingMessage instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {hydrosphere.manager.IKafkaServingMessage=} [properties] Properties to set
+             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage instance
+             */
+            KafkaServingMessage.create = function create(properties) {
+                return new KafkaServingMessage(properties);
+            };
+
+            /**
+             * Encodes the specified KafkaServingMessage message. Does not implicitly {@link hydrosphere.manager.KafkaServingMessage.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {hydrosphere.manager.IKafkaServingMessage} message KafkaServingMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaServingMessage.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.error != null && message.hasOwnProperty("error"))
+                    $root.hydrosphere.manager.KafkaError.encode(message.error, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.request != null && message.hasOwnProperty("request"))
+                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.request, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.meta != null && message.hasOwnProperty("meta"))
+                    $root.hydrosphere.manager.KafkaMessageMeta.encode(message.meta, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified KafkaServingMessage message, length delimited. Does not implicitly {@link hydrosphere.manager.KafkaServingMessage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {hydrosphere.manager.IKafkaServingMessage} message KafkaServingMessage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            KafkaServingMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a KafkaServingMessage message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaServingMessage.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.manager.KafkaServingMessage();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.error = $root.hydrosphere.manager.KafkaError.decode(reader, reader.uint32());
+                        break;
+                    case 2:
+                        message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.meta = $root.hydrosphere.manager.KafkaMessageMeta.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a KafkaServingMessage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            KafkaServingMessage.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a KafkaServingMessage message.
+             * @function verify
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            KafkaServingMessage.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.error != null && message.hasOwnProperty("error")) {
+                    properties.requestOrError = 1;
+                    {
+                        var error = $root.hydrosphere.manager.KafkaError.verify(message.error);
+                        if (error)
+                            return "error." + error;
+                    }
+                }
+                if (message.request != null && message.hasOwnProperty("request")) {
+                    if (properties.requestOrError === 1)
+                        return "requestOrError: multiple values";
+                    properties.requestOrError = 1;
+                    {
+                        var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.request);
+                        if (error)
+                            return "request." + error;
+                    }
+                }
+                if (message.meta != null && message.hasOwnProperty("meta")) {
+                    var error = $root.hydrosphere.manager.KafkaMessageMeta.verify(message.meta);
+                    if (error)
+                        return "meta." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a KafkaServingMessage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.manager.KafkaServingMessage} KafkaServingMessage
+             */
+            KafkaServingMessage.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.manager.KafkaServingMessage)
+                    return object;
+                var message = new $root.hydrosphere.manager.KafkaServingMessage();
+                if (object.error != null) {
+                    if (typeof object.error !== "object")
+                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.error: object expected");
+                    message.error = $root.hydrosphere.manager.KafkaError.fromObject(object.error);
+                }
+                if (object.request != null) {
+                    if (typeof object.request !== "object")
+                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.request: object expected");
+                    message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.request);
+                }
+                if (object.meta != null) {
+                    if (typeof object.meta !== "object")
+                        throw TypeError(".hydrosphere.manager.KafkaServingMessage.meta: object expected");
+                    message.meta = $root.hydrosphere.manager.KafkaMessageMeta.fromObject(object.meta);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a KafkaServingMessage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @static
+             * @param {hydrosphere.manager.KafkaServingMessage} message KafkaServingMessage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            KafkaServingMessage.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.meta = null;
+                if (message.error != null && message.hasOwnProperty("error")) {
+                    object.error = $root.hydrosphere.manager.KafkaError.toObject(message.error, options);
+                    if (options.oneofs)
+                        object.requestOrError = "error";
+                }
+                if (message.request != null && message.hasOwnProperty("request")) {
+                    object.request = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.request, options);
+                    if (options.oneofs)
+                        object.requestOrError = "request";
+                }
+                if (message.meta != null && message.hasOwnProperty("meta"))
+                    object.meta = $root.hydrosphere.manager.KafkaMessageMeta.toObject(message.meta, options);
+                return object;
+            };
+
+            /**
+             * Converts this KafkaServingMessage to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.manager.KafkaServingMessage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            KafkaServingMessage.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return KafkaServingMessage;
+        })();
+
+        return manager;
+    })();
+
+    hydrosphere.monitoring = (function() {
+
+        /**
+         * Namespace monitoring.
+         * @memberof hydrosphere
+         * @namespace
+         */
+        var monitoring = {};
+
+        monitoring.ExecutionInformation = (function() {
+
+            /**
+             * Properties of an ExecutionInformation.
+             * @memberof hydrosphere.monitoring
+             * @interface IExecutionInformation
+             * @property {hydrosphere.tensorflow.serving.IPredictRequest|null} [request] ExecutionInformation request
+             * @property {hydrosphere.monitoring.IExecutionError|null} [error] ExecutionInformation error
+             * @property {hydrosphere.tensorflow.serving.IPredictResponse|null} [response] ExecutionInformation response
+             * @property {hydrosphere.monitoring.IExecutionMetadata|null} [metadata] ExecutionInformation metadata
+             */
+
+            /**
+             * Constructs a new ExecutionInformation.
+             * @memberof hydrosphere.monitoring
+             * @classdesc Represents an ExecutionInformation.
+             * @implements IExecutionInformation
+             * @constructor
+             * @param {hydrosphere.monitoring.IExecutionInformation=} [properties] Properties to set
+             */
+            function ExecutionInformation(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionInformation request.
+             * @member {hydrosphere.tensorflow.serving.IPredictRequest|null|undefined} request
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             */
+            ExecutionInformation.prototype.request = null;
+
+            /**
+             * ExecutionInformation error.
+             * @member {hydrosphere.monitoring.IExecutionError|null|undefined} error
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             */
+            ExecutionInformation.prototype.error = null;
+
+            /**
+             * ExecutionInformation response.
+             * @member {hydrosphere.tensorflow.serving.IPredictResponse|null|undefined} response
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             */
+            ExecutionInformation.prototype.response = null;
+
+            /**
+             * ExecutionInformation metadata.
+             * @member {hydrosphere.monitoring.IExecutionMetadata|null|undefined} metadata
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             */
+            ExecutionInformation.prototype.metadata = null;
+
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+
+            /**
+             * ExecutionInformation responseOrError.
+             * @member {"error"|"response"|undefined} responseOrError
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             */
+            Object.defineProperty(ExecutionInformation.prototype, "responseOrError", {
+                get: $util.oneOfGetter($oneOfFields = ["error", "response"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new ExecutionInformation instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionInformation=} [properties] Properties to set
+             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation instance
+             */
+            ExecutionInformation.create = function create(properties) {
+                return new ExecutionInformation(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionInformation message. Does not implicitly {@link hydrosphere.monitoring.ExecutionInformation.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionInformation} message ExecutionInformation message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionInformation.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.request != null && message.hasOwnProperty("request"))
+                    $root.hydrosphere.tensorflow.serving.PredictRequest.encode(message.request, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.error != null && message.hasOwnProperty("error"))
+                    $root.hydrosphere.monitoring.ExecutionError.encode(message.error, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.response != null && message.hasOwnProperty("response"))
+                    $root.hydrosphere.tensorflow.serving.PredictResponse.encode(message.response, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                if (message.metadata != null && message.hasOwnProperty("metadata"))
+                    $root.hydrosphere.monitoring.ExecutionMetadata.encode(message.metadata, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionInformation message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionInformation.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionInformation} message ExecutionInformation message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionInformation.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionInformation message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionInformation.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionInformation();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.decode(reader, reader.uint32());
+                        break;
+                    case 2:
+                        message.error = $root.hydrosphere.monitoring.ExecutionError.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.response = $root.hydrosphere.tensorflow.serving.PredictResponse.decode(reader, reader.uint32());
+                        break;
+                    case 4:
+                        message.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionInformation message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionInformation.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionInformation message.
+             * @function verify
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionInformation.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.request != null && message.hasOwnProperty("request")) {
+                    var error = $root.hydrosphere.tensorflow.serving.PredictRequest.verify(message.request);
+                    if (error)
+                        return "request." + error;
+                }
+                if (message.error != null && message.hasOwnProperty("error")) {
+                    properties.responseOrError = 1;
+                    {
+                        var error = $root.hydrosphere.monitoring.ExecutionError.verify(message.error);
+                        if (error)
+                            return "error." + error;
+                    }
+                }
+                if (message.response != null && message.hasOwnProperty("response")) {
+                    if (properties.responseOrError === 1)
+                        return "responseOrError: multiple values";
+                    properties.responseOrError = 1;
+                    {
+                        var error = $root.hydrosphere.tensorflow.serving.PredictResponse.verify(message.response);
+                        if (error)
+                            return "response." + error;
+                    }
+                }
+                if (message.metadata != null && message.hasOwnProperty("metadata")) {
+                    var error = $root.hydrosphere.monitoring.ExecutionMetadata.verify(message.metadata);
+                    if (error)
+                        return "metadata." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionInformation message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.monitoring.ExecutionInformation} ExecutionInformation
+             */
+            ExecutionInformation.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.monitoring.ExecutionInformation)
+                    return object;
+                var message = new $root.hydrosphere.monitoring.ExecutionInformation();
+                if (object.request != null) {
+                    if (typeof object.request !== "object")
+                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.request: object expected");
+                    message.request = $root.hydrosphere.tensorflow.serving.PredictRequest.fromObject(object.request);
+                }
+                if (object.error != null) {
+                    if (typeof object.error !== "object")
+                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.error: object expected");
+                    message.error = $root.hydrosphere.monitoring.ExecutionError.fromObject(object.error);
+                }
+                if (object.response != null) {
+                    if (typeof object.response !== "object")
+                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.response: object expected");
+                    message.response = $root.hydrosphere.tensorflow.serving.PredictResponse.fromObject(object.response);
+                }
+                if (object.metadata != null) {
+                    if (typeof object.metadata !== "object")
+                        throw TypeError(".hydrosphere.monitoring.ExecutionInformation.metadata: object expected");
+                    message.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.fromObject(object.metadata);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionInformation message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @static
+             * @param {hydrosphere.monitoring.ExecutionInformation} message ExecutionInformation
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionInformation.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.request = null;
+                    object.metadata = null;
+                }
+                if (message.request != null && message.hasOwnProperty("request"))
+                    object.request = $root.hydrosphere.tensorflow.serving.PredictRequest.toObject(message.request, options);
+                if (message.error != null && message.hasOwnProperty("error")) {
+                    object.error = $root.hydrosphere.monitoring.ExecutionError.toObject(message.error, options);
+                    if (options.oneofs)
+                        object.responseOrError = "error";
+                }
+                if (message.response != null && message.hasOwnProperty("response")) {
+                    object.response = $root.hydrosphere.tensorflow.serving.PredictResponse.toObject(message.response, options);
+                    if (options.oneofs)
+                        object.responseOrError = "response";
+                }
+                if (message.metadata != null && message.hasOwnProperty("metadata"))
+                    object.metadata = $root.hydrosphere.monitoring.ExecutionMetadata.toObject(message.metadata, options);
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionInformation to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.monitoring.ExecutionInformation
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionInformation.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionInformation;
+        })();
+
+        monitoring.MonitoringService = (function() {
+
+            /**
+             * Constructs a new MonitoringService service.
+             * @memberof hydrosphere.monitoring
+             * @classdesc Represents a MonitoringService
+             * @extends $protobuf.rpc.Service
+             * @constructor
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             */
+            function MonitoringService(rpcImpl, requestDelimited, responseDelimited) {
+                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+            }
+
+            (MonitoringService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = MonitoringService;
+
+            /**
+             * Creates new MonitoringService service using the specified rpc implementation.
+             * @function create
+             * @memberof hydrosphere.monitoring.MonitoringService
+             * @static
+             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+             * @returns {MonitoringService} RPC service. Useful where requests and/or responses are streamed.
+             */
+            MonitoringService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                return new this(rpcImpl, requestDelimited, responseDelimited);
+            };
+
+            /**
+             * Callback as used by {@link hydrosphere.monitoring.MonitoringService#analyze}.
+             * @memberof hydrosphere.monitoring.MonitoringService
+             * @typedef AnalyzeCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {google.protobuf.Empty} [response] Empty
+             */
+
+            /**
+             * Calls Analyze.
+             * @function analyze
+             * @memberof hydrosphere.monitoring.MonitoringService
+             * @instance
+             * @param {hydrosphere.monitoring.IExecutionInformation} request ExecutionInformation message or plain object
+             * @param {hydrosphere.monitoring.MonitoringService.AnalyzeCallback} callback Node-style callback called with the error, if any, and Empty
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(MonitoringService.prototype.analyze = function analyze(request, callback) {
+                return this.rpcCall(analyze, $root.hydrosphere.monitoring.ExecutionInformation, $root.google.protobuf.Empty, request, callback);
+            }, "name", { value: "Analyze" });
+
+            /**
+             * Calls Analyze.
+             * @function analyze
+             * @memberof hydrosphere.monitoring.MonitoringService
+             * @instance
+             * @param {hydrosphere.monitoring.IExecutionInformation} request ExecutionInformation message or plain object
+             * @returns {Promise<google.protobuf.Empty>} Promise
+             * @variation 2
+             */
+
+            return MonitoringService;
+        })();
+
+        monitoring.ExecutionError = (function() {
+
+            /**
+             * Properties of an ExecutionError.
+             * @memberof hydrosphere.monitoring
+             * @interface IExecutionError
+             * @property {string|null} [errorMessage] ExecutionError errorMessage
+             */
+
+            /**
+             * Constructs a new ExecutionError.
+             * @memberof hydrosphere.monitoring
+             * @classdesc Represents an ExecutionError.
+             * @implements IExecutionError
+             * @constructor
+             * @param {hydrosphere.monitoring.IExecutionError=} [properties] Properties to set
+             */
+            function ExecutionError(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionError errorMessage.
+             * @member {string} errorMessage
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @instance
+             */
+            ExecutionError.prototype.errorMessage = "";
+
+            /**
+             * Creates a new ExecutionError instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionError=} [properties] Properties to set
+             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError instance
+             */
+            ExecutionError.create = function create(properties) {
+                return new ExecutionError(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionError message. Does not implicitly {@link hydrosphere.monitoring.ExecutionError.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionError} message ExecutionError message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionError.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.errorMessage);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionError message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionError.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionError} message ExecutionError message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionError.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionError message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionError.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionError();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.errorMessage = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionError message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionError.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionError message.
+             * @function verify
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionError.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    if (!$util.isString(message.errorMessage))
+                        return "errorMessage: string expected";
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionError message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.monitoring.ExecutionError} ExecutionError
+             */
+            ExecutionError.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.monitoring.ExecutionError)
+                    return object;
+                var message = new $root.hydrosphere.monitoring.ExecutionError();
+                if (object.errorMessage != null)
+                    message.errorMessage = String(object.errorMessage);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionError message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @static
+             * @param {hydrosphere.monitoring.ExecutionError} message ExecutionError
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionError.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.errorMessage = "";
+                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                    object.errorMessage = message.errorMessage;
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionError to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.monitoring.ExecutionError
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionError.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionError;
+        })();
+
+        monitoring.TraceData = (function() {
+
+            /**
+             * Properties of a TraceData.
+             * @memberof hydrosphere.monitoring
+             * @interface ITraceData
+             * @property {number|Long|null} [ts] TraceData ts
+             * @property {number|Long|null} [uid] TraceData uid
+             */
+
+            /**
+             * Constructs a new TraceData.
+             * @memberof hydrosphere.monitoring
+             * @classdesc Represents a TraceData.
+             * @implements ITraceData
+             * @constructor
+             * @param {hydrosphere.monitoring.ITraceData=} [properties] Properties to set
+             */
+            function TraceData(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * TraceData ts.
+             * @member {number|Long} ts
+             * @memberof hydrosphere.monitoring.TraceData
+             * @instance
+             */
+            TraceData.prototype.ts = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * TraceData uid.
+             * @member {number|Long} uid
+             * @memberof hydrosphere.monitoring.TraceData
+             * @instance
+             */
+            TraceData.prototype.uid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Creates a new TraceData instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {hydrosphere.monitoring.ITraceData=} [properties] Properties to set
+             * @returns {hydrosphere.monitoring.TraceData} TraceData instance
+             */
+            TraceData.create = function create(properties) {
+                return new TraceData(properties);
+            };
+
+            /**
+             * Encodes the specified TraceData message. Does not implicitly {@link hydrosphere.monitoring.TraceData.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {hydrosphere.monitoring.ITraceData} message TraceData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TraceData.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.ts != null && message.hasOwnProperty("ts"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.ts);
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.uid);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified TraceData message, length delimited. Does not implicitly {@link hydrosphere.monitoring.TraceData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {hydrosphere.monitoring.ITraceData} message TraceData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TraceData.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a TraceData message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.monitoring.TraceData} TraceData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TraceData.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.TraceData();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.ts = reader.int64();
+                        break;
+                    case 2:
+                        message.uid = reader.int64();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a TraceData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.monitoring.TraceData} TraceData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TraceData.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a TraceData message.
+             * @function verify
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TraceData.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.ts != null && message.hasOwnProperty("ts"))
+                    if (!$util.isInteger(message.ts) && !(message.ts && $util.isInteger(message.ts.low) && $util.isInteger(message.ts.high)))
+                        return "ts: integer|Long expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid) && !(message.uid && $util.isInteger(message.uid.low) && $util.isInteger(message.uid.high)))
+                        return "uid: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a TraceData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.monitoring.TraceData} TraceData
+             */
+            TraceData.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.monitoring.TraceData)
+                    return object;
+                var message = new $root.hydrosphere.monitoring.TraceData();
+                if (object.ts != null)
+                    if ($util.Long)
+                        (message.ts = $util.Long.fromValue(object.ts)).unsigned = false;
+                    else if (typeof object.ts === "string")
+                        message.ts = parseInt(object.ts, 10);
+                    else if (typeof object.ts === "number")
+                        message.ts = object.ts;
+                    else if (typeof object.ts === "object")
+                        message.ts = new $util.LongBits(object.ts.low >>> 0, object.ts.high >>> 0).toNumber();
+                if (object.uid != null)
+                    if ($util.Long)
+                        (message.uid = $util.Long.fromValue(object.uid)).unsigned = false;
+                    else if (typeof object.uid === "string")
+                        message.uid = parseInt(object.uid, 10);
+                    else if (typeof object.uid === "number")
+                        message.uid = object.uid;
+                    else if (typeof object.uid === "object")
+                        message.uid = new $util.LongBits(object.uid.low >>> 0, object.uid.high >>> 0).toNumber();
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a TraceData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.monitoring.TraceData
+             * @static
+             * @param {hydrosphere.monitoring.TraceData} message TraceData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TraceData.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.ts = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.ts = options.longs === String ? "0" : 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.uid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.uid = options.longs === String ? "0" : 0;
+                }
+                if (message.ts != null && message.hasOwnProperty("ts"))
+                    if (typeof message.ts === "number")
+                        object.ts = options.longs === String ? String(message.ts) : message.ts;
+                    else
+                        object.ts = options.longs === String ? $util.Long.prototype.toString.call(message.ts) : options.longs === Number ? new $util.LongBits(message.ts.low >>> 0, message.ts.high >>> 0).toNumber() : message.ts;
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (typeof message.uid === "number")
+                        object.uid = options.longs === String ? String(message.uid) : message.uid;
+                    else
+                        object.uid = options.longs === String ? $util.Long.prototype.toString.call(message.uid) : options.longs === Number ? new $util.LongBits(message.uid.low >>> 0, message.uid.high >>> 0).toNumber() : message.uid;
+                return object;
+            };
+
+            /**
+             * Converts this TraceData to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.monitoring.TraceData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TraceData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return TraceData;
+        })();
+
+        monitoring.ExecutionMetadata = (function() {
+
+            /**
+             * Properties of an ExecutionMetadata.
+             * @memberof hydrosphere.monitoring
+             * @interface IExecutionMetadata
+             * @property {number|Long|null} [applicationId] ExecutionMetadata applicationId
+             * @property {string|null} [stageId] ExecutionMetadata stageId
+             * @property {number|Long|null} [modelVersionId] ExecutionMetadata modelVersionId
+             * @property {string|null} [signatureName] ExecutionMetadata signatureName
+             * @property {string|null} [requestId] ExecutionMetadata requestId
+             * @property {string|null} [applicationRequestId] ExecutionMetadata applicationRequestId
+             * @property {string|null} [applicationNamespace] ExecutionMetadata applicationNamespace
+             * @property {string|null} [modelName] ExecutionMetadata modelName
+             * @property {hydrosphere.monitoring.ITraceData|null} [traceData] ExecutionMetadata traceData
+             */
+
+            /**
+             * Constructs a new ExecutionMetadata.
+             * @memberof hydrosphere.monitoring
+             * @classdesc Represents an ExecutionMetadata.
+             * @implements IExecutionMetadata
+             * @constructor
+             * @param {hydrosphere.monitoring.IExecutionMetadata=} [properties] Properties to set
+             */
+            function ExecutionMetadata(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * ExecutionMetadata applicationId.
+             * @member {number|Long} applicationId
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.applicationId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * ExecutionMetadata stageId.
+             * @member {string} stageId
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.stageId = "";
+
+            /**
+             * ExecutionMetadata modelVersionId.
+             * @member {number|Long} modelVersionId
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.modelVersionId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * ExecutionMetadata signatureName.
+             * @member {string} signatureName
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.signatureName = "";
+
+            /**
+             * ExecutionMetadata requestId.
+             * @member {string} requestId
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.requestId = "";
+
+            /**
+             * ExecutionMetadata applicationRequestId.
+             * @member {string} applicationRequestId
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.applicationRequestId = "";
+
+            /**
+             * ExecutionMetadata applicationNamespace.
+             * @member {string} applicationNamespace
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.applicationNamespace = "";
+
+            /**
+             * ExecutionMetadata modelName.
+             * @member {string} modelName
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.modelName = "";
+
+            /**
+             * ExecutionMetadata traceData.
+             * @member {hydrosphere.monitoring.ITraceData|null|undefined} traceData
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             */
+            ExecutionMetadata.prototype.traceData = null;
+
+            /**
+             * Creates a new ExecutionMetadata instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionMetadata=} [properties] Properties to set
+             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata instance
+             */
+            ExecutionMetadata.create = function create(properties) {
+                return new ExecutionMetadata(properties);
+            };
+
+            /**
+             * Encodes the specified ExecutionMetadata message. Does not implicitly {@link hydrosphere.monitoring.ExecutionMetadata.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionMetadata} message ExecutionMetadata message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionMetadata.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.applicationId);
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.stageId);
+                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.modelVersionId);
+                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.signatureName);
+                if (message.requestId != null && message.hasOwnProperty("requestId"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.requestId);
+                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.applicationRequestId);
+                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.applicationNamespace);
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.modelName);
+                if (message.traceData != null && message.hasOwnProperty("traceData"))
+                    $root.hydrosphere.monitoring.TraceData.encode(message.traceData, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ExecutionMetadata message, length delimited. Does not implicitly {@link hydrosphere.monitoring.ExecutionMetadata.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {hydrosphere.monitoring.IExecutionMetadata} message ExecutionMetadata message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ExecutionMetadata.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes an ExecutionMetadata message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionMetadata.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.monitoring.ExecutionMetadata();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.applicationId = reader.int64();
+                        break;
+                    case 2:
+                        message.stageId = reader.string();
+                        break;
+                    case 3:
+                        message.modelVersionId = reader.int64();
+                        break;
+                    case 4:
+                        message.signatureName = reader.string();
+                        break;
+                    case 5:
+                        message.requestId = reader.string();
+                        break;
+                    case 6:
+                        message.applicationRequestId = reader.string();
+                        break;
+                    case 7:
+                        message.applicationNamespace = reader.string();
+                        break;
+                    case 8:
+                        message.modelName = reader.string();
+                        break;
+                    case 10:
+                        message.traceData = $root.hydrosphere.monitoring.TraceData.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes an ExecutionMetadata message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ExecutionMetadata.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an ExecutionMetadata message.
+             * @function verify
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ExecutionMetadata.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    if (!$util.isInteger(message.applicationId) && !(message.applicationId && $util.isInteger(message.applicationId.low) && $util.isInteger(message.applicationId.high)))
+                        return "applicationId: integer|Long expected";
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    if (!$util.isString(message.stageId))
+                        return "stageId: string expected";
+                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
+                    if (!$util.isInteger(message.modelVersionId) && !(message.modelVersionId && $util.isInteger(message.modelVersionId.low) && $util.isInteger(message.modelVersionId.high)))
+                        return "modelVersionId: integer|Long expected";
+                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                    if (!$util.isString(message.signatureName))
+                        return "signatureName: string expected";
+                if (message.requestId != null && message.hasOwnProperty("requestId"))
+                    if (!$util.isString(message.requestId))
+                        return "requestId: string expected";
+                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
+                    if (!$util.isString(message.applicationRequestId))
+                        return "applicationRequestId: string expected";
+                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
+                    if (!$util.isString(message.applicationNamespace))
+                        return "applicationNamespace: string expected";
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    if (!$util.isString(message.modelName))
+                        return "modelName: string expected";
+                if (message.traceData != null && message.hasOwnProperty("traceData")) {
+                    var error = $root.hydrosphere.monitoring.TraceData.verify(message.traceData);
+                    if (error)
+                        return "traceData." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates an ExecutionMetadata message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.monitoring.ExecutionMetadata} ExecutionMetadata
+             */
+            ExecutionMetadata.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.monitoring.ExecutionMetadata)
+                    return object;
+                var message = new $root.hydrosphere.monitoring.ExecutionMetadata();
+                if (object.applicationId != null)
+                    if ($util.Long)
+                        (message.applicationId = $util.Long.fromValue(object.applicationId)).unsigned = false;
+                    else if (typeof object.applicationId === "string")
+                        message.applicationId = parseInt(object.applicationId, 10);
+                    else if (typeof object.applicationId === "number")
+                        message.applicationId = object.applicationId;
+                    else if (typeof object.applicationId === "object")
+                        message.applicationId = new $util.LongBits(object.applicationId.low >>> 0, object.applicationId.high >>> 0).toNumber();
+                if (object.stageId != null)
+                    message.stageId = String(object.stageId);
+                if (object.modelVersionId != null)
+                    if ($util.Long)
+                        (message.modelVersionId = $util.Long.fromValue(object.modelVersionId)).unsigned = false;
+                    else if (typeof object.modelVersionId === "string")
+                        message.modelVersionId = parseInt(object.modelVersionId, 10);
+                    else if (typeof object.modelVersionId === "number")
+                        message.modelVersionId = object.modelVersionId;
+                    else if (typeof object.modelVersionId === "object")
+                        message.modelVersionId = new $util.LongBits(object.modelVersionId.low >>> 0, object.modelVersionId.high >>> 0).toNumber();
+                if (object.signatureName != null)
+                    message.signatureName = String(object.signatureName);
+                if (object.requestId != null)
+                    message.requestId = String(object.requestId);
+                if (object.applicationRequestId != null)
+                    message.applicationRequestId = String(object.applicationRequestId);
+                if (object.applicationNamespace != null)
+                    message.applicationNamespace = String(object.applicationNamespace);
+                if (object.modelName != null)
+                    message.modelName = String(object.modelName);
+                if (object.traceData != null) {
+                    if (typeof object.traceData !== "object")
+                        throw TypeError(".hydrosphere.monitoring.ExecutionMetadata.traceData: object expected");
+                    message.traceData = $root.hydrosphere.monitoring.TraceData.fromObject(object.traceData);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an ExecutionMetadata message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @static
+             * @param {hydrosphere.monitoring.ExecutionMetadata} message ExecutionMetadata
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ExecutionMetadata.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.applicationId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.applicationId = options.longs === String ? "0" : 0;
+                    object.stageId = "";
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.modelVersionId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.modelVersionId = options.longs === String ? "0" : 0;
+                    object.signatureName = "";
+                    object.requestId = "";
+                    object.applicationRequestId = "";
+                    object.applicationNamespace = "";
+                    object.modelName = "";
+                    object.traceData = null;
+                }
+                if (message.applicationId != null && message.hasOwnProperty("applicationId"))
+                    if (typeof message.applicationId === "number")
+                        object.applicationId = options.longs === String ? String(message.applicationId) : message.applicationId;
+                    else
+                        object.applicationId = options.longs === String ? $util.Long.prototype.toString.call(message.applicationId) : options.longs === Number ? new $util.LongBits(message.applicationId.low >>> 0, message.applicationId.high >>> 0).toNumber() : message.applicationId;
+                if (message.stageId != null && message.hasOwnProperty("stageId"))
+                    object.stageId = message.stageId;
+                if (message.modelVersionId != null && message.hasOwnProperty("modelVersionId"))
+                    if (typeof message.modelVersionId === "number")
+                        object.modelVersionId = options.longs === String ? String(message.modelVersionId) : message.modelVersionId;
+                    else
+                        object.modelVersionId = options.longs === String ? $util.Long.prototype.toString.call(message.modelVersionId) : options.longs === Number ? new $util.LongBits(message.modelVersionId.low >>> 0, message.modelVersionId.high >>> 0).toNumber() : message.modelVersionId;
+                if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                    object.signatureName = message.signatureName;
+                if (message.requestId != null && message.hasOwnProperty("requestId"))
+                    object.requestId = message.requestId;
+                if (message.applicationRequestId != null && message.hasOwnProperty("applicationRequestId"))
+                    object.applicationRequestId = message.applicationRequestId;
+                if (message.applicationNamespace != null && message.hasOwnProperty("applicationNamespace"))
+                    object.applicationNamespace = message.applicationNamespace;
+                if (message.modelName != null && message.hasOwnProperty("modelName"))
+                    object.modelName = message.modelName;
+                if (message.traceData != null && message.hasOwnProperty("traceData"))
+                    object.traceData = $root.hydrosphere.monitoring.TraceData.toObject(message.traceData, options);
+                return object;
+            };
+
+            /**
+             * Converts this ExecutionMetadata to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.monitoring.ExecutionMetadata
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ExecutionMetadata.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ExecutionMetadata;
+        })();
+
+        return monitoring;
+    })();
+
+    hydrosphere.tensorflow = (function() {
+
+        /**
+         * Namespace tensorflow.
+         * @memberof hydrosphere
+         * @namespace
+         */
+        var tensorflow = {};
+
+        tensorflow.TensorShapeProto = (function() {
+
+            /**
+             * Properties of a TensorShapeProto.
+             * @memberof hydrosphere.tensorflow
+             * @interface ITensorShapeProto
+             * @property {Array.<hydrosphere.tensorflow.TensorShapeProto.IDim>|null} [dim] TensorShapeProto dim
+             * @property {boolean|null} [unknownRank] TensorShapeProto unknownRank
+             */
+
+            /**
+             * Constructs a new TensorShapeProto.
+             * @memberof hydrosphere.tensorflow
+             * @classdesc Represents a TensorShapeProto.
+             * @implements ITensorShapeProto
+             * @constructor
+             * @param {hydrosphere.tensorflow.ITensorShapeProto=} [properties] Properties to set
+             */
+            function TensorShapeProto(properties) {
+                this.dim = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * TensorShapeProto dim.
+             * @member {Array.<hydrosphere.tensorflow.TensorShapeProto.IDim>} dim
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @instance
+             */
+            TensorShapeProto.prototype.dim = $util.emptyArray;
+
+            /**
+             * TensorShapeProto unknownRank.
+             * @member {boolean} unknownRank
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @instance
+             */
+            TensorShapeProto.prototype.unknownRank = false;
+
+            /**
+             * Creates a new TensorShapeProto instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorShapeProto=} [properties] Properties to set
+             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto instance
+             */
+            TensorShapeProto.create = function create(properties) {
+                return new TensorShapeProto(properties);
+            };
+
+            /**
+             * Encodes the specified TensorShapeProto message. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorShapeProto} message TensorShapeProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TensorShapeProto.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.dim != null && message.dim.length)
+                    for (var i = 0; i < message.dim.length; ++i)
+                        $root.hydrosphere.tensorflow.TensorShapeProto.Dim.encode(message.dim[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.unknownRank);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified TensorShapeProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorShapeProto} message TensorShapeProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TensorShapeProto.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a TensorShapeProto message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TensorShapeProto.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorShapeProto();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 2:
+                        if (!(message.dim && message.dim.length))
+                            message.dim = [];
+                        message.dim.push($root.hydrosphere.tensorflow.TensorShapeProto.Dim.decode(reader, reader.uint32()));
+                        break;
+                    case 3:
+                        message.unknownRank = reader.bool();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a TensorShapeProto message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TensorShapeProto.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a TensorShapeProto message.
+             * @function verify
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TensorShapeProto.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.dim != null && message.hasOwnProperty("dim")) {
+                    if (!Array.isArray(message.dim))
+                        return "dim: array expected";
+                    for (var i = 0; i < message.dim.length; ++i) {
+                        var error = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.verify(message.dim[i]);
+                        if (error)
+                            return "dim." + error;
+                    }
+                }
+                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
+                    if (typeof message.unknownRank !== "boolean")
+                        return "unknownRank: boolean expected";
+                return null;
+            };
+
+            /**
+             * Creates a TensorShapeProto message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.tensorflow.TensorShapeProto} TensorShapeProto
+             */
+            TensorShapeProto.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.tensorflow.TensorShapeProto)
+                    return object;
+                var message = new $root.hydrosphere.tensorflow.TensorShapeProto();
+                if (object.dim) {
+                    if (!Array.isArray(object.dim))
+                        throw TypeError(".hydrosphere.tensorflow.TensorShapeProto.dim: array expected");
+                    message.dim = [];
+                    for (var i = 0; i < object.dim.length; ++i) {
+                        if (typeof object.dim[i] !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.TensorShapeProto.dim: object expected");
+                        message.dim[i] = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.fromObject(object.dim[i]);
+                    }
+                }
+                if (object.unknownRank != null)
+                    message.unknownRank = Boolean(object.unknownRank);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a TensorShapeProto message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @static
+             * @param {hydrosphere.tensorflow.TensorShapeProto} message TensorShapeProto
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TensorShapeProto.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.dim = [];
+                if (options.defaults)
+                    object.unknownRank = false;
+                if (message.dim && message.dim.length) {
+                    object.dim = [];
+                    for (var j = 0; j < message.dim.length; ++j)
+                        object.dim[j] = $root.hydrosphere.tensorflow.TensorShapeProto.Dim.toObject(message.dim[j], options);
+                }
+                if (message.unknownRank != null && message.hasOwnProperty("unknownRank"))
+                    object.unknownRank = message.unknownRank;
+                return object;
+            };
+
+            /**
+             * Converts this TensorShapeProto to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.tensorflow.TensorShapeProto
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TensorShapeProto.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            TensorShapeProto.Dim = (function() {
+
+                /**
+                 * Properties of a Dim.
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto
+                 * @interface IDim
+                 * @property {number|Long|null} [size] Dim size
+                 * @property {string|null} [name] Dim name
+                 */
+
+                /**
+                 * Constructs a new Dim.
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto
+                 * @classdesc Represents a Dim.
+                 * @implements IDim
+                 * @constructor
+                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim=} [properties] Properties to set
+                 */
+                function Dim(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Dim size.
+                 * @member {number|Long} size
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @instance
+                 */
+                Dim.prototype.size = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+                /**
+                 * Dim name.
+                 * @member {string} name
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @instance
+                 */
+                Dim.prototype.name = "";
+
+                /**
+                 * Creates a new Dim instance using the specified properties.
+                 * @function create
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim=} [properties] Properties to set
+                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim instance
+                 */
+                Dim.create = function create(properties) {
+                    return new Dim(properties);
+                };
+
+                /**
+                 * Encodes the specified Dim message. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.Dim.verify|verify} messages.
+                 * @function encode
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim} message Dim message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Dim.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.size != null && message.hasOwnProperty("size"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.size);
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Dim message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorShapeProto.Dim.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {hydrosphere.tensorflow.TensorShapeProto.IDim} message Dim message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Dim.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a Dim message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Dim.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorShapeProto.Dim();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.size = reader.int64();
+                            break;
+                        case 2:
+                            message.name = reader.string();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a Dim message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Dim.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a Dim message.
+                 * @function verify
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Dim.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.size != null && message.hasOwnProperty("size"))
+                        if (!$util.isInteger(message.size) && !(message.size && $util.isInteger(message.size.low) && $util.isInteger(message.size.high)))
+                            return "size: integer|Long expected";
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        if (!$util.isString(message.name))
+                            return "name: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a Dim message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {hydrosphere.tensorflow.TensorShapeProto.Dim} Dim
+                 */
+                Dim.fromObject = function fromObject(object) {
+                    if (object instanceof $root.hydrosphere.tensorflow.TensorShapeProto.Dim)
+                        return object;
+                    var message = new $root.hydrosphere.tensorflow.TensorShapeProto.Dim();
+                    if (object.size != null)
+                        if ($util.Long)
+                            (message.size = $util.Long.fromValue(object.size)).unsigned = false;
+                        else if (typeof object.size === "string")
+                            message.size = parseInt(object.size, 10);
+                        else if (typeof object.size === "number")
+                            message.size = object.size;
+                        else if (typeof object.size === "object")
+                            message.size = new $util.LongBits(object.size.low >>> 0, object.size.high >>> 0).toNumber();
+                    if (object.name != null)
+                        message.name = String(object.name);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a Dim message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @static
+                 * @param {hydrosphere.tensorflow.TensorShapeProto.Dim} message Dim
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Dim.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        if ($util.Long) {
+                            var long = new $util.Long(0, 0, false);
+                            object.size = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        } else
+                            object.size = options.longs === String ? "0" : 0;
+                        object.name = "";
+                    }
+                    if (message.size != null && message.hasOwnProperty("size"))
+                        if (typeof message.size === "number")
+                            object.size = options.longs === String ? String(message.size) : message.size;
+                        else
+                            object.size = options.longs === String ? $util.Long.prototype.toString.call(message.size) : options.longs === Number ? new $util.LongBits(message.size.low >>> 0, message.size.high >>> 0).toNumber() : message.size;
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = message.name;
+                    return object;
+                };
+
+                /**
+                 * Converts this Dim to JSON.
+                 * @function toJSON
+                 * @memberof hydrosphere.tensorflow.TensorShapeProto.Dim
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Dim.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return Dim;
+            })();
+
+            return TensorShapeProto;
+        })();
+
+        /**
+         * DataType enum.
+         * @name hydrosphere.tensorflow.DataType
+         * @enum {string}
+         * @property {number} DT_INVALID=0 DT_INVALID value
+         * @property {number} DT_FLOAT=1 DT_FLOAT value
+         * @property {number} DT_DOUBLE=2 DT_DOUBLE value
+         * @property {number} DT_INT32=3 DT_INT32 value
+         * @property {number} DT_UINT8=4 DT_UINT8 value
+         * @property {number} DT_INT16=5 DT_INT16 value
+         * @property {number} DT_INT8=6 DT_INT8 value
+         * @property {number} DT_STRING=7 DT_STRING value
+         * @property {number} DT_COMPLEX64=8 DT_COMPLEX64 value
+         * @property {number} DT_INT64=9 DT_INT64 value
+         * @property {number} DT_BOOL=10 DT_BOOL value
+         * @property {number} DT_QINT8=11 DT_QINT8 value
+         * @property {number} DT_QUINT8=12 DT_QUINT8 value
+         * @property {number} DT_QINT32=13 DT_QINT32 value
+         * @property {number} DT_BFLOAT16=14 DT_BFLOAT16 value
+         * @property {number} DT_QINT16=15 DT_QINT16 value
+         * @property {number} DT_QUINT16=16 DT_QUINT16 value
+         * @property {number} DT_UINT16=17 DT_UINT16 value
+         * @property {number} DT_COMPLEX128=18 DT_COMPLEX128 value
+         * @property {number} DT_HALF=19 DT_HALF value
+         * @property {number} DT_RESOURCE=20 DT_RESOURCE value
+         * @property {number} DT_VARIANT=21 DT_VARIANT value
+         * @property {number} DT_UINT32=22 DT_UINT32 value
+         * @property {number} DT_UINT64=23 DT_UINT64 value
+         * @property {number} DT_MAP=27 DT_MAP value
+         */
+        tensorflow.DataType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "DT_INVALID"] = 0;
+            values[valuesById[1] = "DT_FLOAT"] = 1;
+            values[valuesById[2] = "DT_DOUBLE"] = 2;
+            values[valuesById[3] = "DT_INT32"] = 3;
+            values[valuesById[4] = "DT_UINT8"] = 4;
+            values[valuesById[5] = "DT_INT16"] = 5;
+            values[valuesById[6] = "DT_INT8"] = 6;
+            values[valuesById[7] = "DT_STRING"] = 7;
+            values[valuesById[8] = "DT_COMPLEX64"] = 8;
+            values[valuesById[9] = "DT_INT64"] = 9;
+            values[valuesById[10] = "DT_BOOL"] = 10;
+            values[valuesById[11] = "DT_QINT8"] = 11;
+            values[valuesById[12] = "DT_QUINT8"] = 12;
+            values[valuesById[13] = "DT_QINT32"] = 13;
+            values[valuesById[14] = "DT_BFLOAT16"] = 14;
+            values[valuesById[15] = "DT_QINT16"] = 15;
+            values[valuesById[16] = "DT_QUINT16"] = 16;
+            values[valuesById[17] = "DT_UINT16"] = 17;
+            values[valuesById[18] = "DT_COMPLEX128"] = 18;
+            values[valuesById[19] = "DT_HALF"] = 19;
+            values[valuesById[20] = "DT_RESOURCE"] = 20;
+            values[valuesById[21] = "DT_VARIANT"] = 21;
+            values[valuesById[22] = "DT_UINT32"] = 22;
+            values[valuesById[23] = "DT_UINT64"] = 23;
+            values[valuesById[27] = "DT_MAP"] = 27;
+            return values;
+        })();
+
+        tensorflow.serving = (function() {
+
+            /**
+             * Namespace serving.
+             * @memberof hydrosphere.tensorflow
+             * @namespace
+             */
+            var serving = {};
+
+            serving.PredictRequest = (function() {
+
+                /**
+                 * Properties of a PredictRequest.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @interface IPredictRequest
+                 * @property {hydrosphere.tensorflow.serving.IModelSpec|null} [modelSpec] PredictRequest modelSpec
+                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [inputs] PredictRequest inputs
+                 */
+
+                /**
+                 * Constructs a new PredictRequest.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @classdesc Represents a PredictRequest.
+                 * @implements IPredictRequest
+                 * @constructor
+                 * @param {hydrosphere.tensorflow.serving.IPredictRequest=} [properties] Properties to set
+                 */
+                function PredictRequest(properties) {
+                    this.inputs = {};
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * PredictRequest modelSpec.
+                 * @member {hydrosphere.tensorflow.serving.IModelSpec|null|undefined} modelSpec
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @instance
+                 */
+                PredictRequest.prototype.modelSpec = null;
+
+                /**
+                 * PredictRequest inputs.
+                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} inputs
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @instance
+                 */
+                PredictRequest.prototype.inputs = $util.emptyObject;
+
+                /**
+                 * Creates a new PredictRequest instance using the specified properties.
+                 * @function create
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictRequest=} [properties] Properties to set
+                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest instance
+                 */
+                PredictRequest.create = function create(properties) {
+                    return new PredictRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified PredictRequest message. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictRequest} message PredictRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PredictRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec"))
+                        $root.hydrosphere.tensorflow.serving.ModelSpec.encode(message.modelSpec, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.inputs != null && message.hasOwnProperty("inputs"))
+                        for (var keys = Object.keys(message.inputs), i = 0; i < keys.length; ++i) {
+                            writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                            $root.hydrosphere.tensorflow.TensorProto.encode(message.inputs[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                        }
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified PredictRequest message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictRequest} message PredictRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PredictRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a PredictRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PredictRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.PredictRequest(), key;
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.decode(reader, reader.uint32());
+                            break;
+                        case 2:
+                            reader.skip().pos++;
+                            if (message.inputs === $util.emptyObject)
+                                message.inputs = {};
+                            key = reader.string();
+                            reader.pos++;
+                            message.inputs[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a PredictRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PredictRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a PredictRequest message.
+                 * @function verify
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                PredictRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec")) {
+                        var error = $root.hydrosphere.tensorflow.serving.ModelSpec.verify(message.modelSpec);
+                        if (error)
+                            return "modelSpec." + error;
+                    }
+                    if (message.inputs != null && message.hasOwnProperty("inputs")) {
+                        if (!$util.isObject(message.inputs))
+                            return "inputs: object expected";
+                        var key = Object.keys(message.inputs);
+                        for (var i = 0; i < key.length; ++i) {
+                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.inputs[key[i]]);
+                            if (error)
+                                return "inputs." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a PredictRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {hydrosphere.tensorflow.serving.PredictRequest} PredictRequest
+                 */
+                PredictRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.hydrosphere.tensorflow.serving.PredictRequest)
+                        return object;
+                    var message = new $root.hydrosphere.tensorflow.serving.PredictRequest();
+                    if (object.modelSpec != null) {
+                        if (typeof object.modelSpec !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.modelSpec: object expected");
+                        message.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.fromObject(object.modelSpec);
+                    }
+                    if (object.inputs) {
+                        if (typeof object.inputs !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.inputs: object expected");
+                        message.inputs = {};
+                        for (var keys = Object.keys(object.inputs), i = 0; i < keys.length; ++i) {
+                            if (typeof object.inputs[keys[i]] !== "object")
+                                throw TypeError(".hydrosphere.tensorflow.serving.PredictRequest.inputs: object expected");
+                            message.inputs[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.inputs[keys[i]]);
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a PredictRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.PredictRequest} message PredictRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                PredictRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.objects || options.defaults)
+                        object.inputs = {};
+                    if (options.defaults)
+                        object.modelSpec = null;
+                    if (message.modelSpec != null && message.hasOwnProperty("modelSpec"))
+                        object.modelSpec = $root.hydrosphere.tensorflow.serving.ModelSpec.toObject(message.modelSpec, options);
+                    var keys2;
+                    if (message.inputs && (keys2 = Object.keys(message.inputs)).length) {
+                        object.inputs = {};
+                        for (var j = 0; j < keys2.length; ++j)
+                            object.inputs[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.inputs[keys2[j]], options);
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this PredictRequest to JSON.
+                 * @function toJSON
+                 * @memberof hydrosphere.tensorflow.serving.PredictRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                PredictRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return PredictRequest;
+            })();
+
+            serving.PredictResponse = (function() {
+
+                /**
+                 * Properties of a PredictResponse.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @interface IPredictResponse
+                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [outputs] PredictResponse outputs
+                 * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [internalInfo] PredictResponse internalInfo
+                 * @property {hydrosphere.monitoring.ITraceData|null} [traceData] PredictResponse traceData
+                 */
+
+                /**
+                 * Constructs a new PredictResponse.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @classdesc Represents a PredictResponse.
+                 * @implements IPredictResponse
+                 * @constructor
+                 * @param {hydrosphere.tensorflow.serving.IPredictResponse=} [properties] Properties to set
+                 */
+                function PredictResponse(properties) {
+                    this.outputs = {};
+                    this.internalInfo = {};
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * PredictResponse outputs.
+                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} outputs
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @instance
+                 */
+                PredictResponse.prototype.outputs = $util.emptyObject;
+
+                /**
+                 * PredictResponse internalInfo.
+                 * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} internalInfo
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @instance
+                 */
+                PredictResponse.prototype.internalInfo = $util.emptyObject;
+
+                /**
+                 * PredictResponse traceData.
+                 * @member {hydrosphere.monitoring.ITraceData|null|undefined} traceData
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @instance
+                 */
+                PredictResponse.prototype.traceData = null;
+
+                /**
+                 * Creates a new PredictResponse instance using the specified properties.
+                 * @function create
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictResponse=} [properties] Properties to set
+                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse instance
+                 */
+                PredictResponse.create = function create(properties) {
+                    return new PredictResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified PredictResponse message. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictResponse} message PredictResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PredictResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.outputs != null && message.hasOwnProperty("outputs"))
+                        for (var keys = Object.keys(message.outputs), i = 0; i < keys.length; ++i) {
+                            writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                            $root.hydrosphere.tensorflow.TensorProto.encode(message.outputs[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                        }
+                    if (message.internalInfo != null && message.hasOwnProperty("internalInfo"))
+                        for (var keys = Object.keys(message.internalInfo), i = 0; i < keys.length; ++i) {
+                            writer.uint32(/* id 101, wireType 2 =*/810).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                            $root.hydrosphere.tensorflow.TensorProto.encode(message.internalInfo[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                        }
+                    if (message.traceData != null && message.hasOwnProperty("traceData"))
+                        $root.hydrosphere.monitoring.TraceData.encode(message.traceData, writer.uint32(/* id 102, wireType 2 =*/818).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified PredictResponse message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.PredictResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IPredictResponse} message PredictResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                PredictResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a PredictResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PredictResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.PredictResponse(), key;
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            reader.skip().pos++;
+                            if (message.outputs === $util.emptyObject)
+                                message.outputs = {};
+                            key = reader.string();
+                            reader.pos++;
+                            message.outputs[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
+                            break;
+                        case 101:
+                            reader.skip().pos++;
+                            if (message.internalInfo === $util.emptyObject)
+                                message.internalInfo = {};
+                            key = reader.string();
+                            reader.pos++;
+                            message.internalInfo[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
+                            break;
+                        case 102:
+                            message.traceData = $root.hydrosphere.monitoring.TraceData.decode(reader, reader.uint32());
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a PredictResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                PredictResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a PredictResponse message.
+                 * @function verify
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                PredictResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.outputs != null && message.hasOwnProperty("outputs")) {
+                        if (!$util.isObject(message.outputs))
+                            return "outputs: object expected";
+                        var key = Object.keys(message.outputs);
+                        for (var i = 0; i < key.length; ++i) {
+                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.outputs[key[i]]);
+                            if (error)
+                                return "outputs." + error;
+                        }
+                    }
+                    if (message.internalInfo != null && message.hasOwnProperty("internalInfo")) {
+                        if (!$util.isObject(message.internalInfo))
+                            return "internalInfo: object expected";
+                        var key = Object.keys(message.internalInfo);
+                        for (var i = 0; i < key.length; ++i) {
+                            var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.internalInfo[key[i]]);
+                            if (error)
+                                return "internalInfo." + error;
+                        }
+                    }
+                    if (message.traceData != null && message.hasOwnProperty("traceData")) {
+                        var error = $root.hydrosphere.monitoring.TraceData.verify(message.traceData);
+                        if (error)
+                            return "traceData." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a PredictResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {hydrosphere.tensorflow.serving.PredictResponse} PredictResponse
+                 */
+                PredictResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.hydrosphere.tensorflow.serving.PredictResponse)
+                        return object;
+                    var message = new $root.hydrosphere.tensorflow.serving.PredictResponse();
+                    if (object.outputs) {
+                        if (typeof object.outputs !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.outputs: object expected");
+                        message.outputs = {};
+                        for (var keys = Object.keys(object.outputs), i = 0; i < keys.length; ++i) {
+                            if (typeof object.outputs[keys[i]] !== "object")
+                                throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.outputs: object expected");
+                            message.outputs[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.outputs[keys[i]]);
+                        }
+                    }
+                    if (object.internalInfo) {
+                        if (typeof object.internalInfo !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.internalInfo: object expected");
+                        message.internalInfo = {};
+                        for (var keys = Object.keys(object.internalInfo), i = 0; i < keys.length; ++i) {
+                            if (typeof object.internalInfo[keys[i]] !== "object")
+                                throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.internalInfo: object expected");
+                            message.internalInfo[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.internalInfo[keys[i]]);
+                        }
+                    }
+                    if (object.traceData != null) {
+                        if (typeof object.traceData !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.PredictResponse.traceData: object expected");
+                        message.traceData = $root.hydrosphere.monitoring.TraceData.fromObject(object.traceData);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a PredictResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.PredictResponse} message PredictResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                PredictResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.objects || options.defaults) {
+                        object.outputs = {};
+                        object.internalInfo = {};
+                    }
+                    if (options.defaults)
+                        object.traceData = null;
+                    var keys2;
+                    if (message.outputs && (keys2 = Object.keys(message.outputs)).length) {
+                        object.outputs = {};
+                        for (var j = 0; j < keys2.length; ++j)
+                            object.outputs[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.outputs[keys2[j]], options);
+                    }
+                    if (message.internalInfo && (keys2 = Object.keys(message.internalInfo)).length) {
+                        object.internalInfo = {};
+                        for (var j = 0; j < keys2.length; ++j)
+                            object.internalInfo[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.internalInfo[keys2[j]], options);
+                    }
+                    if (message.traceData != null && message.hasOwnProperty("traceData"))
+                        object.traceData = $root.hydrosphere.monitoring.TraceData.toObject(message.traceData, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this PredictResponse to JSON.
+                 * @function toJSON
+                 * @memberof hydrosphere.tensorflow.serving.PredictResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                PredictResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return PredictResponse;
+            })();
+
+            serving.ModelSpec = (function() {
+
+                /**
+                 * Properties of a ModelSpec.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @interface IModelSpec
+                 * @property {string|null} [name] ModelSpec name
+                 * @property {google.protobuf.IInt64Value|null} [version] ModelSpec version
+                 * @property {string|null} [signatureName] ModelSpec signatureName
+                 */
+
+                /**
+                 * Constructs a new ModelSpec.
+                 * @memberof hydrosphere.tensorflow.serving
+                 * @classdesc Represents a ModelSpec.
+                 * @implements IModelSpec
+                 * @constructor
+                 * @param {hydrosphere.tensorflow.serving.IModelSpec=} [properties] Properties to set
+                 */
+                function ModelSpec(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * ModelSpec name.
+                 * @member {string} name
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @instance
+                 */
+                ModelSpec.prototype.name = "";
+
+                /**
+                 * ModelSpec version.
+                 * @member {google.protobuf.IInt64Value|null|undefined} version
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @instance
+                 */
+                ModelSpec.prototype.version = null;
+
+                /**
+                 * ModelSpec signatureName.
+                 * @member {string} signatureName
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @instance
+                 */
+                ModelSpec.prototype.signatureName = "";
+
+                /**
+                 * Creates a new ModelSpec instance using the specified properties.
+                 * @function create
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IModelSpec=} [properties] Properties to set
+                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec instance
+                 */
+                ModelSpec.create = function create(properties) {
+                    return new ModelSpec(properties);
+                };
+
+                /**
+                 * Encodes the specified ModelSpec message. Does not implicitly {@link hydrosphere.tensorflow.serving.ModelSpec.verify|verify} messages.
+                 * @function encode
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IModelSpec} message ModelSpec message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ModelSpec.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                    if (message.version != null && message.hasOwnProperty("version"))
+                        $root.google.protobuf.Int64Value.encode(message.version, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.signatureName);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified ModelSpec message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.serving.ModelSpec.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.IModelSpec} message ModelSpec message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ModelSpec.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a ModelSpec message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ModelSpec.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.serving.ModelSpec();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.name = reader.string();
+                            break;
+                        case 2:
+                            message.version = $root.google.protobuf.Int64Value.decode(reader, reader.uint32());
+                            break;
+                        case 3:
+                            message.signatureName = reader.string();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a ModelSpec message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ModelSpec.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a ModelSpec message.
+                 * @function verify
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ModelSpec.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        if (!$util.isString(message.name))
+                            return "name: string expected";
+                    if (message.version != null && message.hasOwnProperty("version")) {
+                        var error = $root.google.protobuf.Int64Value.verify(message.version);
+                        if (error)
+                            return "version." + error;
+                    }
+                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                        if (!$util.isString(message.signatureName))
+                            return "signatureName: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a ModelSpec message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {hydrosphere.tensorflow.serving.ModelSpec} ModelSpec
+                 */
+                ModelSpec.fromObject = function fromObject(object) {
+                    if (object instanceof $root.hydrosphere.tensorflow.serving.ModelSpec)
+                        return object;
+                    var message = new $root.hydrosphere.tensorflow.serving.ModelSpec();
+                    if (object.name != null)
+                        message.name = String(object.name);
+                    if (object.version != null) {
+                        if (typeof object.version !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.serving.ModelSpec.version: object expected");
+                        message.version = $root.google.protobuf.Int64Value.fromObject(object.version);
+                    }
+                    if (object.signatureName != null)
+                        message.signatureName = String(object.signatureName);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a ModelSpec message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @static
+                 * @param {hydrosphere.tensorflow.serving.ModelSpec} message ModelSpec
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ModelSpec.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.name = "";
+                        object.version = null;
+                        object.signatureName = "";
+                    }
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = message.name;
+                    if (message.version != null && message.hasOwnProperty("version"))
+                        object.version = $root.google.protobuf.Int64Value.toObject(message.version, options);
+                    if (message.signatureName != null && message.hasOwnProperty("signatureName"))
+                        object.signatureName = message.signatureName;
+                    return object;
+                };
+
+                /**
+                 * Converts this ModelSpec to JSON.
+                 * @function toJSON
+                 * @memberof hydrosphere.tensorflow.serving.ModelSpec
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ModelSpec.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                return ModelSpec;
+            })();
+
+            return serving;
+        })();
+
+        tensorflow.TensorProto = (function() {
+
+            /**
+             * Properties of a TensorProto.
+             * @memberof hydrosphere.tensorflow
+             * @interface ITensorProto
+             * @property {hydrosphere.tensorflow.DataType|null} [dtype] TensorProto dtype
+             * @property {hydrosphere.tensorflow.ITensorShapeProto|null} [tensorShape] TensorProto tensorShape
+             * @property {number|null} [versionNumber] TensorProto versionNumber
+             * @property {Uint8Array|null} [tensorContent] TensorProto tensorContent
+             * @property {Array.<number>|null} [halfVal] TensorProto halfVal
+             * @property {Array.<number>|null} [floatVal] TensorProto floatVal
+             * @property {Array.<number>|null} [doubleVal] TensorProto doubleVal
+             * @property {Array.<number>|null} [intVal] TensorProto intVal
+             * @property {Array.<Uint8Array>|null} [stringVal] TensorProto stringVal
+             * @property {Array.<number>|null} [scomplexVal] TensorProto scomplexVal
+             * @property {Array.<number|Long>|null} [int64Val] TensorProto int64Val
+             * @property {Array.<boolean>|null} [boolVal] TensorProto boolVal
+             * @property {Array.<number>|null} [dcomplexVal] TensorProto dcomplexVal
+             * @property {Array.<hydrosphere.tensorflow.IVariantTensorDataProto>|null} [variantVal] TensorProto variantVal
+             * @property {Array.<number>|null} [uint32Val] TensorProto uint32Val
+             * @property {Array.<number|Long>|null} [uint64Val] TensorProto uint64Val
+             * @property {Array.<hydrosphere.tensorflow.IMapTensorData>|null} [mapVal] TensorProto mapVal
+             */
+
+            /**
+             * Constructs a new TensorProto.
+             * @memberof hydrosphere.tensorflow
+             * @classdesc Represents a TensorProto.
+             * @implements ITensorProto
+             * @constructor
+             * @param {hydrosphere.tensorflow.ITensorProto=} [properties] Properties to set
+             */
+            function TensorProto(properties) {
+                this.halfVal = [];
+                this.floatVal = [];
+                this.doubleVal = [];
+                this.intVal = [];
+                this.stringVal = [];
+                this.scomplexVal = [];
+                this.int64Val = [];
+                this.boolVal = [];
+                this.dcomplexVal = [];
+                this.variantVal = [];
+                this.uint32Val = [];
+                this.uint64Val = [];
+                this.mapVal = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * TensorProto dtype.
+             * @member {hydrosphere.tensorflow.DataType} dtype
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.dtype = 0;
+
+            /**
+             * TensorProto tensorShape.
+             * @member {hydrosphere.tensorflow.ITensorShapeProto|null|undefined} tensorShape
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.tensorShape = null;
+
+            /**
+             * TensorProto versionNumber.
+             * @member {number} versionNumber
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.versionNumber = 0;
+
+            /**
+             * TensorProto tensorContent.
+             * @member {Uint8Array} tensorContent
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.tensorContent = $util.newBuffer([]);
+
+            /**
+             * TensorProto halfVal.
+             * @member {Array.<number>} halfVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.halfVal = $util.emptyArray;
+
+            /**
+             * TensorProto floatVal.
+             * @member {Array.<number>} floatVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.floatVal = $util.emptyArray;
+
+            /**
+             * TensorProto doubleVal.
+             * @member {Array.<number>} doubleVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.doubleVal = $util.emptyArray;
+
+            /**
+             * TensorProto intVal.
+             * @member {Array.<number>} intVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.intVal = $util.emptyArray;
+
+            /**
+             * TensorProto stringVal.
+             * @member {Array.<Uint8Array>} stringVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.stringVal = $util.emptyArray;
+
+            /**
+             * TensorProto scomplexVal.
+             * @member {Array.<number>} scomplexVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.scomplexVal = $util.emptyArray;
+
+            /**
+             * TensorProto int64Val.
+             * @member {Array.<number|Long>} int64Val
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.int64Val = $util.emptyArray;
+
+            /**
+             * TensorProto boolVal.
+             * @member {Array.<boolean>} boolVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.boolVal = $util.emptyArray;
+
+            /**
+             * TensorProto dcomplexVal.
+             * @member {Array.<number>} dcomplexVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.dcomplexVal = $util.emptyArray;
+
+            /**
+             * TensorProto variantVal.
+             * @member {Array.<hydrosphere.tensorflow.IVariantTensorDataProto>} variantVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.variantVal = $util.emptyArray;
+
+            /**
+             * TensorProto uint32Val.
+             * @member {Array.<number>} uint32Val
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.uint32Val = $util.emptyArray;
+
+            /**
+             * TensorProto uint64Val.
+             * @member {Array.<number|Long>} uint64Val
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.uint64Val = $util.emptyArray;
+
+            /**
+             * TensorProto mapVal.
+             * @member {Array.<hydrosphere.tensorflow.IMapTensorData>} mapVal
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             */
+            TensorProto.prototype.mapVal = $util.emptyArray;
+
+            /**
+             * Creates a new TensorProto instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorProto=} [properties] Properties to set
+             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto instance
+             */
+            TensorProto.create = function create(properties) {
+                return new TensorProto(properties);
+            };
+
+            /**
+             * Encodes the specified TensorProto message. Does not implicitly {@link hydrosphere.tensorflow.TensorProto.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorProto} message TensorProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TensorProto.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.dtype != null && message.hasOwnProperty("dtype"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.dtype);
+                if (message.tensorShape != null && message.hasOwnProperty("tensorShape"))
+                    $root.hydrosphere.tensorflow.TensorShapeProto.encode(message.tensorShape, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.versionNumber);
+                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.tensorContent);
+                if (message.floatVal != null && message.floatVal.length) {
+                    writer.uint32(/* id 5, wireType 2 =*/42).fork();
+                    for (var i = 0; i < message.floatVal.length; ++i)
+                        writer.float(message.floatVal[i]);
+                    writer.ldelim();
+                }
+                if (message.doubleVal != null && message.doubleVal.length) {
+                    writer.uint32(/* id 6, wireType 2 =*/50).fork();
+                    for (var i = 0; i < message.doubleVal.length; ++i)
+                        writer.double(message.doubleVal[i]);
+                    writer.ldelim();
+                }
+                if (message.intVal != null && message.intVal.length) {
+                    writer.uint32(/* id 7, wireType 2 =*/58).fork();
+                    for (var i = 0; i < message.intVal.length; ++i)
+                        writer.int32(message.intVal[i]);
+                    writer.ldelim();
+                }
+                if (message.stringVal != null && message.stringVal.length)
+                    for (var i = 0; i < message.stringVal.length; ++i)
+                        writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.stringVal[i]);
+                if (message.scomplexVal != null && message.scomplexVal.length) {
+                    writer.uint32(/* id 9, wireType 2 =*/74).fork();
+                    for (var i = 0; i < message.scomplexVal.length; ++i)
+                        writer.float(message.scomplexVal[i]);
+                    writer.ldelim();
+                }
+                if (message.int64Val != null && message.int64Val.length) {
+                    writer.uint32(/* id 10, wireType 2 =*/82).fork();
+                    for (var i = 0; i < message.int64Val.length; ++i)
+                        writer.int64(message.int64Val[i]);
+                    writer.ldelim();
+                }
+                if (message.boolVal != null && message.boolVal.length) {
+                    writer.uint32(/* id 11, wireType 2 =*/90).fork();
+                    for (var i = 0; i < message.boolVal.length; ++i)
+                        writer.bool(message.boolVal[i]);
+                    writer.ldelim();
+                }
+                if (message.dcomplexVal != null && message.dcomplexVal.length) {
+                    writer.uint32(/* id 12, wireType 2 =*/98).fork();
+                    for (var i = 0; i < message.dcomplexVal.length; ++i)
+                        writer.double(message.dcomplexVal[i]);
+                    writer.ldelim();
+                }
+                if (message.halfVal != null && message.halfVal.length) {
+                    writer.uint32(/* id 13, wireType 2 =*/106).fork();
+                    for (var i = 0; i < message.halfVal.length; ++i)
+                        writer.int32(message.halfVal[i]);
+                    writer.ldelim();
+                }
+                if (message.variantVal != null && message.variantVal.length)
+                    for (var i = 0; i < message.variantVal.length; ++i)
+                        $root.hydrosphere.tensorflow.VariantTensorDataProto.encode(message.variantVal[i], writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
+                if (message.uint32Val != null && message.uint32Val.length) {
+                    writer.uint32(/* id 16, wireType 2 =*/130).fork();
+                    for (var i = 0; i < message.uint32Val.length; ++i)
+                        writer.uint32(message.uint32Val[i]);
+                    writer.ldelim();
+                }
+                if (message.uint64Val != null && message.uint64Val.length) {
+                    writer.uint32(/* id 17, wireType 2 =*/138).fork();
+                    for (var i = 0; i < message.uint64Val.length; ++i)
+                        writer.uint64(message.uint64Val[i]);
+                    writer.ldelim();
+                }
+                if (message.mapVal != null && message.mapVal.length)
+                    for (var i = 0; i < message.mapVal.length; ++i)
+                        $root.hydrosphere.tensorflow.MapTensorData.encode(message.mapVal[i], writer.uint32(/* id 27, wireType 2 =*/218).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified TensorProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.TensorProto.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {hydrosphere.tensorflow.ITensorProto} message TensorProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TensorProto.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a TensorProto message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TensorProto.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.TensorProto();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.dtype = reader.int32();
+                        break;
+                    case 2:
+                        message.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.versionNumber = reader.int32();
+                        break;
+                    case 4:
+                        message.tensorContent = reader.bytes();
+                        break;
+                    case 13:
+                        if (!(message.halfVal && message.halfVal.length))
+                            message.halfVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.halfVal.push(reader.int32());
+                        } else
+                            message.halfVal.push(reader.int32());
+                        break;
+                    case 5:
+                        if (!(message.floatVal && message.floatVal.length))
+                            message.floatVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.floatVal.push(reader.float());
+                        } else
+                            message.floatVal.push(reader.float());
+                        break;
+                    case 6:
+                        if (!(message.doubleVal && message.doubleVal.length))
+                            message.doubleVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.doubleVal.push(reader.double());
+                        } else
+                            message.doubleVal.push(reader.double());
+                        break;
+                    case 7:
+                        if (!(message.intVal && message.intVal.length))
+                            message.intVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.intVal.push(reader.int32());
+                        } else
+                            message.intVal.push(reader.int32());
+                        break;
+                    case 8:
+                        if (!(message.stringVal && message.stringVal.length))
+                            message.stringVal = [];
+                        message.stringVal.push(reader.bytes());
+                        break;
+                    case 9:
+                        if (!(message.scomplexVal && message.scomplexVal.length))
+                            message.scomplexVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.scomplexVal.push(reader.float());
+                        } else
+                            message.scomplexVal.push(reader.float());
+                        break;
+                    case 10:
+                        if (!(message.int64Val && message.int64Val.length))
+                            message.int64Val = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.int64Val.push(reader.int64());
+                        } else
+                            message.int64Val.push(reader.int64());
+                        break;
+                    case 11:
+                        if (!(message.boolVal && message.boolVal.length))
+                            message.boolVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.boolVal.push(reader.bool());
+                        } else
+                            message.boolVal.push(reader.bool());
+                        break;
+                    case 12:
+                        if (!(message.dcomplexVal && message.dcomplexVal.length))
+                            message.dcomplexVal = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.dcomplexVal.push(reader.double());
+                        } else
+                            message.dcomplexVal.push(reader.double());
+                        break;
+                    case 15:
+                        if (!(message.variantVal && message.variantVal.length))
+                            message.variantVal = [];
+                        message.variantVal.push($root.hydrosphere.tensorflow.VariantTensorDataProto.decode(reader, reader.uint32()));
+                        break;
+                    case 16:
+                        if (!(message.uint32Val && message.uint32Val.length))
+                            message.uint32Val = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.uint32Val.push(reader.uint32());
+                        } else
+                            message.uint32Val.push(reader.uint32());
+                        break;
+                    case 17:
+                        if (!(message.uint64Val && message.uint64Val.length))
+                            message.uint64Val = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.uint64Val.push(reader.uint64());
+                        } else
+                            message.uint64Val.push(reader.uint64());
+                        break;
+                    case 27:
+                        if (!(message.mapVal && message.mapVal.length))
+                            message.mapVal = [];
+                        message.mapVal.push($root.hydrosphere.tensorflow.MapTensorData.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a TensorProto message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TensorProto.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a TensorProto message.
+             * @function verify
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TensorProto.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.dtype != null && message.hasOwnProperty("dtype"))
+                    switch (message.dtype) {
+                    default:
+                        return "dtype: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 27:
+                        break;
+                    }
+                if (message.tensorShape != null && message.hasOwnProperty("tensorShape")) {
+                    var error = $root.hydrosphere.tensorflow.TensorShapeProto.verify(message.tensorShape);
+                    if (error)
+                        return "tensorShape." + error;
+                }
+                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
+                    if (!$util.isInteger(message.versionNumber))
+                        return "versionNumber: integer expected";
+                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
+                    if (!(message.tensorContent && typeof message.tensorContent.length === "number" || $util.isString(message.tensorContent)))
+                        return "tensorContent: buffer expected";
+                if (message.halfVal != null && message.hasOwnProperty("halfVal")) {
+                    if (!Array.isArray(message.halfVal))
+                        return "halfVal: array expected";
+                    for (var i = 0; i < message.halfVal.length; ++i)
+                        if (!$util.isInteger(message.halfVal[i]))
+                            return "halfVal: integer[] expected";
+                }
+                if (message.floatVal != null && message.hasOwnProperty("floatVal")) {
+                    if (!Array.isArray(message.floatVal))
+                        return "floatVal: array expected";
+                    for (var i = 0; i < message.floatVal.length; ++i)
+                        if (typeof message.floatVal[i] !== "number")
+                            return "floatVal: number[] expected";
+                }
+                if (message.doubleVal != null && message.hasOwnProperty("doubleVal")) {
+                    if (!Array.isArray(message.doubleVal))
+                        return "doubleVal: array expected";
+                    for (var i = 0; i < message.doubleVal.length; ++i)
+                        if (typeof message.doubleVal[i] !== "number")
+                            return "doubleVal: number[] expected";
+                }
+                if (message.intVal != null && message.hasOwnProperty("intVal")) {
+                    if (!Array.isArray(message.intVal))
+                        return "intVal: array expected";
+                    for (var i = 0; i < message.intVal.length; ++i)
+                        if (!$util.isInteger(message.intVal[i]))
+                            return "intVal: integer[] expected";
+                }
+                if (message.stringVal != null && message.hasOwnProperty("stringVal")) {
+                    if (!Array.isArray(message.stringVal))
+                        return "stringVal: array expected";
+                    for (var i = 0; i < message.stringVal.length; ++i)
+                        if (!(message.stringVal[i] && typeof message.stringVal[i].length === "number" || $util.isString(message.stringVal[i])))
+                            return "stringVal: buffer[] expected";
+                }
+                if (message.scomplexVal != null && message.hasOwnProperty("scomplexVal")) {
+                    if (!Array.isArray(message.scomplexVal))
+                        return "scomplexVal: array expected";
+                    for (var i = 0; i < message.scomplexVal.length; ++i)
+                        if (typeof message.scomplexVal[i] !== "number")
+                            return "scomplexVal: number[] expected";
+                }
+                if (message.int64Val != null && message.hasOwnProperty("int64Val")) {
+                    if (!Array.isArray(message.int64Val))
+                        return "int64Val: array expected";
+                    for (var i = 0; i < message.int64Val.length; ++i)
+                        if (!$util.isInteger(message.int64Val[i]) && !(message.int64Val[i] && $util.isInteger(message.int64Val[i].low) && $util.isInteger(message.int64Val[i].high)))
+                            return "int64Val: integer|Long[] expected";
+                }
+                if (message.boolVal != null && message.hasOwnProperty("boolVal")) {
+                    if (!Array.isArray(message.boolVal))
+                        return "boolVal: array expected";
+                    for (var i = 0; i < message.boolVal.length; ++i)
+                        if (typeof message.boolVal[i] !== "boolean")
+                            return "boolVal: boolean[] expected";
+                }
+                if (message.dcomplexVal != null && message.hasOwnProperty("dcomplexVal")) {
+                    if (!Array.isArray(message.dcomplexVal))
+                        return "dcomplexVal: array expected";
+                    for (var i = 0; i < message.dcomplexVal.length; ++i)
+                        if (typeof message.dcomplexVal[i] !== "number")
+                            return "dcomplexVal: number[] expected";
+                }
+                if (message.variantVal != null && message.hasOwnProperty("variantVal")) {
+                    if (!Array.isArray(message.variantVal))
+                        return "variantVal: array expected";
+                    for (var i = 0; i < message.variantVal.length; ++i) {
+                        var error = $root.hydrosphere.tensorflow.VariantTensorDataProto.verify(message.variantVal[i]);
+                        if (error)
+                            return "variantVal." + error;
+                    }
+                }
+                if (message.uint32Val != null && message.hasOwnProperty("uint32Val")) {
+                    if (!Array.isArray(message.uint32Val))
+                        return "uint32Val: array expected";
+                    for (var i = 0; i < message.uint32Val.length; ++i)
+                        if (!$util.isInteger(message.uint32Val[i]))
+                            return "uint32Val: integer[] expected";
+                }
+                if (message.uint64Val != null && message.hasOwnProperty("uint64Val")) {
+                    if (!Array.isArray(message.uint64Val))
+                        return "uint64Val: array expected";
+                    for (var i = 0; i < message.uint64Val.length; ++i)
+                        if (!$util.isInteger(message.uint64Val[i]) && !(message.uint64Val[i] && $util.isInteger(message.uint64Val[i].low) && $util.isInteger(message.uint64Val[i].high)))
+                            return "uint64Val: integer|Long[] expected";
+                }
+                if (message.mapVal != null && message.hasOwnProperty("mapVal")) {
+                    if (!Array.isArray(message.mapVal))
+                        return "mapVal: array expected";
+                    for (var i = 0; i < message.mapVal.length; ++i) {
+                        var error = $root.hydrosphere.tensorflow.MapTensorData.verify(message.mapVal[i]);
+                        if (error)
+                            return "mapVal." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a TensorProto message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.tensorflow.TensorProto} TensorProto
+             */
+            TensorProto.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.tensorflow.TensorProto)
+                    return object;
+                var message = new $root.hydrosphere.tensorflow.TensorProto();
+                switch (object.dtype) {
+                case "DT_INVALID":
+                case 0:
+                    message.dtype = 0;
+                    break;
+                case "DT_FLOAT":
+                case 1:
+                    message.dtype = 1;
+                    break;
+                case "DT_DOUBLE":
+                case 2:
+                    message.dtype = 2;
+                    break;
+                case "DT_INT32":
+                case 3:
+                    message.dtype = 3;
+                    break;
+                case "DT_UINT8":
+                case 4:
+                    message.dtype = 4;
+                    break;
+                case "DT_INT16":
+                case 5:
+                    message.dtype = 5;
+                    break;
+                case "DT_INT8":
+                case 6:
+                    message.dtype = 6;
+                    break;
+                case "DT_STRING":
+                case 7:
+                    message.dtype = 7;
+                    break;
+                case "DT_COMPLEX64":
+                case 8:
+                    message.dtype = 8;
+                    break;
+                case "DT_INT64":
+                case 9:
+                    message.dtype = 9;
+                    break;
+                case "DT_BOOL":
+                case 10:
+                    message.dtype = 10;
+                    break;
+                case "DT_QINT8":
+                case 11:
+                    message.dtype = 11;
+                    break;
+                case "DT_QUINT8":
+                case 12:
+                    message.dtype = 12;
+                    break;
+                case "DT_QINT32":
+                case 13:
+                    message.dtype = 13;
+                    break;
+                case "DT_BFLOAT16":
+                case 14:
+                    message.dtype = 14;
+                    break;
+                case "DT_QINT16":
+                case 15:
+                    message.dtype = 15;
+                    break;
+                case "DT_QUINT16":
+                case 16:
+                    message.dtype = 16;
+                    break;
+                case "DT_UINT16":
+                case 17:
+                    message.dtype = 17;
+                    break;
+                case "DT_COMPLEX128":
+                case 18:
+                    message.dtype = 18;
+                    break;
+                case "DT_HALF":
+                case 19:
+                    message.dtype = 19;
+                    break;
+                case "DT_RESOURCE":
+                case 20:
+                    message.dtype = 20;
+                    break;
+                case "DT_VARIANT":
+                case 21:
+                    message.dtype = 21;
+                    break;
+                case "DT_UINT32":
+                case 22:
+                    message.dtype = 22;
+                    break;
+                case "DT_UINT64":
+                case 23:
+                    message.dtype = 23;
+                    break;
+                case "DT_MAP":
+                case 27:
+                    message.dtype = 27;
+                    break;
+                }
+                if (object.tensorShape != null) {
+                    if (typeof object.tensorShape !== "object")
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.tensorShape: object expected");
+                    message.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.fromObject(object.tensorShape);
+                }
+                if (object.versionNumber != null)
+                    message.versionNumber = object.versionNumber | 0;
+                if (object.tensorContent != null)
+                    if (typeof object.tensorContent === "string")
+                        $util.base64.decode(object.tensorContent, message.tensorContent = $util.newBuffer($util.base64.length(object.tensorContent)), 0);
+                    else if (object.tensorContent.length)
+                        message.tensorContent = object.tensorContent;
+                if (object.halfVal) {
+                    if (!Array.isArray(object.halfVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.halfVal: array expected");
+                    message.halfVal = [];
+                    for (var i = 0; i < object.halfVal.length; ++i)
+                        message.halfVal[i] = object.halfVal[i] | 0;
+                }
+                if (object.floatVal) {
+                    if (!Array.isArray(object.floatVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.floatVal: array expected");
+                    message.floatVal = [];
+                    for (var i = 0; i < object.floatVal.length; ++i)
+                        message.floatVal[i] = Number(object.floatVal[i]);
+                }
+                if (object.doubleVal) {
+                    if (!Array.isArray(object.doubleVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.doubleVal: array expected");
+                    message.doubleVal = [];
+                    for (var i = 0; i < object.doubleVal.length; ++i)
+                        message.doubleVal[i] = Number(object.doubleVal[i]);
+                }
+                if (object.intVal) {
+                    if (!Array.isArray(object.intVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.intVal: array expected");
+                    message.intVal = [];
+                    for (var i = 0; i < object.intVal.length; ++i)
+                        message.intVal[i] = object.intVal[i] | 0;
+                }
+                if (object.stringVal) {
+                    if (!Array.isArray(object.stringVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.stringVal: array expected");
+                    message.stringVal = [];
+                    for (var i = 0; i < object.stringVal.length; ++i)
+                        if (typeof object.stringVal[i] === "string")
+                            $util.base64.decode(object.stringVal[i], message.stringVal[i] = $util.newBuffer($util.base64.length(object.stringVal[i])), 0);
+                        else if (object.stringVal[i].length)
+                            message.stringVal[i] = object.stringVal[i];
+                }
+                if (object.scomplexVal) {
+                    if (!Array.isArray(object.scomplexVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.scomplexVal: array expected");
+                    message.scomplexVal = [];
+                    for (var i = 0; i < object.scomplexVal.length; ++i)
+                        message.scomplexVal[i] = Number(object.scomplexVal[i]);
+                }
+                if (object.int64Val) {
+                    if (!Array.isArray(object.int64Val))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.int64Val: array expected");
+                    message.int64Val = [];
+                    for (var i = 0; i < object.int64Val.length; ++i)
+                        if ($util.Long)
+                            (message.int64Val[i] = $util.Long.fromValue(object.int64Val[i])).unsigned = false;
+                        else if (typeof object.int64Val[i] === "string")
+                            message.int64Val[i] = parseInt(object.int64Val[i], 10);
+                        else if (typeof object.int64Val[i] === "number")
+                            message.int64Val[i] = object.int64Val[i];
+                        else if (typeof object.int64Val[i] === "object")
+                            message.int64Val[i] = new $util.LongBits(object.int64Val[i].low >>> 0, object.int64Val[i].high >>> 0).toNumber();
+                }
+                if (object.boolVal) {
+                    if (!Array.isArray(object.boolVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.boolVal: array expected");
+                    message.boolVal = [];
+                    for (var i = 0; i < object.boolVal.length; ++i)
+                        message.boolVal[i] = Boolean(object.boolVal[i]);
+                }
+                if (object.dcomplexVal) {
+                    if (!Array.isArray(object.dcomplexVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.dcomplexVal: array expected");
+                    message.dcomplexVal = [];
+                    for (var i = 0; i < object.dcomplexVal.length; ++i)
+                        message.dcomplexVal[i] = Number(object.dcomplexVal[i]);
+                }
+                if (object.variantVal) {
+                    if (!Array.isArray(object.variantVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.variantVal: array expected");
+                    message.variantVal = [];
+                    for (var i = 0; i < object.variantVal.length; ++i) {
+                        if (typeof object.variantVal[i] !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.TensorProto.variantVal: object expected");
+                        message.variantVal[i] = $root.hydrosphere.tensorflow.VariantTensorDataProto.fromObject(object.variantVal[i]);
+                    }
+                }
+                if (object.uint32Val) {
+                    if (!Array.isArray(object.uint32Val))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.uint32Val: array expected");
+                    message.uint32Val = [];
+                    for (var i = 0; i < object.uint32Val.length; ++i)
+                        message.uint32Val[i] = object.uint32Val[i] >>> 0;
+                }
+                if (object.uint64Val) {
+                    if (!Array.isArray(object.uint64Val))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.uint64Val: array expected");
+                    message.uint64Val = [];
+                    for (var i = 0; i < object.uint64Val.length; ++i)
+                        if ($util.Long)
+                            (message.uint64Val[i] = $util.Long.fromValue(object.uint64Val[i])).unsigned = true;
+                        else if (typeof object.uint64Val[i] === "string")
+                            message.uint64Val[i] = parseInt(object.uint64Val[i], 10);
+                        else if (typeof object.uint64Val[i] === "number")
+                            message.uint64Val[i] = object.uint64Val[i];
+                        else if (typeof object.uint64Val[i] === "object")
+                            message.uint64Val[i] = new $util.LongBits(object.uint64Val[i].low >>> 0, object.uint64Val[i].high >>> 0).toNumber(true);
+                }
+                if (object.mapVal) {
+                    if (!Array.isArray(object.mapVal))
+                        throw TypeError(".hydrosphere.tensorflow.TensorProto.mapVal: array expected");
+                    message.mapVal = [];
+                    for (var i = 0; i < object.mapVal.length; ++i) {
+                        if (typeof object.mapVal[i] !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.TensorProto.mapVal: object expected");
+                        message.mapVal[i] = $root.hydrosphere.tensorflow.MapTensorData.fromObject(object.mapVal[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a TensorProto message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @static
+             * @param {hydrosphere.tensorflow.TensorProto} message TensorProto
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TensorProto.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object.floatVal = [];
+                    object.doubleVal = [];
+                    object.intVal = [];
+                    object.stringVal = [];
+                    object.scomplexVal = [];
+                    object.int64Val = [];
+                    object.boolVal = [];
+                    object.dcomplexVal = [];
+                    object.halfVal = [];
+                    object.variantVal = [];
+                    object.uint32Val = [];
+                    object.uint64Val = [];
+                    object.mapVal = [];
+                }
+                if (options.defaults) {
+                    object.dtype = options.enums === String ? "DT_INVALID" : 0;
+                    object.tensorShape = null;
+                    object.versionNumber = 0;
+                    if (options.bytes === String)
+                        object.tensorContent = "";
+                    else {
+                        object.tensorContent = [];
+                        if (options.bytes !== Array)
+                            object.tensorContent = $util.newBuffer(object.tensorContent);
+                    }
+                }
+                if (message.dtype != null && message.hasOwnProperty("dtype"))
+                    object.dtype = options.enums === String ? $root.hydrosphere.tensorflow.DataType[message.dtype] : message.dtype;
+                if (message.tensorShape != null && message.hasOwnProperty("tensorShape"))
+                    object.tensorShape = $root.hydrosphere.tensorflow.TensorShapeProto.toObject(message.tensorShape, options);
+                if (message.versionNumber != null && message.hasOwnProperty("versionNumber"))
+                    object.versionNumber = message.versionNumber;
+                if (message.tensorContent != null && message.hasOwnProperty("tensorContent"))
+                    object.tensorContent = options.bytes === String ? $util.base64.encode(message.tensorContent, 0, message.tensorContent.length) : options.bytes === Array ? Array.prototype.slice.call(message.tensorContent) : message.tensorContent;
+                if (message.floatVal && message.floatVal.length) {
+                    object.floatVal = [];
+                    for (var j = 0; j < message.floatVal.length; ++j)
+                        object.floatVal[j] = options.json && !isFinite(message.floatVal[j]) ? String(message.floatVal[j]) : message.floatVal[j];
+                }
+                if (message.doubleVal && message.doubleVal.length) {
+                    object.doubleVal = [];
+                    for (var j = 0; j < message.doubleVal.length; ++j)
+                        object.doubleVal[j] = options.json && !isFinite(message.doubleVal[j]) ? String(message.doubleVal[j]) : message.doubleVal[j];
+                }
+                if (message.intVal && message.intVal.length) {
+                    object.intVal = [];
+                    for (var j = 0; j < message.intVal.length; ++j)
+                        object.intVal[j] = message.intVal[j];
+                }
+                if (message.stringVal && message.stringVal.length) {
+                    object.stringVal = [];
+                    for (var j = 0; j < message.stringVal.length; ++j)
+                        object.stringVal[j] = options.bytes === String ? $util.base64.encode(message.stringVal[j], 0, message.stringVal[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.stringVal[j]) : message.stringVal[j];
+                }
+                if (message.scomplexVal && message.scomplexVal.length) {
+                    object.scomplexVal = [];
+                    for (var j = 0; j < message.scomplexVal.length; ++j)
+                        object.scomplexVal[j] = options.json && !isFinite(message.scomplexVal[j]) ? String(message.scomplexVal[j]) : message.scomplexVal[j];
+                }
+                if (message.int64Val && message.int64Val.length) {
+                    object.int64Val = [];
+                    for (var j = 0; j < message.int64Val.length; ++j)
+                        if (typeof message.int64Val[j] === "number")
+                            object.int64Val[j] = options.longs === String ? String(message.int64Val[j]) : message.int64Val[j];
+                        else
+                            object.int64Val[j] = options.longs === String ? $util.Long.prototype.toString.call(message.int64Val[j]) : options.longs === Number ? new $util.LongBits(message.int64Val[j].low >>> 0, message.int64Val[j].high >>> 0).toNumber() : message.int64Val[j];
+                }
+                if (message.boolVal && message.boolVal.length) {
+                    object.boolVal = [];
+                    for (var j = 0; j < message.boolVal.length; ++j)
+                        object.boolVal[j] = message.boolVal[j];
+                }
+                if (message.dcomplexVal && message.dcomplexVal.length) {
+                    object.dcomplexVal = [];
+                    for (var j = 0; j < message.dcomplexVal.length; ++j)
+                        object.dcomplexVal[j] = options.json && !isFinite(message.dcomplexVal[j]) ? String(message.dcomplexVal[j]) : message.dcomplexVal[j];
+                }
+                if (message.halfVal && message.halfVal.length) {
+                    object.halfVal = [];
+                    for (var j = 0; j < message.halfVal.length; ++j)
+                        object.halfVal[j] = message.halfVal[j];
+                }
+                if (message.variantVal && message.variantVal.length) {
+                    object.variantVal = [];
+                    for (var j = 0; j < message.variantVal.length; ++j)
+                        object.variantVal[j] = $root.hydrosphere.tensorflow.VariantTensorDataProto.toObject(message.variantVal[j], options);
+                }
+                if (message.uint32Val && message.uint32Val.length) {
+                    object.uint32Val = [];
+                    for (var j = 0; j < message.uint32Val.length; ++j)
+                        object.uint32Val[j] = message.uint32Val[j];
+                }
+                if (message.uint64Val && message.uint64Val.length) {
+                    object.uint64Val = [];
+                    for (var j = 0; j < message.uint64Val.length; ++j)
+                        if (typeof message.uint64Val[j] === "number")
+                            object.uint64Val[j] = options.longs === String ? String(message.uint64Val[j]) : message.uint64Val[j];
+                        else
+                            object.uint64Val[j] = options.longs === String ? $util.Long.prototype.toString.call(message.uint64Val[j]) : options.longs === Number ? new $util.LongBits(message.uint64Val[j].low >>> 0, message.uint64Val[j].high >>> 0).toNumber(true) : message.uint64Val[j];
+                }
+                if (message.mapVal && message.mapVal.length) {
+                    object.mapVal = [];
+                    for (var j = 0; j < message.mapVal.length; ++j)
+                        object.mapVal[j] = $root.hydrosphere.tensorflow.MapTensorData.toObject(message.mapVal[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this TensorProto to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.tensorflow.TensorProto
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TensorProto.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return TensorProto;
+        })();
+
+        tensorflow.VariantTensorDataProto = (function() {
+
+            /**
+             * Properties of a VariantTensorDataProto.
+             * @memberof hydrosphere.tensorflow
+             * @interface IVariantTensorDataProto
+             * @property {string|null} [typeName] VariantTensorDataProto typeName
+             * @property {Uint8Array|null} [metadata] VariantTensorDataProto metadata
+             * @property {Array.<hydrosphere.tensorflow.ITensorProto>|null} [tensors] VariantTensorDataProto tensors
+             */
+
+            /**
+             * Constructs a new VariantTensorDataProto.
+             * @memberof hydrosphere.tensorflow
+             * @classdesc Represents a VariantTensorDataProto.
+             * @implements IVariantTensorDataProto
+             * @constructor
+             * @param {hydrosphere.tensorflow.IVariantTensorDataProto=} [properties] Properties to set
+             */
+            function VariantTensorDataProto(properties) {
+                this.tensors = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * VariantTensorDataProto typeName.
+             * @member {string} typeName
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @instance
+             */
+            VariantTensorDataProto.prototype.typeName = "";
+
+            /**
+             * VariantTensorDataProto metadata.
+             * @member {Uint8Array} metadata
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @instance
+             */
+            VariantTensorDataProto.prototype.metadata = $util.newBuffer([]);
+
+            /**
+             * VariantTensorDataProto tensors.
+             * @member {Array.<hydrosphere.tensorflow.ITensorProto>} tensors
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @instance
+             */
+            VariantTensorDataProto.prototype.tensors = $util.emptyArray;
+
+            /**
+             * Creates a new VariantTensorDataProto instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {hydrosphere.tensorflow.IVariantTensorDataProto=} [properties] Properties to set
+             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto instance
+             */
+            VariantTensorDataProto.create = function create(properties) {
+                return new VariantTensorDataProto(properties);
+            };
+
+            /**
+             * Encodes the specified VariantTensorDataProto message. Does not implicitly {@link hydrosphere.tensorflow.VariantTensorDataProto.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {hydrosphere.tensorflow.IVariantTensorDataProto} message VariantTensorDataProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VariantTensorDataProto.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.typeName != null && message.hasOwnProperty("typeName"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.typeName);
+                if (message.metadata != null && message.hasOwnProperty("metadata"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.metadata);
+                if (message.tensors != null && message.tensors.length)
+                    for (var i = 0; i < message.tensors.length; ++i)
+                        $root.hydrosphere.tensorflow.TensorProto.encode(message.tensors[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified VariantTensorDataProto message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.VariantTensorDataProto.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {hydrosphere.tensorflow.IVariantTensorDataProto} message VariantTensorDataProto message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            VariantTensorDataProto.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a VariantTensorDataProto message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VariantTensorDataProto.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.VariantTensorDataProto();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.typeName = reader.string();
+                        break;
+                    case 2:
+                        message.metadata = reader.bytes();
+                        break;
+                    case 3:
+                        if (!(message.tensors && message.tensors.length))
+                            message.tensors = [];
+                        message.tensors.push($root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a VariantTensorDataProto message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            VariantTensorDataProto.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a VariantTensorDataProto message.
+             * @function verify
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            VariantTensorDataProto.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.typeName != null && message.hasOwnProperty("typeName"))
+                    if (!$util.isString(message.typeName))
+                        return "typeName: string expected";
+                if (message.metadata != null && message.hasOwnProperty("metadata"))
+                    if (!(message.metadata && typeof message.metadata.length === "number" || $util.isString(message.metadata)))
+                        return "metadata: buffer expected";
+                if (message.tensors != null && message.hasOwnProperty("tensors")) {
+                    if (!Array.isArray(message.tensors))
+                        return "tensors: array expected";
+                    for (var i = 0; i < message.tensors.length; ++i) {
+                        var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.tensors[i]);
+                        if (error)
+                            return "tensors." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a VariantTensorDataProto message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.tensorflow.VariantTensorDataProto} VariantTensorDataProto
+             */
+            VariantTensorDataProto.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.tensorflow.VariantTensorDataProto)
+                    return object;
+                var message = new $root.hydrosphere.tensorflow.VariantTensorDataProto();
+                if (object.typeName != null)
+                    message.typeName = String(object.typeName);
+                if (object.metadata != null)
+                    if (typeof object.metadata === "string")
+                        $util.base64.decode(object.metadata, message.metadata = $util.newBuffer($util.base64.length(object.metadata)), 0);
+                    else if (object.metadata.length)
+                        message.metadata = object.metadata;
+                if (object.tensors) {
+                    if (!Array.isArray(object.tensors))
+                        throw TypeError(".hydrosphere.tensorflow.VariantTensorDataProto.tensors: array expected");
+                    message.tensors = [];
+                    for (var i = 0; i < object.tensors.length; ++i) {
+                        if (typeof object.tensors[i] !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.VariantTensorDataProto.tensors: object expected");
+                        message.tensors[i] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.tensors[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a VariantTensorDataProto message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @static
+             * @param {hydrosphere.tensorflow.VariantTensorDataProto} message VariantTensorDataProto
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            VariantTensorDataProto.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.tensors = [];
+                if (options.defaults) {
+                    object.typeName = "";
+                    if (options.bytes === String)
+                        object.metadata = "";
+                    else {
+                        object.metadata = [];
+                        if (options.bytes !== Array)
+                            object.metadata = $util.newBuffer(object.metadata);
+                    }
+                }
+                if (message.typeName != null && message.hasOwnProperty("typeName"))
+                    object.typeName = message.typeName;
+                if (message.metadata != null && message.hasOwnProperty("metadata"))
+                    object.metadata = options.bytes === String ? $util.base64.encode(message.metadata, 0, message.metadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.metadata) : message.metadata;
+                if (message.tensors && message.tensors.length) {
+                    object.tensors = [];
+                    for (var j = 0; j < message.tensors.length; ++j)
+                        object.tensors[j] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.tensors[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this VariantTensorDataProto to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.tensorflow.VariantTensorDataProto
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            VariantTensorDataProto.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return VariantTensorDataProto;
+        })();
+
+        tensorflow.MapTensorData = (function() {
+
+            /**
+             * Properties of a MapTensorData.
+             * @memberof hydrosphere.tensorflow
+             * @interface IMapTensorData
+             * @property {Object.<string,hydrosphere.tensorflow.ITensorProto>|null} [subtensors] MapTensorData subtensors
+             */
+
+            /**
+             * Constructs a new MapTensorData.
+             * @memberof hydrosphere.tensorflow
+             * @classdesc Represents a MapTensorData.
+             * @implements IMapTensorData
+             * @constructor
+             * @param {hydrosphere.tensorflow.IMapTensorData=} [properties] Properties to set
+             */
+            function MapTensorData(properties) {
+                this.subtensors = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * MapTensorData subtensors.
+             * @member {Object.<string,hydrosphere.tensorflow.ITensorProto>} subtensors
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @instance
+             */
+            MapTensorData.prototype.subtensors = $util.emptyObject;
+
+            /**
+             * Creates a new MapTensorData instance using the specified properties.
+             * @function create
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {hydrosphere.tensorflow.IMapTensorData=} [properties] Properties to set
+             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData instance
+             */
+            MapTensorData.create = function create(properties) {
+                return new MapTensorData(properties);
+            };
+
+            /**
+             * Encodes the specified MapTensorData message. Does not implicitly {@link hydrosphere.tensorflow.MapTensorData.verify|verify} messages.
+             * @function encode
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {hydrosphere.tensorflow.IMapTensorData} message MapTensorData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MapTensorData.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.subtensors != null && message.hasOwnProperty("subtensors"))
+                    for (var keys = Object.keys(message.subtensors), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                        $root.hydrosphere.tensorflow.TensorProto.encode(message.subtensors[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+
+            /**
+             * Encodes the specified MapTensorData message, length delimited. Does not implicitly {@link hydrosphere.tensorflow.MapTensorData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {hydrosphere.tensorflow.IMapTensorData} message MapTensorData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MapTensorData.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a MapTensorData message from the specified reader or buffer.
+             * @function decode
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MapTensorData.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.hydrosphere.tensorflow.MapTensorData(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.subtensors === $util.emptyObject)
+                            message.subtensors = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.subtensors[key] = $root.hydrosphere.tensorflow.TensorProto.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a MapTensorData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MapTensorData.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a MapTensorData message.
+             * @function verify
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            MapTensorData.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.subtensors != null && message.hasOwnProperty("subtensors")) {
+                    if (!$util.isObject(message.subtensors))
+                        return "subtensors: object expected";
+                    var key = Object.keys(message.subtensors);
+                    for (var i = 0; i < key.length; ++i) {
+                        var error = $root.hydrosphere.tensorflow.TensorProto.verify(message.subtensors[key[i]]);
+                        if (error)
+                            return "subtensors." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a MapTensorData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {hydrosphere.tensorflow.MapTensorData} MapTensorData
+             */
+            MapTensorData.fromObject = function fromObject(object) {
+                if (object instanceof $root.hydrosphere.tensorflow.MapTensorData)
+                    return object;
+                var message = new $root.hydrosphere.tensorflow.MapTensorData();
+                if (object.subtensors) {
+                    if (typeof object.subtensors !== "object")
+                        throw TypeError(".hydrosphere.tensorflow.MapTensorData.subtensors: object expected");
+                    message.subtensors = {};
+                    for (var keys = Object.keys(object.subtensors), i = 0; i < keys.length; ++i) {
+                        if (typeof object.subtensors[keys[i]] !== "object")
+                            throw TypeError(".hydrosphere.tensorflow.MapTensorData.subtensors: object expected");
+                        message.subtensors[keys[i]] = $root.hydrosphere.tensorflow.TensorProto.fromObject(object.subtensors[keys[i]]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a MapTensorData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @static
+             * @param {hydrosphere.tensorflow.MapTensorData} message MapTensorData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            MapTensorData.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.subtensors = {};
+                var keys2;
+                if (message.subtensors && (keys2 = Object.keys(message.subtensors)).length) {
+                    object.subtensors = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.subtensors[keys2[j]] = $root.hydrosphere.tensorflow.TensorProto.toObject(message.subtensors[keys2[j]], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this MapTensorData to JSON.
+             * @function toJSON
+             * @memberof hydrosphere.tensorflow.MapTensorData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            MapTensorData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return MapTensorData;
+        })();
+
+        return tensorflow;
+    })();
+
     return hydrosphere;
 })();
 
@@ -13989,6 +15104,250 @@ $root.tensorflow = (function() {
          * @namespace
          */
         var serving = {};
+
+        serving.StatusResponse = (function() {
+
+            /**
+             * Properties of a StatusResponse.
+             * @memberof tensorflow.serving
+             * @interface IStatusResponse
+             * @property {tensorflow.serving.StatusResponse.ServiceStatus|null} [status] StatusResponse status
+             * @property {string|null} [message] StatusResponse message
+             */
+
+            /**
+             * Constructs a new StatusResponse.
+             * @memberof tensorflow.serving
+             * @classdesc Represents a StatusResponse.
+             * @implements IStatusResponse
+             * @constructor
+             * @param {tensorflow.serving.IStatusResponse=} [properties] Properties to set
+             */
+            function StatusResponse(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * StatusResponse status.
+             * @member {tensorflow.serving.StatusResponse.ServiceStatus} status
+             * @memberof tensorflow.serving.StatusResponse
+             * @instance
+             */
+            StatusResponse.prototype.status = 0;
+
+            /**
+             * StatusResponse message.
+             * @member {string} message
+             * @memberof tensorflow.serving.StatusResponse
+             * @instance
+             */
+            StatusResponse.prototype.message = "";
+
+            /**
+             * Creates a new StatusResponse instance using the specified properties.
+             * @function create
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {tensorflow.serving.IStatusResponse=} [properties] Properties to set
+             * @returns {tensorflow.serving.StatusResponse} StatusResponse instance
+             */
+            StatusResponse.create = function create(properties) {
+                return new StatusResponse(properties);
+            };
+
+            /**
+             * Encodes the specified StatusResponse message. Does not implicitly {@link tensorflow.serving.StatusResponse.verify|verify} messages.
+             * @function encode
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {tensorflow.serving.IStatusResponse} message StatusResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusResponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.status != null && message.hasOwnProperty("status"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+                if (message.message != null && message.hasOwnProperty("message"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified StatusResponse message, length delimited. Does not implicitly {@link tensorflow.serving.StatusResponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {tensorflow.serving.IStatusResponse} message StatusResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            StatusResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a StatusResponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {tensorflow.serving.StatusResponse} StatusResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusResponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tensorflow.serving.StatusResponse();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.status = reader.int32();
+                        break;
+                    case 2:
+                        message.message = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a StatusResponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {tensorflow.serving.StatusResponse} StatusResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            StatusResponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a StatusResponse message.
+             * @function verify
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            StatusResponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.status != null && message.hasOwnProperty("status"))
+                    switch (message.status) {
+                    default:
+                        return "status: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                        break;
+                    }
+                if (message.message != null && message.hasOwnProperty("message"))
+                    if (!$util.isString(message.message))
+                        return "message: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a StatusResponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {tensorflow.serving.StatusResponse} StatusResponse
+             */
+            StatusResponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.tensorflow.serving.StatusResponse)
+                    return object;
+                var message = new $root.tensorflow.serving.StatusResponse();
+                switch (object.status) {
+                case "UNKNOWN":
+                case 0:
+                    message.status = 0;
+                    break;
+                case "SERVING":
+                case 1:
+                    message.status = 1;
+                    break;
+                case "NOT_SERVING":
+                case 2:
+                    message.status = 2;
+                    break;
+                }
+                if (object.message != null)
+                    message.message = String(object.message);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a StatusResponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof tensorflow.serving.StatusResponse
+             * @static
+             * @param {tensorflow.serving.StatusResponse} message StatusResponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            StatusResponse.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.status = options.enums === String ? "UNKNOWN" : 0;
+                    object.message = "";
+                }
+                if (message.status != null && message.hasOwnProperty("status"))
+                    object.status = options.enums === String ? $root.tensorflow.serving.StatusResponse.ServiceStatus[message.status] : message.status;
+                if (message.message != null && message.hasOwnProperty("message"))
+                    object.message = message.message;
+                return object;
+            };
+
+            /**
+             * Converts this StatusResponse to JSON.
+             * @function toJSON
+             * @memberof tensorflow.serving.StatusResponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            StatusResponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * ServiceStatus enum.
+             * @name tensorflow.serving.StatusResponse.ServiceStatus
+             * @enum {string}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} SERVING=1 SERVING value
+             * @property {number} NOT_SERVING=2 NOT_SERVING value
+             */
+            StatusResponse.ServiceStatus = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "SERVING"] = 1;
+                values[valuesById[2] = "NOT_SERVING"] = 2;
+                return values;
+            })();
+
+            return StatusResponse;
+        })();
 
         serving.PredictionService = (function() {
 
@@ -14052,6 +15411,39 @@ $root.tensorflow = (function() {
              * @instance
              * @param {hydrosphere.tensorflow.serving.IPredictRequest} request PredictRequest message or plain object
              * @returns {Promise<hydrosphere.tensorflow.serving.PredictResponse>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link tensorflow.serving.PredictionService#status}.
+             * @memberof tensorflow.serving.PredictionService
+             * @typedef StatusCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {tensorflow.serving.StatusResponse} [response] StatusResponse
+             */
+
+            /**
+             * Calls Status.
+             * @function status
+             * @memberof tensorflow.serving.PredictionService
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @param {tensorflow.serving.PredictionService.StatusCallback} callback Node-style callback called with the error, if any, and StatusResponse
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(PredictionService.prototype.status = function status(request, callback) {
+                return this.rpcCall(status, $root.google.protobuf.Empty, $root.tensorflow.serving.StatusResponse, request, callback);
+            }, "name", { value: "Status" });
+
+            /**
+             * Calls Status.
+             * @function status
+             * @memberof tensorflow.serving.PredictionService
+             * @instance
+             * @param {google.protobuf.IEmpty} request Empty message or plain object
+             * @returns {Promise<tensorflow.serving.StatusResponse>} Promise
              * @variation 2
              */
 

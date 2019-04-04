@@ -58,17 +58,14 @@ export function asServingReqRes(data: Uint8Array): ReqRes {
 
   const reqBody = new Uint8Array(data.slice(8, 8 + reqSize))
   const respBody = new Uint8Array(data.slice(8 + reqSize, 8 + reqSize + respSize))
-
   const req = decode(reqBody, PredictRequest.decode);
   const resp = decodeRespOrError(respBody);
   return { req, resp } as ReqRes;
 }
 
 function decodeRespOrError(data: Uint8Array): PredictResponse | ExecutionError {
-
   const num = readInt(data, 0);
   const body = new Uint8Array(data.slice(4, data.length));
-  console.log(num);
   switch(num) {
     case 2:
       return decode(body, ExecutionError.decode);
@@ -86,24 +83,16 @@ export function decodeTsRecord(bytes: Uint8Array): TsRecord[] {
   const records:TsRecord[] = [];
 
   while (bb.offset < bb.limit) {
-    console.log("-------------");
-    console.log("bytebuffer positions:");
-    console.log(bb.offset);
     const ts = bb.readLong().toNumber();
-    console.log(bb.offset);
     const unique = bb.readLong().toNumber();
-    console.log(bb.offset);
     const len = bb.readInt();
-    console.log(bb.offset);
     const data = new Uint8Array(bb.readBytes(len).toArrayBuffer());
-    console.log(bb.offset);
 
     const entries:Entry[] = [];
     entries.push({uid:unique, data:data});
     const record = {ts:ts, entries:entries};
     records.push(record);
-    console.log(record);
-    console.log("-------------");
+
   }
 
   const resultMap:Map<Number, TsRecord> = records.reduce(function(map:Map<Number, TsRecord>, obj) {

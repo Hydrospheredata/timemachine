@@ -6,7 +6,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import timemachine.timeMachine.Data
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future, Promise}
+import scala.concurrent.{Await, Promise}
 
 class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit {
 
@@ -18,7 +18,7 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
 
     val service = TimeMachineClient.client("127.0.0.1", exposedGrpcPort)
 
-    val data = fixture(1)
+    val data = data2save()
     val id = Await.result(service.save(folderName, data, true), 10 seconds)
 
     id.timestamp isValidLong
@@ -46,8 +46,6 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
     list.map(_.id).contains(Some(id)) shouldBe(true)
 
   }
-
-  def fixture(size: Int) = Array.fill[Byte](1024 * size)(1)
 
 
 

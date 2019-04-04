@@ -10,6 +10,7 @@
 #include "../utils/RepositoryUtils.h"
 #include <Poco/JSON/Object.h>
 #include <Poco/JSON/Stringifier.h>
+#include <Poco/BinaryReader.h>
 
 
 namespace timemachine {
@@ -42,6 +43,9 @@ namespace timemachine {
                 SerializeID(&id, bytes);
                 auto bynaryId = rocksdb::Slice(bytes, 16);
                 spdlog::debug("id serialized");
+                spdlog::debug("saving data with size: {}", string.size());
+                spdlog::debug("saving data with size revert: {}", data.data().size());
+
                 rocksdb::Status putStatus = client->Put(wopt, cf, bynaryId, data.SerializeAsString());
                 Poco::JSON::Object json;
                 std::ostringstream oss;
