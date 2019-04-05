@@ -31,10 +31,10 @@ node("JenkinsOnDemand") {
 
     
     stage("Checkout") {
-
+        echo 'checkout'
         env.LAST_VERSION = readVersion()
         env.NEW_VERSION = getUpdatedVersion("minor.minor", env.LAST_VERSION)
-        env.DOCKER_IMAGE = "hydrosphere/${repository}:${curlVersion}"
+        env.DOCKER_IMAGE = "hydrosphere/${repository}:${env.NEW_VERSION}"
 
         def branches = (isRelease()) ? [[name: env.BRANCH_NAME]] : scm.branches
         checkout([
