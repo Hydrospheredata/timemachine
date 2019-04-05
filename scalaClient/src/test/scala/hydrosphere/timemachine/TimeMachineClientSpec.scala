@@ -14,17 +14,23 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
 
   "reqstore" should "save messages to storage via grpc" in {
 
-    val folderName = "6"
+    val folderName = "default"
 
     val service = TimeMachineClient.client("127.0.0.1", exposedGrpcPort)
 
-    val data = data2save()
-    val id = Await.result(service.save(folderName, data, true), 10 seconds)
+    val saved = for(_ <- Range(0, 10)) yield {
 
-    id.timestamp isValidLong
 
-    val saved = Await.result(service.get(folderName, id.timestamp, id.unique), 10 seconds)
-    saved.id shouldBe(Some(id))
+      val data = data2save()
+      val id = Await.result(service.save(folderName, data, true), 10 seconds)
+
+      id.timestamp isValidLong
+
+      val saved = Await.result(service.get(folderName, id.timestamp, id.unique), 10 seconds)
+      saved.id shouldBe(Some(id))
+
+      saved
+    }
 
     val listPromise = Promise[List[Data]]
 
@@ -42,8 +48,11 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
     })
 
     val list = Await.result(listPromise.future, 10 seconds)
+    val idsList = list.collect{case Data(Some(id), _) => id}
 
-    list.map(_.id).contains(Some(id)) shouldBe(true)
+    for(s <- saved){
+      idsList.contains(s.id.get) shouldBe(true)
+    }
 
   }
 

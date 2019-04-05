@@ -24,8 +24,6 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
   def dockerPullImagesPatienceInterval =
     PatienceConfig(scaled(Span(1200, Seconds)), scaled(Span(250, Millis)))
 
-  def useS3 = true
-
   override def beforeAll(): Unit = {
     super.beforeAll()
     startAllOrFail()
@@ -106,10 +104,11 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
   }
 
 
-  def bucket: String = sys.env("TEST_BUCKET")
-  val region: String = sys.env("TEST_REGION")
-  val awsKey: String = sys.env("TEST_AWS_KEY")
-  val awsSecret: String = sys.env("TEST_AWS_SECRET")
+  def bucket: String = sys.env.get("TEST_BUCKET").getOrElse("default")
+  val region: String = sys.env.get("TEST_REGION").getOrElse("none")
+  val awsKey: String = sys.env.get("TEST_AWS_KEY").getOrElse("none")
+  val awsSecret: String = sys.env.get("TEST_AWS_SECRET").getOrElse("none")
+  val backupProvider = sys.env.get("BACKUP_PROVIDER").getOrElse("none")
 
   def writeDockerLog(in:String):Unit = {
     log.debug("[DOCKER[reqstore]] "+in)
@@ -130,7 +129,7 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
       s"AWS_ACCESS_KEY_ID=$awsKey",
       s"AWS_SECRET_ACCESS_KEY=$awsSecret",
       s"DB_NAME=$bucket",
-      s"BACKUP_PROVIDER=${if (useS3) "s3" else "none" }",
+      s"BACKUP_PROVIDER=$backupProvider",
       "DEBUG=1"
     ).withReadyChecker(
     DockerReadyChecker.HttpResponseCode(httpPort, "/health", Some("localhost"))

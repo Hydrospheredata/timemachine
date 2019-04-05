@@ -1,7 +1,6 @@
 package hydrosphere.timemachine
 
 import java.nio.ByteBuffer
-import java.util.Base64
 
 import org.scalatest.{FlatSpec, Matchers}
 import com.softwaremill.sttp._
@@ -18,14 +17,12 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
   override val StartContainersTimeout = 120 seconds
 
-  override def useS3: Boolean = false
-
   override def bucket: String = "otherone"
 
 
   "reqstore" should "save messages to storage via http" in {
 
-    val folder = "13"
+    val folder = "default"
 
     val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
     val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"

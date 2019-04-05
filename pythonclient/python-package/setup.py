@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open("../version") as v:
+with open("../../version") as v:
     version = v.read()
 pkgs = find_packages()
 print("found packages", pkgs)
