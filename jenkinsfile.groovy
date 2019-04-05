@@ -3,9 +3,8 @@ def isRelease() {
 }
 
 def readVersion(){
-    // env.WORKSPACE = pwd()
-    // def version = readFile "version.txt"
-    return '0.0.1'
+    env.WORKSPACE = pwd()
+    def version = readFile "version.txt"
 }
 
 def getUpdatedVersion(String versionType, String currentVersion){
@@ -29,11 +28,14 @@ node("JenkinsOnDemand") {
     def organization = 'Provectus'
     def repository = 'reqstore_cpp'
     def accessTokenId = 'HydroRobot_AccessToken' 
-    def prevVersion = readVersion()
-    def curlVersion = getUpdatedVersion("minor.minor", prevVersion)
-    def imageToCompile = "hydrosphere/${repository}:${curlVersion}"
+
     
     stage("Checkout") {
+
+        env.LAST_VERSION = readVersion()
+        env.NEW_VERSION = getUpdatedVersion("minor.minor", env.LAST_VERSION)
+        env.DOCKER_IMAGE = "hydrosphere/${repository}:${curlVersion}"
+
         def branches = (isRelease()) ? [[name: env.BRANCH_NAME]] : scm.branches
         checkout([
             $class: 'GitSCM',
@@ -50,7 +52,8 @@ node("JenkinsOnDemand") {
 
    stage('test') {
        echo 'end2end tests'
-       sh "export DOCKER_IMAGE=${imageToCompile} && cd scalaClient && sbt test"
+       sh 'docker images'
+       sh "cd scalaClient && sbt test && docker images"
    }
 
   
