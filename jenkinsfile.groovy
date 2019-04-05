@@ -2,6 +2,27 @@ def isRelease() {
   return env.IS_RELEASE_JOB == "true"
 }
 
+def readVersion(){
+    def v = sh 'cat version.txt'
+}
+
+def getUpdatedVersion(String versionType, String currentVersion){
+
+    def split = currentVersion.split('\\.')
+    switch (versionType){
+        case "minor.minor":
+            split[2]=++Integer.parseInt(split[2])
+            break
+        case "minor":
+            split[1]=++Integer.parseInt(split[1])
+            break;
+        case "major":
+        split[0]=++Integer.parseInt(split[0])
+        break;
+    }
+    return split.join('.')
+}
+
 node("JenkinsOnDemand") {
     def organization = 'Provectus'
     def repository = 'reqstore_cpp'
@@ -37,24 +58,5 @@ node("JenkinsOnDemand") {
 //     } 
 //   }
 
-    def readVersion(){
-        def v = sh 'cat version.txt'
-    }
 
-    def getUpdatedVersion(String versionType, String currentVersion){
-
-        def split = currentVersion.split('\\.')
-        switch (versionType){
-            case "minor.minor":
-                split[2]=++Integer.parseInt(split[2])
-                break
-            case "minor":
-                split[1]=++Integer.parseInt(split[1])
-                break;
-            case "major":
-            split[0]=++Integer.parseInt(split[0])
-            break;
-        }
-        return split.join('.')
-    }
 }
