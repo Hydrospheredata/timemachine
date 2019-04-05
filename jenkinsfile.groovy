@@ -26,7 +26,7 @@ def getUpdatedVersion(String versionType, String currentVersion){
     def version = split.join('.')
 
     if(!isRelease()){
-        version = version.join('-SNAPSHOT')
+        version = "${version}-SNAPSHOT")
     }
 
     return version
