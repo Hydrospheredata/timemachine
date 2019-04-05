@@ -3,8 +3,7 @@ def isRelease() {
 }
 
 def readVersion(){
-    env.WORKSPACE = pwd()
-    def version = readFile "version.txt"
+    def version = sh returnStdout: true, script: 'cat version.txt'
 }
 
 def getUpdatedVersion(String versionType, String currentVersion){
