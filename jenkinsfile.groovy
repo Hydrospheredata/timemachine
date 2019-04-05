@@ -3,7 +3,7 @@ def isRelease() {
 }
 
 def readVersion(){
-    def v = sh 'cat version.txt'
+    return sh 'cat version.txt'
 }
 
 def getUpdatedVersion(String versionType, String currentVersion){
