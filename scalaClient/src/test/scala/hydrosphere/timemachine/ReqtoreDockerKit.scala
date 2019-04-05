@@ -109,13 +109,17 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
   val awsKey: String = sys.env.get("TEST_AWS_KEY").getOrElse("none")
   val awsSecret: String = sys.env.get("TEST_AWS_SECRET").getOrElse("none")
   val backupProvider = sys.env.get("BACKUP_PROVIDER").getOrElse("none")
+  val imageName = sys.env.get("DOCKER_IMAGE") match {
+    case Some(image) => image
+    case _ => throw new RuntimeException("please provide valid DOCKER_IMAGE env variable")
+  }
 
   def writeDockerLog(in:String):Unit = {
     log.debug("[DOCKER[reqstore]] "+in)
   }
 
   // running reqstor in local file WAL mode (if useWAL in message == true)
-  val reqstoreContainer = DockerContainer("timemachine2:latest")
+  val reqstoreContainer = DockerContainer(imageName)
     .withPorts(
       httpPort -> Some(exposedHttpPort),
       grpcPort -> Some(exposedGrpcPort)
