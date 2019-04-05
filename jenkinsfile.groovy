@@ -3,9 +3,9 @@ def isRelease() {
 }
 
 def readVersion(){
-    env.WORKSPACE = pwd()
-    def version = readFile "${env.WORKSPACE}/version.txt"
-    return version
+    // env.WORKSPACE = pwd()
+    // def version = readFile "version.txt"
+    return '0.0.1'
 }
 
 def getUpdatedVersion(String versionType, String currentVersion){
@@ -30,7 +30,7 @@ node("JenkinsOnDemand") {
     def repository = 'reqstore_cpp'
     def accessTokenId = 'HydroRobot_AccessToken' 
     def prevVersion = readVersion()
-    def curVersion = getUpdatedVersion("minor.minor", prevVersion)
+    def curlVersion = getUpdatedVersion("minor.minor", prevVersion)
     def imageToCompile = "hydrosphere/${repository}:${curlVersion}"
     
     stage("Checkout") {
