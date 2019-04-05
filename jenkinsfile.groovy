@@ -31,10 +31,6 @@ node("JenkinsOnDemand") {
 
     
     stage("Checkout") {
-        echo 'checkout'
-        env.LAST_VERSION = readVersion()
-        env.NEW_VERSION = getUpdatedVersion("minor.minor", env.LAST_VERSION)
-        env.DOCKER_IMAGE = "hydrosphere/${repository}:${env.NEW_VERSION}"
 
         def branches = (isRelease()) ? [[name: env.BRANCH_NAME]] : scm.branches
         checkout([
@@ -46,14 +42,15 @@ node("JenkinsOnDemand") {
        ])
    }
    stage('Build image') {
-       echo imageToCompile
+       env.LAST_VERSION = readVersion()
+       env.NEW_VERSION = getUpdatedVersion("minor.minor", env.LAST_VERSION)
+       env.DOCKER_IMAGE = "hydrosphere/${repository}:${env.NEW_VERSION}"
        sh "docker build -t ${env.DOCKER_IMAGE} ."
    }
 
    stage('test') {
-       echo 'end2end tests'
        sh 'docker images'
-       sh "cd scalaClient && sbt test && docker images"
+       sh "cd scalaClient && sbt test"
    }
 
   
