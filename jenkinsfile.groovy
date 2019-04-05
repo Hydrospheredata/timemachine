@@ -4,6 +4,7 @@ def isRelease() {
 
 def readVersion(){
     def version = sh returnStdout: true, script: 'cat version.txt'
+    return version
 }
 
 def getUpdatedVersion(String versionType, String currentVersion){
