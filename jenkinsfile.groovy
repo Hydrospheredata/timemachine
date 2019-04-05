@@ -46,7 +46,7 @@ node("JenkinsOnDemand") {
    }
    stage('Build image') {
        echo imageToCompile
-       sh "docker build -t ${imageToCompile} ."
+       sh "docker build -t ${env.DOCKER_IMAGE} ."
    }
 
    stage('test') {
