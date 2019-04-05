@@ -10,6 +10,7 @@ def readVersion(){
 def getUpdatedVersion(String versionType, String currentVersion){
 
     def split = currentVersion.split('\\.')
+    split = [split[0], split[1], split[2].split('-')[0]]
     switch (versionType){
         case "minor.minor":
             split[2] = Integer.parseInt(split[2]) + 1
@@ -21,7 +22,14 @@ def getUpdatedVersion(String versionType, String currentVersion){
         split[0] = Integer.parseInt(split[0]) + 1
         break;
     }
-    return split.join('.')
+
+    def version = split.join('.')
+
+    if(!isRelease()){
+        version = version.join('-SNAPSHOT')
+    }
+
+    return version
 }
 
 node("JenkinsOnDemand") {
@@ -54,11 +62,11 @@ node("JenkinsOnDemand") {
    }
 
   
-//   if (isRelease()) {
-//     stage("Publish docker") {
-//       sh "sbt dockerBuildAndPush"
-//     } 
-//   }
+  if (isRelease()) {
+    stage("Publish docker") {
+      sh "docker push ${env.DOCKER_IMAGE}"
+    } 
+  }
 
 
 }
