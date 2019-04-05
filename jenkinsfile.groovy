@@ -6,7 +6,8 @@ node("JenkinsOnDemand") {
     def organization = 'Provectus'
     def repository = 'reqstore_cpp'
     def accessTokenId = 'HydroRobot_AccessToken' 
-    def curVersion = getVersion()
+    def prevVersion = readVersion()
+    def curVersion = getUpdatedVersion("minor.minor", prevVersion)
     def imageToCompile = "hydrosphere/${repository}:${curlVersion}"
     
     stage("Checkout") {
@@ -35,4 +36,25 @@ node("JenkinsOnDemand") {
 //       sh "sbt dockerBuildAndPush"
 //     } 
 //   }
+
+    def readVersion(){
+        def v = sh 'cat version.txt'
+    }
+
+    def getUpdatedVersion(String versionType, String currentVersion){
+
+        def split = currentVersion.split('\\.')
+        switch (versionType){
+            case "minor.minor":
+                split[2]=++Integer.parseInt(split[2])
+                break
+            case "minor":
+                split[1]=++Integer.parseInt(split[1])
+                break;
+            case "major":
+            split[0]=++Integer.parseInt(split[0])
+            break;
+        }
+        return split.join('.')
+    }
 }
