@@ -28,10 +28,6 @@ namespace timemachine {
 
 
     LocalDBClient::LocalDBClient(std::shared_ptr<Config> _cfg): DbClient(_cfg) {
-       spdlog::info("LocalDBClient::LocalDBClient");
-        rocksdb::Options options;
-        options.create_if_missing = true;
-
         spdlog::info("opening db with name: {}", cfg->dbName);
         spdlog::info("                persistent_cache: {}", persistent_cache);
 
@@ -41,6 +37,13 @@ namespace timemachine {
         rocksdb::DB *_fakeDb;
 
         rocksdb::Status fakeStatus = rocksdb::DB::Open(options, cfg->sourceLocalDir, &_fakeDb);
+
+        if (!fakeStatus.ok()) {
+            spdlog::error("Unable to open db at path {0} with bucket {1}. {2}", cfg->dbName, cfg->sourceBucket,
+                          fakeStatus.ToString());
+            throw std::runtime_error("Failed to connect to DB");
+        }
+
         auto cfDescriptors = GetColumnFamalies();
         spdlog::debug("Column family descriptors fetched, size: {}", cfDescriptors.size());
 

@@ -16,8 +16,9 @@ object TimeMachineClient {
 
 
   def client(host:String, port:Int):TimeMachineClient = {
-    val channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build
-    new TimeMachineClient(TimemachineGrpc.stub(channel));
+    val channel = ManagedChannelBuilder.forAddress(host, port)
+      .usePlaintext().maxInboundMessageSize(1024*1024*1024*4)
+    new TimeMachineClient(TimemachineGrpc.stub(channel.build));
   }
 
   implicit class UUIDExtension(uuid:UUID){

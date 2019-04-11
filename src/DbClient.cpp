@@ -66,6 +66,7 @@ namespace timemachine {
         options.IncreaseParallelism();
         options.OptimizeLevelStyleCompaction();
         options.create_if_missing = true;
+        options.create_missing_column_families = true;
 
         rocksdb::Env *base_env_ = rocksdb::Env::Default();
         base_env_->NewLogger("./rocksdb-cloud.log", &options.info_log);
@@ -77,7 +78,7 @@ namespace timemachine {
         rocksdb::Status s = rocksdb::DB::ListColumnFamilies(options, cfg->dbName, &cf_names);
 
         if (!s.ok()) {
-            spdlog::info("Unable to return ColumnFamaliesList: {0}", s.code());
+            spdlog::info("Unable to return ColumnFamaliesList: {0}, {1}", s.code(), s.ToString());
             throw std::runtime_error("Unable to return ColumnFamaliesList");
         }
 

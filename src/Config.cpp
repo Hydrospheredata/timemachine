@@ -40,7 +40,7 @@ namespace timemachine {
     }
 
     Config::Config() {
-        keyid = getenv("AWS_ACCESS_KEY_ID");
+        keyid = getEnvironmentVariableOrDefault("AWS_ACCESS_KEY_ID", (char *) "");
         secret = getenv("AWS_SECRET_ACCESS_KEY");
         kRegion = getenv("AWS_DEFAULT_REGION");
         dbName = getenv("DB_NAME");
