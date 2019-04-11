@@ -17,7 +17,9 @@ object TimeMachineClient {
 
   def client(host:String, port:Int):TimeMachineClient = {
     val channel = ManagedChannelBuilder.forAddress(host, port)
-      .usePlaintext().maxInboundMessageSize(1024*1024*1024*4)
+      .maxInboundMessageSize(Int.MaxValue)
+      .usePlaintext()
+
     new TimeMachineClient(TimemachineGrpc.stub(channel.build));
   }
 
