@@ -61,9 +61,17 @@ class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
     stub.get(request)
   }
 
-  def getRange(folder:String, from: Option[Long], till:Option[Long], so:StreamObserver[Data]):Unit = {
-    val range = RangeRequest(from.getOrElse(0), till.getOrElse(0), folder)
+  def getRange(folder:String,
+               from: Option[Long],
+               till:Option[Long],
+               maxMessages:Long = 0,
+               maxBytes:Long = 0,
+               reverse:Boolean = false,
+               so:StreamObserver[Data]):Unit = {
+    val range = RangeRequest(from.getOrElse(0), till.getOrElse(0), folder, reverse, maxMessages, maxBytes)
     stub.getRange(range, so)
   }
+
+
 
 }

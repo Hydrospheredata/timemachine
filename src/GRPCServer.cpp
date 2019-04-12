@@ -11,7 +11,7 @@ using namespace rocksdb;
 
 namespace timemachine {
 
-    GRPCServer::GRPCServer() : timemachine::utils::RepositoryUtils() {
+    GRPCServer::GRPCServer() {
         ropt = ReadOptions();
     }
 
@@ -45,7 +45,7 @@ namespace timemachine {
             data.mutable_id()->set_timestamp(id.timestamp());
             data.mutable_id()->set_unique(id.unique());
             char bytes[16];
-            SerializeID(id_ptr, bytes);
+            RepositoryUtils::SerializeID(id_ptr, bytes);
             auto bynaryId = rocksdb::Slice(bytes, 16);
 
             rocksdb::WriteOptions wopt;
@@ -88,7 +88,7 @@ namespace timemachine {
             timemachine::ID req_id;
             req_id.set_timestamp(request->timestamp());
             req_id.set_unique(request->unique());
-            SerializeID(&req_id, bytes);
+            RepositoryUtils::SerializeID(&req_id, bytes);
             auto bynaryId = rocksdb::Slice(bytes, 16);
             rocksdb::Status getStatus = client->Get(ropt, cf, bynaryId, &data);
             spdlog::debug("GET status is  {0}", getStatus.ToString());
@@ -115,44 +115,10 @@ namespace timemachine {
 
             spdlog::debug("getting iterator from {0} to {1}", request->from(), request->till());
 
-            client->Iter(ropt, cf, [&](rocksdb::Iterator* it) -> void {
-            if (request->from() == 0) {
-                    spdlog::debug("seek from start");
-                    it->SeekToFirst();
-                } else {
-
-                    timemachine::ID keyFrom;
-                    keyFrom.set_timestamp(request->from());
-                    char bytes[16];
-                    SerializeID(&keyFrom, bytes);
-                    auto keyFromSlice = rocksdb::Slice(bytes, 16);
-                    spdlog::debug("seek from {}", request->from());
-                    it->SeekForPrev(keyFromSlice);
-                }
-
-                for (; it->Valid(); it->Next()) {
-
-                    if (context->IsCancelled()) break;
-                    auto keyString = it->key();
-                    auto folder = request->folder();
-                    auto key = DeserializeID(keyString);
-                    if (request->till()!= 0 && request->till() < key.timestamp()) break;
-
-                    //TODO: Maybe better not a string???
-                    auto val = it->value().ToString();
-                    auto data = Data();
-                    data.ParseFromString(val);
-
-                    spdlog::debug("iterating key ({0}, {1}) from folder {2}",
-                                data.id().timestamp(),
-                                data.id().unique(),
-                                request->folder()
-                    );
-
-                    writer->Write(data);
-                }
-                delete it;
-                spdlog::debug("return {0} status", "OK");
+            client->Iter(ropt, cf, request, [&](timemachine::ID key, timemachine::Data data, bool stop) -> unsigned long int {
+                if (context->IsCancelled()) stop = true;
+                writer->Write(data);
+                return data.SerializeAsString().size();
             });
 
             return grpc::Status::OK;

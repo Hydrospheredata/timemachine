@@ -53,10 +53,79 @@ namespace timemachine {
         return getDB()->Put(wopt, handle, key, val);
     }
 
-    void DbClient::Iter(const rocksdb::ReadOptions& ropt, rocksdb::ColumnFamilyHandle* handle, std::function<void(rocksdb::Iterator*)> fn){
+    // void DbClient::Iter(const rocksdb::ReadOptions& ropt, rocksdb::ColumnFamilyHandle* handle, std::function<void(rocksdb::Iterator*)> fn){
+    //     std::shared_lock<std::shared_timed_mutex> readLock(lock);
+    //     auto iter = getDB()->NewIterator(ropt, handle);
+    //     fn(iter);
+    // }
+
+    void DbClient::Iter(const rocksdb::ReadOptions& ropt, rocksdb::ColumnFamilyHandle* handle, const RangeRequest *request, std::function<unsigned long int(timemachine::ID, timemachine::Data, bool)> fn){
         std::shared_lock<std::shared_timed_mutex> readLock(lock);
         auto iter = getDB()->NewIterator(ropt, handle);
-        fn(iter);
+
+        if (!request->reverse() && request->from() == 0) {
+            spdlog::debug("seek from start");
+            iter->SeekToFirst();
+        } else if(request->reverse() && request->till() == 0){
+            spdlog::debug("reverse seek from end");
+            iter->SeekToLast();
+        } else {
+
+            timemachine::ID keyFrom;
+            if(!request->reverse()){
+                keyFrom.set_timestamp(request->from());
+            } else {
+                keyFrom.set_timestamp(request->till());
+            }
+            
+            char bytes[16];
+            SerializeID(&keyFrom, bytes);
+            auto keyFromSlice = rocksdb::Slice(bytes, 16);
+            spdlog::debug("seek from {}", request->from());
+
+            if(!request->reverse()){
+                iter->SeekForPrev(keyFromSlice);
+            } else {
+                iter->SeekForPrev(keyFromSlice);
+            }
+            
+        }
+
+        bool stopIteration = false;
+
+        unsigned long int bytesSend = 0;
+        unsigned long int messagesSend = 0;
+
+        for (; iter->Valid(); request->reverse() ? iter->Prev() : iter->Next()) {
+
+            if(stopIteration) break;
+
+            auto keyString = iter->key();
+            auto folder = request->folder();
+            auto key = RepositoryUtils::DeserializeID(keyString);
+            if (!request->reverse(), request->till()!= 0 && request->till() < key.timestamp()) break;
+            if (request->reverse(), request->from()!= 0 && request->from() >= key.timestamp()) break;
+            if (!request->reverse(), request->from() > key.timestamp()) continue;
+            if (request->maxbytes() != 0 && request->maxbytes() <= bytesSend) break;
+            if (request->maxmessages() != 0 && request->maxmessages() <= messagesSend) break;
+
+            auto val = iter->value().ToString();
+            auto data = Data();
+            data.ParseFromString(val);
+
+            spdlog::debug("iterating key ({0}, {1}) from folder {2}",
+                data.id().timestamp(),
+                data.id().unique(),
+                request->folder()
+            );
+
+            unsigned long int sent = fn(key, data, stopIteration);
+            messagesSend += 1;
+            bytesSend += sent;
+
+        }
+        delete iter;
+        spdlog::debug("return {0} status", "OK");  
     }
 
     DbClient::DbClient(std::shared_ptr<Config> _cfg): uniqueGenerator(0) {

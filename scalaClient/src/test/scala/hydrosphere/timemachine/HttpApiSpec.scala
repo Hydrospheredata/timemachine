@@ -8,6 +8,10 @@ import com.softwaremill.sttp._
 import scala.concurrent.duration._
 import spray.json._
 import DefaultJsonProtocol._
+import io.grpc.stub.StreamObserver
+import timemachine.timeMachine.Data
+
+import scala.concurrent.{Future, Promise}
 
 class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
@@ -19,15 +23,16 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
   override def bucket: String = "otherone"
 
+  val folder = "default"
+
+  val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
+  val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"
+  implicit val backend = HttpURLConnectionBackend()
+
 
   "reqstore" should "save messages to storage via http" in {
 
-    val folder = "default"
 
-    val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
-    val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"
-
-    implicit val backend = HttpURLConnectionBackend()
 
     val requestPost = sttp.response(asString)
       .body(data2save())
@@ -46,9 +51,38 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
       id
     } toList
 
+    val list = rangeRequest(folder)
 
 
-    val requestGet = sttp.response(asByteArray).get(getUri)
+    ids.foreach{id =>
+      list.contains(id) shouldBe(true)
+    }
+
+    val last5 = rangeRequest(folder, reverse = true, maxMessages = 5)
+
+    last5.size shouldBe(5)
+    (last5(4).ts < last5(0).ts) shouldBe(true)
+
+  }
+
+  def rangeRequest(folderName:String,
+                   from: Option[Long] = None,
+                   till:Option[Long] = None,
+                   maxMessages:Long = 0,
+                   maxBytes:Long = 0,
+                   reverse:Boolean = false):List[Id] = {
+
+    var qs:List[String] = List()
+    if(from.isDefined) qs = s"from=${from.get}" :: qs
+    if(till.isDefined) qs = s"to=${from.get}" :: qs
+    if(maxMessages > 0) qs = s"maxMessages=5" :: qs
+    if(maxBytes > 0) qs = s"maxBytes=${maxBytes}" :: qs
+    if(reverse == true) qs = s"reverse=true" :: qs
+
+    val url =  uri"http://localhost:$exposedHttpPort/$folder/get?from=${from.getOrElse(0)}&to=${till
+      .getOrElse(0)}&maxBytes=${maxBytes}&maxMessages=${maxMessages}&reverse=${reverse}"
+
+    val requestGet = sttp.response(asByteArray).get(url)
 
     val response2 = requestGet.send()
 
@@ -71,9 +105,7 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
       list = newId :: list
     }
 
-    ids.foreach{id =>
-      list.contains(id) shouldBe(true)
-    }
+    return list.reverse;
 
   }
 

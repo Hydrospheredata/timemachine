@@ -35,7 +35,7 @@ using timemachine::utils::RepositoryUtils;
 
 namespace timemachine {
 
-    class GRPCServer : public Timemachine::Service, RepositoryUtils {
+    class GRPCServer : public Timemachine::Service {
 
     public:
         GRPCServer();

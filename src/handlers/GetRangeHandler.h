@@ -19,13 +19,19 @@ namespace timemachine {
             GetRangeHandler(std::shared_ptr<timemachine::DbClient>,
                             std::string&&,
                             unsigned long int,
-                            unsigned long int);
+                            unsigned long int,
+                            unsigned long int,
+                            unsigned long int,
+                            bool);
 
         private:
             std::shared_ptr <timemachine::DbClient> client;
             std::string name;
             unsigned long int from;
             unsigned long int till;
+            unsigned long int maxMessages;
+            unsigned long int maxBytes;
+            bool reverse;
             rocksdb::ReadOptions readOptions;
             void handleRequest(Poco::Net::HTTPServerRequest &request,
                                Poco::Net::HTTPServerResponse &response) override;

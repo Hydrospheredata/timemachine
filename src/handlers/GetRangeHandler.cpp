@@ -21,8 +21,11 @@ namespace timemachine {
                 std::shared_ptr<timemachine::DbClient>_client,
                 std::string&& _name,
                 unsigned long int _from,
-                unsigned long int _till) :
-        client(_client), name(_name), from(_from), till(_till), timemachine::utils::RepositoryUtils(){
+                unsigned long int _till,
+                unsigned long int _max_messages,
+                unsigned long int _max_bytes,
+                bool _reverse) :
+        client(_client), name(_name), from(_from), till(_till), maxBytes(_max_bytes), maxMessages(_max_messages), reverse(_reverse), timemachine::utils::RepositoryUtils(){
             readOptions = rocksdb::ReadOptions();
         }
 
@@ -45,54 +48,37 @@ namespace timemachine {
             SerializeID(&keyFrom, bytes);
             auto keyFromSlice = rocksdb::Slice(bytes, 16);
 
-            client->Iter(readOptions, cf, [&](rocksdb::Iterator* it)->void {
+            spdlog::debug("iterating with: reverse = {}, from = {}, till = {}, maxMessages = {}, maxBytes = {}", reverse, from, till, maxMessages, maxBytes);
 
-                if (from == 0) {
-                    spdlog::debug("seek from start");
-                    it->SeekToFirst();
-                } else {
-                    spdlog::debug("seek from {}", keyFrom.timestamp());
-                    it->SeekForPrev(keyFromSlice);
-                }
+            timemachine::RangeRequest req;
+            req.set_from(from);
+            req.set_till(till);
+            req.set_reverse(reverse);
+            req.set_maxmessages(maxMessages);
+            req.set_maxbytes(maxBytes);
 
-                for (; it->Valid(); it->Next()) {
+            const timemachine::RangeRequest* reqRef = &req;
 
-                    auto idSlice = it->key();
-                    auto key = DeserializeID(idSlice);
+            client->Iter(readOptions, cf, reqRef, [&](timemachine::ID key, timemachine::Data data, bool stopIt)->unsigned long int {
 
-                    spdlog::debug("till is {}", till);
-                    if (till != 0 && till < key.timestamp()) break;
+                auto ulongSize = sizeof(long int);
+                auto uintSize = sizeof(int);
+                auto totalSize = ulongSize * 2 + uintSize;
+                long int ts_ = (long)key.timestamp();
+                long int unique_ = (long)key.unique();
+                auto body = data.data();
+                int size_ = body.size();
 
-                    spdlog::debug("iterating key ({}, {}) from folder {}",
-                                key.timestamp(),
-                                key.unique(),
-                                name
-                    );
+                spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
+                auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
+                br << ts_ << unique_ << size_;
+                ostr << body;
 
-                    auto val = it->value().data();
-
-                    auto ulongSize = sizeof(long int);
-                    auto uintSize = sizeof(int);
-                    auto totalSize = ulongSize * 2 + uintSize;
-                    long int ts_ = (long)key.timestamp();
-                    long int unique_ = (long)key.unique();
-                    timemachine::Data data;
-                    auto dataString = it->value().ToString();
-                    data.ParseFromString(dataString);
-                    auto body = data.data();
-                    int size_ = body.size();
-
-                    spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
-
-                    auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
-                    br << ts_ << unique_ << size_;
-                    ostr << body;
-                }
-                response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
-                delete it;
-                spdlog::debug("return {0} status", "OK");
+                return size_ + ulongSize + ulongSize + uintSize;
 
             });
+
+            response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
 
         }
 

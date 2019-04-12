@@ -8,13 +8,14 @@
 #include "Config.h"
 #include "IDComparator.h"
 #include "timeMachine.grpc.pb.h"
+#include "utils/RepositoryUtils.h"
 
 #ifndef TIMEMACHINE_DB_CLIENT_H
 #define TIMEMACHINE_DB_CLIENT_H
 
 namespace timemachine {
 
-    class DbClient {
+    class DbClient : utils::RepositoryUtils{
 
     public:
         DbClient(DbClient &&);
@@ -37,7 +38,7 @@ namespace timemachine {
 
         virtual rocksdb::Status Get(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, std::string*);
 
-        virtual void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, std::function<void(rocksdb::Iterator*)>);
+        virtual void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const RangeRequest*, std::function<unsigned long int(timemachine::ID, timemachine::Data, bool)>);
 
     protected:
     

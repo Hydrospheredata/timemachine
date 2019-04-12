@@ -44,22 +44,52 @@ namespace timemachine {
                 spdlog::debug("handler:  GetRangeHandler, depth: {}, path: {} -> {}", path.depth(), path[0], path[1]);
                 auto name = path[0];
                 auto query = uri.getQueryParameters();
+                spdlog::debug("uri.getQueryParameters");
+                for (std::pair < std::string, std::string > &kv: query){
+                    spdlog::debug("{} ->{}", kv.first, kv.second);
+                }
                 unsigned long int from = 0;
                 unsigned long int till = std::numeric_limits<unsigned long int>::max();
+                unsigned long int maxMessages = 0;
+                unsigned long int maxBytes = 0;
+                bool reverse = false;
+                
                 for (std::pair < std::string, std::string > &kv: query) {
-                    if(kv.first == "from"){
+                    std::string from_s = "from";
+                    std::string to_s = "to";
+                    std::string maxBytes_s = "maxBytes";
+                    std::string maxMessages_s = "maxMessages";
+                    std::string reverse_s = "reverse";
+                    if(from_s.compare(kv.first) == 0){
                         spdlog::debug("kv: {} -> {}", kv.first, kv.second);
                         auto from_ = std::stoul(kv.second);
                         if(from_ != -1) from = from_;
                     }
-                    if(kv.first == "to"){
+                    if(to_s.compare(kv.first) == 0){
                         spdlog::debug("kv: {} -> {}", kv.first, kv.second);
                         auto till_ = std::stoul(kv.second);
                         if(till_ != -1) till = till_;
                     }
+                    if(maxBytes_s.compare(kv.first) == 0){
+                        spdlog::debug("kv: {} -> {}", kv.first, kv.second);
+                        auto maxBytes_ = std::stoul(kv.second);
+                        if(maxBytes_ != -1) maxBytes = maxBytes_;
+                    }
+                    if(maxMessages_s.compare(kv.first) == 0){
+                        spdlog::debug("kv: {} -> {}", kv.first, kv.second);
+                        auto maxMessages_ = std::stoul(kv.second);
+                        if(maxMessages_ != -1) maxMessages = maxMessages_;
+                    }
+                    if(reverse_s.compare(kv.first) == 0){
+                        spdlog::debug("kv: {} -> {}", kv.first, kv.second);
+                        std::string t = "true";
+                        if(kv.second.compare(t) == 0) reverse = true;
+                    }
                 }
 
-                return new GetRangeHandler(client, std::move(name), from, till);
+                spdlog::debug("return new GetRangeHandler with params: reverse = {}, from = {}, till = {}, maxMessages = {}, maxBytes = {}", reverse, from, till, maxMessages, maxBytes);
+
+                return new GetRangeHandler(client, std::move(name), from, till, maxMessages, maxBytes, reverse);
 
             } else if (request.getURI() == "/health" && request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
                 return new HealthHandler;
