@@ -16,7 +16,7 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
 
   "reqstore" should "save messages to storage via grpc" in {
 
-    val folderName = "default"
+    val folderName = "4356"
 
 
 

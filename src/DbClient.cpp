@@ -99,7 +99,7 @@ namespace timemachine {
         for (; iter->Valid(); request->reverse() ? iter->Prev() : iter->Next()) {
 
             if(stopIteration) break;
-
+      
             auto keyString = iter->key();
             auto folder = request->folder();
             auto key = RepositoryUtils::DeserializeID(keyString);
@@ -183,8 +183,10 @@ namespace timemachine {
         auto exists = GetColumnFamily(name);
         if (exists) return exists;
 
-        auto created = CreateColumnFamily(name);
-        return created;
+        CreateColumnFamily(name);
+        exists = GetColumnFamily(name);
+
+        return exists;
     };
 
 } 

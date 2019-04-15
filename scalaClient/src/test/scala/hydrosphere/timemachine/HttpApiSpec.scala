@@ -23,7 +23,7 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
   override def bucket: String = "otherone"
 
-  val folder = "default"
+  val folder = "1235"
 
   val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
   val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"

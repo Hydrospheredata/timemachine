@@ -38,12 +38,6 @@ namespace timemachine {
 
         rocksdb::Status fakeStatus = rocksdb::DB::Open(options, cfg->sourceLocalDir, &_fakeDb);
 
-        if (!fakeStatus.ok()) {
-            spdlog::error("Unable to open db at path {0} with bucket {1}. {2}", cfg->dbName, cfg->sourceBucket,
-                          fakeStatus.ToString());
-            throw std::runtime_error("Failed to connect to DB");
-        }
-
         auto cfDescriptors = GetColumnFamalies();
         spdlog::debug("Column family descriptors fetched, size: {}", cfDescriptors.size());
 
@@ -61,8 +55,7 @@ namespace timemachine {
         }
 
         if (!dbStatus.ok()) {
-            spdlog::error("Unable to open db at path {0} with bucket {1}. {2}", cfg->dbName, cfg->sourceBucket,
-                          dbStatus.ToString());
+            spdlog::error("Unable to open db: {0}", dbStatus.ToString());
             throw std::runtime_error("Failed to connect to DB");
         }
         spdlog::info("Rocksdb-cloud local connection opened: {0}", dbStatus.ToString());
@@ -100,12 +93,10 @@ namespace timemachine {
             }
 
             if (!dbStatus.ok()) {
-                spdlog::error("Unable to open db at path {0} with bucket {1}. {2}", cfg->dbName, cfg->sourceBucket,
-                              dbStatus.ToString());
+                spdlog::error("Unable to open db: {0}", dbStatus.ToString());
                 throw std::runtime_error("Failed to connect to DB");
             }
             spdlog::info("Rocksdb-cloud connection opened: {0}", dbStatus.ToString());
-
             return cf;
         }
 
