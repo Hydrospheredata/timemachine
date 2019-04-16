@@ -11,6 +11,9 @@
 #include <Poco/JSON/Object.h>
 #include <Poco/JSON/Stringifier.h>
 #include <Poco/BinaryReader.h>
+#include "Poco/Net/MessageHeader.h"
+
+using Poco::Net::MessageHeader;
 
 
 namespace timemachine {
@@ -25,6 +28,29 @@ namespace timemachine {
         void SaveHandler::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) {
             response.setChunkedTransferEncoding(true);
             response.setContentType("application/json");
+
+            if (request.has("Access-Control-Request-Method")){
+				const std::string& method = request.get("Access-Control-Request-Method");
+
+				response.set("Access-Control-Allow-Method", method);
+
+			}
+			if (request.has("Access-Control-Request-Headers")){
+				const std::string& headers = request.get("Access-Control-Request-Headers");
+				std::vector<std::string> list;
+				MessageHeader::splitElements(headers, list);
+				std::string allowHeaders;
+				for (auto it = list.begin(); it != list.end(); ++it){
+
+					if(!allowHeaders.empty()){
+						allowHeaders += ", ";
+					}
+					allowHeaders += *it;
+				}
+				response.set("Access-Control-Allow-Headers", allowHeaders);
+			}
+
+
             std::ostream &ostr = response.send();
 
             try {

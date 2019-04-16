@@ -9,9 +9,11 @@
 #include <Poco/Net/HTTPServerResponse.h>
 #include "../utils/RepositoryUtils.h"
 #include "Poco/BinaryWriter.h"
+#include "Poco/Net/MessageHeader.h"
 
 using Poco::Net::HTTPServerRequest;
 using Poco::Net::HTTPServerResponse;
+using Poco::Net::MessageHeader;
 
 
 namespace timemachine {
@@ -35,6 +37,27 @@ namespace timemachine {
             std::ostream &ostr = response.send();
 
             response.setChunkedTransferEncoding(true);
+
+            if (request.has("Access-Control-Request-Method")){
+				const std::string& method = request.get("Access-Control-Request-Method");
+
+				response.set("Access-Control-Allow-Method", method);
+
+			}
+			if (request.has("Access-Control-Request-Headers")){
+				const std::string& headers = request.get("Access-Control-Request-Headers");
+				std::vector<std::string> list;
+				MessageHeader::splitElements(headers, list);
+				std::string allowHeaders;
+				for (auto it = list.begin(); it != list.end(); ++it){
+
+					if(!allowHeaders.empty()){
+						allowHeaders += ", ";
+					}
+					allowHeaders += *it;
+				}
+				response.set("Access-Control-Allow-Headers", allowHeaders);
+			}
 
             spdlog::debug("Get range from {0} to {1}", from, till);
             auto cf = client->GetOrCreateColumnFamily(name);
