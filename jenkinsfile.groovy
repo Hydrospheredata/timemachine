@@ -51,7 +51,7 @@ node("JenkinsOnDemand") {
    }
    stage('Build image') {
        env.LAST_VERSION = readVersion()
-       env.NEW_VERSION = getUpdatedVersion("minor.minor", env.LAST_VERSION)
+       env.NEW_VERSION = env.LAST_VERSION
        env.DOCKER_IMAGE = "hydrosphere/${repository}:${env.NEW_VERSION}"
        sh "docker build -t ${env.DOCKER_IMAGE} ."
    }
