@@ -83,10 +83,17 @@ namespace timemachine {
             auto keyFromSlice = rocksdb::Slice(bytes, 16);
             spdlog::debug("seek from {}", request->from());
 
-            if(!request->reverse()){
-                iter->SeekForPrev(keyFromSlice);
-            } else {
-                iter->SeekForPrev(keyFromSlice);
+            iter->SeekForPrev(keyFromSlice);
+
+            if(!iter->Valid()){
+                if(!request->reverse()){
+                    spdlog::debug("Couldn't find message before that date. Starting from very beginning");
+                    iter->SeekToFirst();
+                } else {
+                    spdlog::debug("Couldn't find message after that date. Starting from last");
+                    iter->SeekToLast();
+                }
+                
             }
             
         }
@@ -103,21 +110,28 @@ namespace timemachine {
             auto keyString = iter->key();
             auto folder = request->folder();
             auto key = RepositoryUtils::DeserializeID(keyString);
-            if (!request->reverse(), request->till()!= 0 && request->till() < key.timestamp()) break;
-            if (request->reverse(), request->from()!= 0 && request->from() >= key.timestamp()) break;
-            if (!request->reverse(), request->from() > key.timestamp()) continue;
+
+            spdlog::debug("iterating key ({0}, {1}) from folder {2}",
+                key.timestamp(),
+                key.unique(),
+                request->folder()
+            );
+
+
+            if (!request->reverse() && request->till()!= 0 && request->till() < key.timestamp()) break;
+            spdlog::debug("request->till() < key.timestamp()");
+            if (request->reverse() && request->from()!= 0 && request->from() >= key.timestamp()) break;
+            spdlog::debug("request->from() >= key.timestamp()");
+            if (!request->reverse() && request->from() > key.timestamp()) continue;
+            spdlog::debug("request->from() > key.timestamp()");
             if (request->maxbytes() != 0 && request->maxbytes() <= bytesSend) break;
+            spdlog::debug("request->maxbytes() <= bytesSend");
             if (request->maxmessages() != 0 && request->maxmessages() <= messagesSend) break;
+            spdlog::debug("request->maxmessages() <= messagesSend");
 
             auto val = iter->value().ToString();
             auto data = Data();
             data.ParseFromString(val);
-
-            spdlog::debug("iterating key ({0}, {1}) from folder {2}",
-                data.id().timestamp(),
-                data.id().unique(),
-                request->folder()
-            );
 
             unsigned long int sent = fn(key, data, stopIteration);
             messagesSend += 1;
