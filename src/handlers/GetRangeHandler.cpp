@@ -38,26 +38,10 @@ namespace timemachine {
 
             response.setChunkedTransferEncoding(true);
 
-            if (request.has("Access-Control-Request-Method")){
-				const std::string& method = request.get("Access-Control-Request-Method");
-
-				response.set("Access-Control-Allow-Method", method);
-
-			}
-			if (request.has("Access-Control-Request-Headers")){
-				const std::string& headers = request.get("Access-Control-Request-Headers");
-				std::vector<std::string> list;
-				MessageHeader::splitElements(headers, list);
-				std::string allowHeaders;
-				for (auto it = list.begin(); it != list.end(); ++it){
-
-					if(!allowHeaders.empty()){
-						allowHeaders += ", ";
-					}
-					allowHeaders += *it;
-				}
-				response.set("Access-Control-Allow-Headers", allowHeaders);
-			}
+            response.set("Access-Control-Allow-Headers", "application/octet-stream");
+            response.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+            response.set("Access-Control-Allow-Origin", "*");
+            response.set("Allow", "POST, GET, OPTIONS, PUT, DELETE");
 
             spdlog::debug("Get range from {0} to {1}", from, till);
             auto cf = client->GetOrCreateColumnFamily(name);
