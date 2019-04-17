@@ -63,7 +63,7 @@ namespace timemachine {
                 Poco::UInt64 u_p = id.unique();
                 json.set("uniq", u_p);
                 json.stringify(oss);
-                 auto r = oss.str();
+                auto r = oss.str();
 
                 spdlog::debug("PUT status is {0}, id({1}, {2}) to folder",
                               putStatus.ToString(),

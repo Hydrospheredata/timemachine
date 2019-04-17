@@ -119,6 +119,7 @@ add_executable(timemachine "timemachine.cpp"
         ${tm_proto_srcs}
         ${tm_grpc_srcs} handlers/HealthHandler.cpp handlers/HealthHandler.h
         handlers/InfoHandler.cpp handlers/InfoHandler.h
+        handlers/StatusHandler.cpp handlers/StatusHandler.h
         handlers/SaveHandler.cpp handlers/SaveHandler.h
         utils/RepositoryUtils.cpp utils/RepositoryUtils.h
         handlers/NotFoundHandler.cpp handlers/NotFoundHandler.h

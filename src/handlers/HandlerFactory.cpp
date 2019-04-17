@@ -2,6 +2,7 @@
 #include "HealthHandler.h"
 #include "InfoHandler.h"
 #include "SaveHandler.h"
+#include "StatusHandler.h"
 #include <Poco/Net/HTTPServerRequest.h>
 #include "Poco/URI.h"
 #include "Poco/Path.h"
@@ -21,11 +22,11 @@ namespace timemachine {
             Poco::URI uri(request.getURI());
             Poco::Path path(uri.getPath());
 
-            spdlog::debug("request to endpoint {}", request.getURI());
-
-            if (request.getURI() == "/" && request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
-                spdlog::debug("handler:  InfoHandler");
+            if ((request.getURI() == "/" || request.getURI() == "" ) && request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
                 return new InfoHandler;
+            } else if(request.getURI() == "/status" && request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET){
+                spdlog::debug("handler:  StatusHandler");
+                return new StatusHandler(client);
             } else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST && path.depth() == 1 && path[1] == "put" ) {
                 spdlog::debug("handler:  SaveHandler, depth: {}, path: {} -> {}", path.depth(), path[0], path[1]);
                 auto name = path[0];

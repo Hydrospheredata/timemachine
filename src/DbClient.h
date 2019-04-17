@@ -28,6 +28,8 @@ namespace timemachine {
 
         std::shared_ptr<Config> cfg;
 
+        std::vector<rocksdb::ColumnFamilyHandle *> handles;
+
         virtual rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
 
         virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) = 0;
@@ -46,7 +48,6 @@ namespace timemachine {
         rocksdb::Options options;
         std::unordered_map<std::string, rocksdb::ColumnFamilyHandle *> columnFamalies;
         std::shared_timed_mutex lock;
-        std::vector<rocksdb::ColumnFamilyHandle *> handles;
         rocksdb::CloudEnvOptions cloud_env_options;
         std::shared_ptr<rocksdb::CloudEnv> cloud_env;
         timemachine::IDComparator cmp;
