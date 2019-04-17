@@ -34,14 +34,15 @@ namespace timemachine {
         void GetRangeHandler::handleRequest(HTTPServerRequest &request, HTTPServerResponse &response){
             response.setChunkedTransferEncoding(true);
             response.setContentType("application/octet-stream");
-            std::ostream &ostr = response.send();
-
             response.setChunkedTransferEncoding(true);
 
             response.set("Access-Control-Allow-Headers", "application/octet-stream");
             response.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
             response.set("Access-Control-Allow-Origin", "*");
             response.set("Allow", "POST, GET, OPTIONS, PUT, DELETE");
+
+            std::ostream &ostr = response.send();
+
 
             spdlog::debug("Get range from {0} to {1}", from, till);
             auto cf = client->GetOrCreateColumnFamily(name);
