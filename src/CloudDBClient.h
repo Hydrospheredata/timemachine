@@ -7,33 +7,38 @@
 #include "spdlog/spdlog.h"
 #include "Config.h"
 #include "IDComparator.h"
-#include "timeMachine.grpc.pb.h"
+#include "reqstore_service.grpc.pb.h"
 #include "DbClient.h"
 
-#ifndef TIMEMACHINE_CLOUD_DB_CLIENT_H
-#define TIMEMACHINE_CLOUD_DB_CLIENT_H
+#ifndef REQSTORE_CLOUD_DB_CLIENT_H
+#define REQSTORE_CLOUD_DB_CLIENT_H
 
-namespace timemachine {
+namespace hydrosphere
+{
+namespace reqstore
+{
 
-    class CloudDBClient : public DbClient {
+class CloudDBClient : public DbClient
+{
 
-    public:
-        CloudDBClient(CloudDBClient &&);
+public:
+    CloudDBClient(CloudDBClient &&);
 
-        CloudDBClient(std::shared_ptr<Config>);
+    CloudDBClient(std::shared_ptr<Config>);
 
-        virtual rocksdb::ColumnFamilyHandle* CreateColumnFamily(std::string &name) override;
+    virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) override;
 
-    protected:
-        virtual rocksdb::DB* getDB() override;
+protected:
+    virtual rocksdb::DB *getDB() override;
 
-    private:
-        rocksdb::CloudEnvOptions cloud_env_options;
-        std::shared_ptr<rocksdb::CloudEnv> cloud_env;
-        rocksdb::CloudEnv *cenv;
-        rocksdb::DBCloud* db;
-    };
+private:
+    rocksdb::CloudEnvOptions cloud_env_options;
+    std::shared_ptr<rocksdb::CloudEnv> cloud_env;
+    rocksdb::CloudEnv *cenv;
+    rocksdb::DBCloud *db;
+};
 
-}
+} // namespace reqstore
+} // namespace hydrosphere
 
 #endif

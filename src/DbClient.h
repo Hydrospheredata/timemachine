@@ -7,55 +7,73 @@
 #include "spdlog/spdlog.h"
 #include "Config.h"
 #include "IDComparator.h"
-#include "timeMachine.grpc.pb.h"
+#include "reqstore_service.grpc.pb.h"
 #include "utils/RepositoryUtils.h"
 
-#ifndef TIMEMACHINE_DB_CLIENT_H
-#define TIMEMACHINE_DB_CLIENT_H
+#ifndef REQSTORE_DB_CLIENT_H
+#define REQSTORE_DB_CLIENT_H
 
-namespace timemachine {
+namespace hydrosphere
+{
+namespace reqstore
+{
 
-    class DbClient : utils::RepositoryUtils{
+struct ColumnFamilyData
+{
+    rocksdb::ColumnFamilyHandle *handle;
+    uint long lastUnique;
+    ColumnFamilyData();
+    ColumnFamilyData(rocksdb::ColumnFamilyHandle *_handle, long unsigned int _lastUnique);
+};
 
-    public:
-        DbClient(DbClient &&);
+class DbClient : utils::RepositoryUtils
+{
 
-        DbClient(std::shared_ptr<Config>);
+public:
+    DbClient(DbClient &&);
 
-        virtual timemachine::ID GenerateId();
+    DbClient(std::shared_ptr<Config>);
 
-        virtual std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
+    virtual hydrosphere::reqstore::ID GenerateId();
 
-        std::shared_ptr<Config> cfg;
+    virtual std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
 
-        std::vector<rocksdb::ColumnFamilyHandle *> handles;
+    std::shared_ptr<Config> cfg;
 
-        virtual rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
+    std::vector<rocksdb::ColumnFamilyHandle *> handles;
 
-        virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) = 0;
+    virtual rocksdb::ColumnFamilyHandle *GetColumnFamily(std::string &name);
 
-        virtual rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
+    virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) = 0;
 
-        virtual rocksdb::Status Put(const rocksdb::WriteOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, const rocksdb::Slice&);
+    virtual rocksdb::ColumnFamilyHandle *GetOrCreateColumnFamily(std::string &name);
 
-        virtual rocksdb::Status Get(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const rocksdb::Slice&, std::string*);
+    virtual rocksdb::Status Put(const rocksdb::WriteOptions &, rocksdb::ColumnFamilyHandle *, const rocksdb::Slice &, const rocksdb::Slice &);
 
-        virtual void Iter(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const RangeRequest*, std::function<unsigned long int(timemachine::ID, timemachine::Data, bool)>);
+    virtual rocksdb::Status Get(const rocksdb::ReadOptions &, rocksdb::ColumnFamilyHandle *, const rocksdb::Slice &, std::string *);
 
-    protected:
-    
-        virtual rocksdb::DB* getDB() = 0;
-        rocksdb::Options options;
-        std::unordered_map<std::string, rocksdb::ColumnFamilyHandle *> columnFamalies;
-        std::shared_timed_mutex lock;
-        rocksdb::CloudEnvOptions cloud_env_options;
-        std::shared_ptr<rocksdb::CloudEnv> cloud_env;
-        timemachine::IDComparator cmp;
-        rocksdb::CloudEnv *cenv;
-        std::string persistent_cache;
-        std::atomic<long> uniqueGenerator;
-    };
+    virtual std::vector<rocksdb::Status> GetBatch(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const std::vector<rocksdb::Slice>&, std::vector<std::string>*);
 
-}
+    virtual uint long LastUnique(rocksdb::ColumnFamilyHandle* handle);
+
+    virtual uint long FirstUnique(rocksdb::ColumnFamilyHandle* handle);
+
+    virtual void Iter(const rocksdb::ReadOptions &, rocksdb::ColumnFamilyHandle *, const RangeRequest *, std::function<unsigned long int(hydrosphere::reqstore::ID, hydrosphere::reqstore::Data, bool)>);
+
+protected:
+    virtual rocksdb::DB *getDB() = 0;
+    rocksdb::Options options;
+    std::unordered_map<std::string, ColumnFamilyData> columnFamalies;
+    std::shared_timed_mutex lock;
+    rocksdb::CloudEnvOptions cloud_env_options;
+    std::shared_ptr<rocksdb::CloudEnv> cloud_env;
+    hydrosphere::reqstore::IDComparator cmp;
+    rocksdb::CloudEnv *cenv;
+    std::string persistent_cache;
+    std::atomic<long> uniqueGenerator;
+};
+
+} // namespace reqstore
+} // namespace hydrosphere
 
 #endif

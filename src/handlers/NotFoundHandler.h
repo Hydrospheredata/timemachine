@@ -4,22 +4,26 @@
 
 #include <Poco/Net/HTTPRequestHandler.h>
 
-#ifndef TIMEMACHINE_NOTFOUNDHANDLER_H
-#define TIMEMACHINE_NOTFOUNDHANDLER_H
+#ifndef REQSTORE_NOTFOUNDHANDLER_H
+#define REQSTORE_NOTFOUNDHANDLER_H
 
-namespace timemachine {
-    namespace handlers {
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
 
-        class NotFoundHandler : public Poco::Net::HTTPRequestHandler {
+class NotFoundHandler : public Poco::Net::HTTPRequestHandler
+{
 
-        private:
-            void handleRequest(Poco::Net::HTTPServerRequest &request,
-                               Poco::Net::HTTPServerResponse &response) override;
+private:
+    void handleRequest(Poco::Net::HTTPServerRequest &request,
+                       Poco::Net::HTTPServerResponse &response) override;
+};
 
-        };
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere
 
-    }
-}
-
-
-#endif //TIMEMACHINE_NOTFOUNDHANDLER_H
+#endif //REQSTORE_NOTFOUNDHANDLER_H

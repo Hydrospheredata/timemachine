@@ -19,7 +19,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project(timemachine C CXX)
+project(reqstore C CXX)
 
 SET(CMAKE_CXX_STANDARD 14)
 
@@ -63,6 +63,17 @@ find_package(Snappy REQUIRED)
 message(STATUS "Looking for spdlog")
 find_package(spdlog REQUIRED)
 
+ExternalProject_Add(protos
+        GIT_REPOSITORY https://github.com/Hydrospheredata/hydro-serving-protos.git
+        GIT_TAG "origin/subsampling"
+        PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/proto"
+        CONFIGURE_COMMAND "" # Disable configure step
+        BUILD_COMMAND "" # Disable build step
+        INSTALL_COMMAND "" # Disable install step
+        UPDATE_COMMAND "" # Disable update step: clones the project only once
+        LOG_DOWNLOAD ON
+        )
+
 set(SPBLOG spdlog::spblog)
 #set(SPBLOG_SINKS_COLOR spdlog)
 
@@ -79,14 +90,14 @@ endif()
 set(_GRPC_GRPCPP_UNSECURE gRPC::grpc++_unsecure)
 
 # Proto file
-get_filename_component(tm_proto "proto/timeMachine.proto" ABSOLUTE)
+get_filename_component(tm_proto "proto/src/protos/src/hydro_serving_grpc/reqstore/reqstore_service.proto" ABSOLUTE)
 get_filename_component(tm_proto_path "${tm_proto}" PATH)
 
 # Generated sources
-set(tm_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/timeMachine.pb.cc")
-set(tm_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/timeMachine.pb.h")
-set(tm_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/timeMachine.grpc.pb.cc")
-set(tm_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/timeMachine.grpc.pb.h")
+set(tm_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/reqstore_service.pb.cc")
+set(tm_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/reqstore_service.pb.h")
+set(tm_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/reqstore_service.grpc.pb.cc")
+set(tm_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/reqstore_service.grpc.pb.h")
 add_custom_command(
         OUTPUT "${tm_proto_srcs}" "${tm_proto_hdrs}" "${tm_grpc_srcs}" "${tm_grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
@@ -107,7 +118,7 @@ include_directories("${spdlog_INCLUDE_DIR}")
 
 find_library(ROCKSDB_LIBRARY rocksdb)
 
-add_executable(timemachine "timemachine.cpp" 
+add_executable(reqstore "reqstore.cpp" 
         GRPCServer.cpp GRPCServer.h
         CloudDBClient.h CloudDBClient.cpp
         LocalDBClient.h LocalDBClient.cpp
@@ -124,7 +135,7 @@ add_executable(timemachine "timemachine.cpp"
         utils/RepositoryUtils.cpp utils/RepositoryUtils.h
         handlers/NotFoundHandler.cpp handlers/NotFoundHandler.h
         handlers/GetRangeHandler.cpp handlers/GetRangeHandler.h)
-target_link_libraries(timemachine
+target_link_libraries(reqstore
         ${BZIP2_LIBRARIES}
         ${POCO_UTIL}
         ${POCO_NET}

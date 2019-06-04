@@ -8,27 +8,30 @@
 #include "../DbClient.h"
 #include "rocksdb/options.h"
 
-#ifndef TIMEMACHINE_SAVEHANDLER_H
-#define TIMEMACHINE_SAVEHANDLER_H
+#ifndef REQSTORE_SAVEHANDLER_H
+#define REQSTORE_SAVEHANDLER_H
 
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
+class SaveHandler : public Poco::Net::HTTPRequestHandler, hydrosphere::reqstore::utils::RepositoryUtils
+{
 
-namespace timemachine {
-    namespace handlers {
-    class SaveHandler : public Poco::Net::HTTPRequestHandler, timemachine::utils::RepositoryUtils {
+public:
+    SaveHandler(std::shared_ptr<hydrosphere::reqstore::DbClient>, std::string &&, bool);
 
-        public:
-            SaveHandler(std::shared_ptr<timemachine::DbClient>, std::string&&, bool);
+private:
+    void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) override;
 
-        private:
-            void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) override;
+    std::shared_ptr<hydrosphere::reqstore::DbClient> client;
+    std::string name;
+    rocksdb::WriteOptions wopt;
+};
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere
 
-            std::shared_ptr <timemachine::DbClient> client;
-            std::string name;
-            rocksdb::WriteOptions wopt;
-
-        };
-    }
-}
-
-
-#endif //TIMEMACHINE_SAVEHANDLER_H
+#endif //REQSTORE_SAVEHANDLER_H

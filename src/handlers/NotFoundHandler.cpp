@@ -9,15 +9,21 @@
 using Poco::Net::HTTPServerRequest;
 using Poco::Net::HTTPServerResponse;
 
-namespace timemachine {
-    namespace handlers {
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
 
-        void NotFoundHandler::handleRequest(HTTPServerRequest &request, HTTPServerResponse &response){
-            std::ostream &out = response.send();
-            out << "Page Not Found";
-            spdlog::warn("Page Not Found"); // TODO: Log path
-            response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_FOUND);
-        }
-
-    }
+void NotFoundHandler::handleRequest(HTTPServerRequest &request, HTTPServerResponse &response)
+{
+    std::ostream &out = response.send();
+    out << "Page Not Found";
+    spdlog::warn("Page Not Found"); // TODO: Log path
+    response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_FOUND);
 }
+
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere

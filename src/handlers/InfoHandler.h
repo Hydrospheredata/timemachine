@@ -4,21 +4,24 @@
 
 #include <Poco/Net/HTTPRequestHandler.h>
 
-#ifndef TIMEMACHINE_INFOHANDLER_H
-#define TIMEMACHINE_INFOHANDLER_H
+#ifndef REQSTORE_INFOHANDLER_H
+#define REQSTORE_INFOHANDLER_H
 
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
+class InfoHandler : public Poco::Net::HTTPRequestHandler
+{
 
-namespace timemachine {
-    namespace handlers {
-        class InfoHandler : public Poco::Net::HTTPRequestHandler {
+private:
+    void handleRequest(Poco::Net::HTTPServerRequest &request,
+                       Poco::Net::HTTPServerResponse &response) override;
+};
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere
 
-        private:
-            void handleRequest(Poco::Net::HTTPServerRequest &request,
-                               Poco::Net::HTTPServerResponse &response) override;
-
-        };
-    }
-}
-
-
-#endif //TIMEMACHINE_INFOHANDLER_H
+#endif //REQSTORE_INFOHANDLER_H

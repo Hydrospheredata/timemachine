@@ -4,20 +4,24 @@
 
 #include <Poco/Net/HTTPRequestHandler.h>
 
-#ifndef TIMEMACHINE_HEALTHHANDLER_H
-#define TIMEMACHINE_HEALTHHANDLER_H
+#ifndef REQSTORE_HEALTHHANDLER_H
+#define REQSTORE_HEALTHHANDLER_H
 
-namespace timemachine {
-    namespace handlers {
-        class HealthHandler : public Poco::Net::HTTPRequestHandler {
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
+class HealthHandler : public Poco::Net::HTTPRequestHandler
+{
 
-        private:
-            void handleRequest(Poco::Net::HTTPServerRequest &request,
-                               Poco::Net::HTTPServerResponse &response) override;
+private:
+    void handleRequest(Poco::Net::HTTPServerRequest &request,
+                       Poco::Net::HTTPServerResponse &response) override;
+};
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere
 
-        };
-    }
-}
-
-
-#endif //TIMEMACHINE_HEALTHHANDLER_H
+#endif //REQSTORE_HEALTHHANDLER_H

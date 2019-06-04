@@ -2,8 +2,6 @@ FROM lerrox/grpc-aws-sdk-cpp:0.0.1 as build1
 
 FROM lerrox/aws-cpp-sdk-rocksdb-cloud:0.0.2 as build2
 
-
-
 ENV Protobuf_DIR "/var/local/git/grpc/third_party/protobuf"
 ENV CMAKE_PREFIX_PATH=/usr/local/aws-sdk-cpp
 
@@ -35,34 +33,13 @@ RUN cmake -E env LDFLAGS="-lcurl -lssl -lcrypto -lz -lrt" cmake ../src \
     && CTEST_OUTPUT_ON_FAILURE=TRUE cmake --build . --target \
     && groupadd -r reqstore && useradd -r -g reqstore reqstore
 
-FROM lerrox/ubuntu:latest
 
-# COPY --from=build2 /usr/lib/x86_64-linux-gnu/libssl.so.1.1 /usr/lib/x86_64-linux-gnu
-COPY --from=build1 /usr/local/share/grpc /usr/local/share/grpc
-COPY --from=build1 /usr/local/include/google  /usr/local/include/google
-COPY --from=build1 /usr/local/include/grpc  /usr/local/include/grpc
-COPY --from=build1 /usr/local/include/'grpc++'  /usr/local/include/'grpc++'
-COPY --from=build1 /usr/local/include/grpcpp  /usr/local/include/grpcpp
+# for gdbserver
+EXPOSE 2000
 
-RUN  mkdir app
+ADD ./src /app/src
+ADD ./src/spdlog /app/external/spdlog
 
-COPY --from=build2 /app/build/reqstore /app
-COPY --from=build2 /usr/local/lib/libaws-c-* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/aws-checksums* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/aws-c-* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-core.so /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-kinesis.so /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libaws-cpp-sdk-s3.so /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libgpr* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libgrpc* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libproto* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libPoco* /usr/local/lib/
-COPY --from=build2 /usr/local/lib/libaws-checksums.so /usr/local/lib/
-# COPY --from=build2 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu
+VOLUME "/app"
+WORKDIR "/app"
 
-
-RUN  ldconfig 
-
-WORKDIR /app
-
-ENTRYPOINT ["./reqstore"]
