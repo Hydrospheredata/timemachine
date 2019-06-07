@@ -1,9 +1,9 @@
 package hydrosphere.timemachine
 
 import io.grpc.stub.StreamObserver
+import io.hydrosphere.reqstore.reqstore_service.Data
 import io.hydrosphere.timemachine.TimeMachineClient
 import org.scalatest.{FlatSpec, Matchers}
-import timemachine.timeMachine.Data
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future, Promise}

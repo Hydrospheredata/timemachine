@@ -21,11 +21,11 @@ class SaveHandler : public Poco::Net::HTTPRequestHandler, hydrosphere::reqstore:
 {
 
 public:
-    SaveHandler(std::shared_ptr<hydrosphere::reqstore::DbClient>, std::string &&, bool);
+    SaveHandler(std::shared_ptr<hydrosphere::reqstore::DbClient>, std::string &&, bool, unsigned long);
 
 private:
     void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) override;
-
+    unsigned long timestamp;
     std::shared_ptr<hydrosphere::reqstore::DbClient> client;
     std::string name;
     rocksdb::WriteOptions wopt;

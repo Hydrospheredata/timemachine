@@ -26,7 +26,7 @@ RUN apt-get update \
 
 
 ADD ./src /app/src
-ADD ./src/spdlog /app/external/spdlog
+
 
 WORKDIR /app/build
 
@@ -34,6 +34,8 @@ RUN cmake -E env LDFLAGS="-lcurl -lssl -lcrypto -lz -lrt" cmake ../src \
     && cmake --build . \
     && CTEST_OUTPUT_ON_FAILURE=TRUE cmake --build . --target \
     && groupadd -r reqstore && useradd -r -g reqstore reqstore
+
+# ADD ./src/spdlog /app/external/spdlog
 
 FROM lerrox/ubuntu:latest
 

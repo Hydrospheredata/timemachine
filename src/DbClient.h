@@ -20,10 +20,18 @@ namespace reqstore
 
 struct ColumnFamilyData
 {
+    ColumnFamilyData(ColumnFamilyData &);
     rocksdb::ColumnFamilyHandle *handle;
-    uint long lastUnique;
+    std::atomic<long> lastUnique;
     ColumnFamilyData();
+    ColumnFamilyData(ColumnFamilyData &&);
     ColumnFamilyData(rocksdb::ColumnFamilyHandle *_handle, long unsigned int _lastUnique);
+};
+
+struct UniqueRange
+{
+    unsigned long from;
+    unsigned long till;
 };
 
 class DbClient : utils::RepositoryUtils
@@ -34,7 +42,7 @@ public:
 
     DbClient(std::shared_ptr<Config>);
 
-    virtual hydrosphere::reqstore::ID GenerateId();
+    virtual hydrosphere::reqstore::ID GenerateId(std::string, unsigned long);
 
     virtual std::vector<rocksdb::ColumnFamilyDescriptor> GetColumnFamalies();
 
@@ -52,25 +60,24 @@ public:
 
     virtual rocksdb::Status Get(const rocksdb::ReadOptions &, rocksdb::ColumnFamilyHandle *, const rocksdb::Slice &, std::string *);
 
-    virtual std::vector<rocksdb::Status> GetBatch(const rocksdb::ReadOptions&, rocksdb::ColumnFamilyHandle*, const std::vector<rocksdb::Slice>&, std::vector<std::string>*);
+    virtual std::vector<rocksdb::Status> GetBatch(const rocksdb::ReadOptions &, rocksdb::ColumnFamilyHandle *, const std::vector<rocksdb::Slice> &, std::vector<std::string> *);
 
-    virtual uint long LastUnique(rocksdb::ColumnFamilyHandle* handle);
+    virtual UniqueRange GetUniqueRange(rocksdb::ColumnFamilyHandle *);
 
-    virtual uint long FirstUnique(rocksdb::ColumnFamilyHandle* handle);
+    virtual UniqueRange GetUniqueRangeForTS(rocksdb::ColumnFamilyHandle *, unsigned long, unsigned long);
 
     virtual void Iter(const rocksdb::ReadOptions &, rocksdb::ColumnFamilyHandle *, const RangeRequest *, std::function<unsigned long int(hydrosphere::reqstore::ID, hydrosphere::reqstore::Data, bool)>);
 
 protected:
     virtual rocksdb::DB *getDB() = 0;
     rocksdb::Options options;
-    std::unordered_map<std::string, ColumnFamilyData> columnFamalies;
+    std::unordered_map<std::string, std::unique_ptr<ColumnFamilyData>> columnFamalies;
     std::shared_timed_mutex lock;
     rocksdb::CloudEnvOptions cloud_env_options;
     std::shared_ptr<rocksdb::CloudEnv> cloud_env;
     hydrosphere::reqstore::IDComparator cmp;
     rocksdb::CloudEnv *cenv;
     std::string persistent_cache;
-    std::atomic<long> uniqueGenerator;
 };
 
 } // namespace reqstore

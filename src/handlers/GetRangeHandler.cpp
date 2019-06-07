@@ -48,46 +48,53 @@ void GetRangeHandler::handleRequest(HTTPServerRequest &request, HTTPServerRespon
     std::ostream &ostr = response.send();
 
     spdlog::debug("Get range from {0} to {1}", from, till);
-    auto cf = client->GetOrCreateColumnFamily(name);
+    auto cf = client->GetColumnFamily(name);
 
-    spdlog::debug("getting iterator from {0} to {1}", from, till);
+    if (!cf)
+    {
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_FOUND);
+    }
+    else
+    {
+        spdlog::debug("getting iterator from {0} to {1}", from, till);
 
-    ID keyFrom;
-    keyFrom.set_timestamp(from);
+        ID keyFrom;
+        keyFrom.set_timestamp(from);
 
-    char bytes[16];
-    SerializeID(&keyFrom, bytes);
-    auto keyFromSlice = rocksdb::Slice(bytes, 16);
+        char bytes[16];
+        SerializeID(&keyFrom, bytes);
+        auto keyFromSlice = rocksdb::Slice(bytes, 16);
 
-    spdlog::debug("iterating with: reverse = {}, from = {}, till = {}, maxMessages = {}, maxBytes = {}", reverse, from, till, maxMessages, maxBytes);
+        spdlog::debug("iterating with: reverse = {}, from = {}, till = {}, maxMessages = {}, maxBytes = {}", reverse, from, till, maxMessages, maxBytes);
 
-    hydrosphere::reqstore::RangeRequest req;
-    req.set_from(from);
-    req.set_till(till);
-    req.set_reverse(reverse);
-    req.set_maxmessages(maxMessages);
-    req.set_maxbytes(maxBytes);
+        hydrosphere::reqstore::RangeRequest req;
+        req.set_from(from);
+        req.set_till(till);
+        req.set_reverse(reverse);
+        req.set_maxmessages(maxMessages);
+        req.set_maxbytes(maxBytes);
 
-    const hydrosphere::reqstore::RangeRequest *reqRef = &req;
+        const hydrosphere::reqstore::RangeRequest *reqRef = &req;
 
-    client->Iter(readOptions, cf, reqRef, [&](hydrosphere::reqstore::ID key, hydrosphere::reqstore::Data data, bool stopIt) -> unsigned long int {
-        auto ulongSize = sizeof(long int);
-        auto uintSize = sizeof(int);
-        auto totalSize = ulongSize * 2 + uintSize;
-        long int ts_ = (long)key.timestamp();
-        long int unique_ = (long)key.unique();
-        auto body = data.data();
-        int size_ = body.size();
+        client->Iter(readOptions, cf, reqRef, [&](hydrosphere::reqstore::ID key, hydrosphere::reqstore::Data data, bool stopIt) -> unsigned long int {
+            auto ulongSize = sizeof(long int);
+            auto uintSize = sizeof(int);
+            auto totalSize = ulongSize * 2 + uintSize;
+            long int ts_ = (long)key.timestamp();
+            long int unique_ = (long)key.unique();
+            auto body = data.data();
+            int size_ = body.size();
 
-        spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
-        auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
-        br << ts_ << unique_ << size_;
-        ostr << body;
+            spdlog::debug("batch to send: \n ts: {} \n unique: {} \n size: {}", ts_, unique_, size_);
+            auto br = Poco::BinaryWriter(ostr, Poco::BinaryWriter::NETWORK_BYTE_ORDER);
+            br << ts_ << unique_ << size_;
+            ostr << body;
 
-        return size_ + ulongSize + ulongSize + uintSize;
-    });
+            return size_ + ulongSize + ulongSize + uintSize;
+        });
 
-    response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+    }
 }
 
 } // namespace handlers

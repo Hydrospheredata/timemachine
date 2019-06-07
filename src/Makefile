@@ -527,6 +527,33 @@ handlers/StatusHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/reqstore.dir/build.make CMakeFiles/reqstore.dir/handlers/StatusHandler.cpp.s
 .PHONY : handlers/StatusHandler.cpp.s
 
+handlers/SubsamplingHandler.o: handlers/SubsamplingHandler.cpp.o
+
+.PHONY : handlers/SubsamplingHandler.o
+
+# target to build an object file
+handlers/SubsamplingHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/reqstore.dir/build.make CMakeFiles/reqstore.dir/handlers/SubsamplingHandler.cpp.o
+.PHONY : handlers/SubsamplingHandler.cpp.o
+
+handlers/SubsamplingHandler.i: handlers/SubsamplingHandler.cpp.i
+
+.PHONY : handlers/SubsamplingHandler.i
+
+# target to preprocess a source file
+handlers/SubsamplingHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/reqstore.dir/build.make CMakeFiles/reqstore.dir/handlers/SubsamplingHandler.cpp.i
+.PHONY : handlers/SubsamplingHandler.cpp.i
+
+handlers/SubsamplingHandler.s: handlers/SubsamplingHandler.cpp.s
+
+.PHONY : handlers/SubsamplingHandler.s
+
+# target to generate assembly for a file
+handlers/SubsamplingHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/reqstore.dir/build.make CMakeFiles/reqstore.dir/handlers/SubsamplingHandler.cpp.s
+.PHONY : handlers/SubsamplingHandler.cpp.s
+
 reqstore.o: reqstore.cpp.o
 
 .PHONY : reqstore.o
@@ -688,6 +715,9 @@ help:
 	@echo "... handlers/StatusHandler.o"
 	@echo "... handlers/StatusHandler.i"
 	@echo "... handlers/StatusHandler.s"
+	@echo "... handlers/SubsamplingHandler.o"
+	@echo "... handlers/SubsamplingHandler.i"
+	@echo "... handlers/SubsamplingHandler.s"
 	@echo "... reqstore.o"
 	@echo "... reqstore.i"
 	@echo "... reqstore.s"

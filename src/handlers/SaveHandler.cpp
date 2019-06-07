@@ -22,7 +22,7 @@ namespace reqstore
 namespace handlers
 {
 
-SaveHandler::SaveHandler(std::shared_ptr<hydrosphere::reqstore::DbClient> _client, std::string &&_name, bool useWAL) : client(_client), name(_name), hydrosphere::reqstore::utils::RepositoryUtils()
+SaveHandler::SaveHandler(std::shared_ptr<hydrosphere::reqstore::DbClient> _client, std::string &&_name, bool useWAL, unsigned long maybeTs) : client(_client), name(_name), timestamp(maybeTs), hydrosphere::reqstore::utils::RepositoryUtils()
 {
     wopt = rocksdb::WriteOptions();
     wopt.disableWAL = !useWAL;
@@ -42,7 +42,7 @@ void SaveHandler::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net
 
     try
     {
-        auto id = client->GenerateId();
+        auto id = client->GenerateId(name, timestamp);
 
         hydrosphere::reqstore::Data data;
 

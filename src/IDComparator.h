@@ -21,6 +21,10 @@ public:
     virtual void FindShortSuccessor(std::string *key) const override;
 
     virtual bool Equal(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
+
+private:
+    virtual int compareByTs(ID& first, ID& second) const;
+    virtual int compareByUnique(ID& first, ID& second) const;
 };
 
 } // namespace reqstore

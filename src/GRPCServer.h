@@ -50,6 +50,8 @@ namespace hydrosphere{
 
         grpc::Status Perform(std::string, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)>);
 
+        grpc::Status PerformIfExists(std::string, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)>);
+
         void Init(std::shared_ptr<hydrosphere::reqstore::DbClient>);
 
     private:

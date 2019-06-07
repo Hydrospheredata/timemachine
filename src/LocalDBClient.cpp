@@ -55,8 +55,8 @@ LocalDBClient::LocalDBClient(std::shared_ptr<Config> _cfg) : DbClient(_cfg)
         {
             auto cfHandle = *it;
             spdlog::debug("Adding {}", cfHandle->GetName());
-            auto lastUnique = LastUnique(cfHandle);
-            columnFamalies[cfHandle->GetName()] = ColumnFamilyData(cfHandle, lastUnique);
+            auto lastUnique = GetUniqueRange(cfHandle).till;
+            columnFamalies[cfHandle->GetName()] = std::unique_ptr<ColumnFamilyData>(new ColumnFamilyData(cfHandle, lastUnique));
         }
     }
 
@@ -77,7 +77,6 @@ rocksdb::ColumnFamilyHandle *LocalDBClient::CreateColumnFamily(std::string &name
 {
     std::lock_guard<std::shared_timed_mutex> writerLock(lock);
     spdlog::debug("trying to create columnFamily by name: {}", name);
-    spdlog::debug("db with name {} is here!!!!", getDB()->GetName());
     rocksdb::ColumnFamilyHandle *cf;
 
     rocksdb::ColumnFamilyOptions cfOptions;
@@ -100,8 +99,8 @@ rocksdb::ColumnFamilyHandle *LocalDBClient::CreateColumnFamily(std::string &name
             {
                 auto cfHandle = *it;
                 spdlog::debug("Adding {}", cfHandle->GetName());
-                auto lastUnique = LastUnique(cfHandle);
-                columnFamalies[cfHandle->GetName()] = ColumnFamilyData(cfHandle, lastUnique);
+                auto lastUnique = GetUniqueRange(cfHandle).till;
+                columnFamalies[cfHandle->GetName()] = std::unique_ptr<ColumnFamilyData>(new ColumnFamilyData(cfHandle, lastUnique));
             }
         }
 

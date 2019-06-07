@@ -83,8 +83,8 @@ CloudDBClient::CloudDBClient(std::shared_ptr<Config> _cfg) : DbClient(_cfg)
         {
             auto cfHandle = *it;
             spdlog::debug("Adding {}", cfHandle->GetName());
-            auto lastUnique = LastUnique(cfHandle);
-            columnFamalies[cfHandle->GetName()] = ColumnFamilyData(cfHandle, lastUnique);
+            auto lastUnique = GetUniqueRange(cfHandle).till;
+            columnFamalies[cfHandle->GetName()] = std::unique_ptr<ColumnFamilyData>(new ColumnFamilyData(cfHandle, lastUnique));
         }
     }
 
@@ -131,8 +131,8 @@ rocksdb::ColumnFamilyHandle *CloudDBClient::CreateColumnFamily(std::string &name
             {
                 auto cfHandle = *it;
                 spdlog::debug("Adding {}", cfHandle->GetName());
-                auto lastUnique = LastUnique(cfHandle);
-                columnFamalies[cfHandle->GetName()] = ColumnFamilyData(cfHandle, lastUnique);
+                auto lastUnique = GetUniqueRange(cfHandle).till;
+                columnFamalies[cfHandle->GetName()] = std::unique_ptr<ColumnFamilyData>(new ColumnFamilyData(cfHandle, lastUnique));
             }
         }
 

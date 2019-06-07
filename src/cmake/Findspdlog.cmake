@@ -25,7 +25,7 @@ find_package(PkgConfig)
             # URL "${source_dir}/spdlib"
             TIMEOUT 300
             CMAKE_ARGS -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-            PREFIX "${CMAKE_CURRENT_BINARY_DIR}"
+            PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/spdlog"
             CONFIGURE_COMMAND "" # Disable configure step
             BUILD_COMMAND "" # Disable build step
             INSTALL_COMMAND "" # Disable install step

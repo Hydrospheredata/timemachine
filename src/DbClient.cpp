@@ -23,9 +23,9 @@ using ReadLock = std::shared_lock<MutexType>;
 using WriteLock = std::unique_lock<MutexType>;
 
 ColumnFamilyData::ColumnFamilyData() {}
-ColumnFamilyData::ColumnFamilyData(rocksdb::ColumnFamilyHandle *_handle, long unsigned int _lastUnique) : handle(_handle), lastUnique(_lastUnique) {}
+ColumnFamilyData::ColumnFamilyData(rocksdb::ColumnFamilyHandle *_handle, unsigned long _lastUnique) : handle(_handle), lastUnique(_lastUnique) {}
 
-DbClient::DbClient(DbClient &&other) : uniqueGenerator(0)
+DbClient::DbClient(DbClient &&other)
 {
     spdlog::info("DbClient move constructor");
     WriteLock rhs_lock(other.lock);
@@ -37,14 +37,17 @@ DbClient::DbClient(DbClient &&other) : uniqueGenerator(0)
     cmp = std::move(other.cmp);
 }
 
-hydrosphere::reqstore::ID DbClient::GenerateId()
+hydrosphere::reqstore::ID DbClient::GenerateId(std::string folder, unsigned long ts)
 {
-    auto ms = std::chrono::system_clock::now().time_since_epoch().count();
+    if (ts == 0)
+    {
+        ts = std::chrono::system_clock::now().time_since_epoch().count();
+    }
 
     hydrosphere::reqstore::ID id;
-
-    id.set_timestamp(ms);
-    unsigned long int unique = uniqueGenerator.fetch_add(1, std::memory_order_release);
+    id.set_timestamp(ts);
+    GetOrCreateColumnFamily(folder);
+    unsigned long int unique = columnFamalies[folder]->lastUnique.fetch_add(1, std::memory_order_release);
     id.set_unique(unique);
 
     return id;
@@ -62,10 +65,11 @@ rocksdb::Status DbClient::Put(const rocksdb::WriteOptions &wopt, rocksdb::Column
     return getDB()->Put(wopt, handle, key, val);
 }
 
-std::vector<rocksdb::Status> DbClient::GetBatch(const rocksdb::ReadOptions &options, rocksdb::ColumnFamilyHandle* cHandle, const std::vector<rocksdb::Slice> &keys, std::vector<std::string>* values){
+std::vector<rocksdb::Status> DbClient::GetBatch(const rocksdb::ReadOptions &options, rocksdb::ColumnFamilyHandle *cHandle, const std::vector<rocksdb::Slice> &keys, std::vector<std::string> *values)
+{
     std::shared_lock<std::shared_timed_mutex> readLock(lock);
-    auto handles = std::vector<rocksdb::ColumnFamilyHandle*>(keys.size(), cHandle);
-    return getDB()->MultiGet(options, handles, keys, values); 
+    auto handles = std::vector<rocksdb::ColumnFamilyHandle *>(keys.size(), cHandle);
+    return getDB()->MultiGet(options, handles, keys, values);
 }
 
 void DbClient::Iter(const rocksdb::ReadOptions &ropt, rocksdb::ColumnFamilyHandle *handle, const RangeRequest *request, std::function<unsigned long int(hydrosphere::reqstore::ID, hydrosphere::reqstore::Data, bool)> fn)
@@ -166,46 +170,78 @@ void DbClient::Iter(const rocksdb::ReadOptions &ropt, rocksdb::ColumnFamilyHandl
     spdlog::debug("return {0} status", "OK");
 }
 
-uint long DbClient::FirstUnique(rocksdb::ColumnFamilyHandle *handle){
-    std::shared_lock<std::shared_timed_mutex> readLock(lock);
+UniqueRange DbClient::GetUniqueRange(rocksdb::ColumnFamilyHandle *handle)
+{
     auto iter = getDB()->NewIterator(rocksdb::ReadOptions(), handle);
-
-    uint long result = 0;
+    uint long from = 0;
+    uint long till = 0;
 
     iter->SeekToFirst();
     if (iter->Valid())
     {
         auto keyString = iter->key();
         auto key = RepositoryUtils::DeserializeID(keyString);
-        result = key.unique();
+        from = key.unique();
     }
-
-    delete iter;
-    spdlog::debug("ColumnFamily {0} first item unique is {1}", handle->GetName(), result);
-    return result;
-}
-
-uint long DbClient::LastUnique(rocksdb::ColumnFamilyHandle *handle)
-{
-    std::shared_lock<std::shared_timed_mutex> readLock(lock);
-    auto iter = getDB()->NewIterator(rocksdb::ReadOptions(), handle);
-
-    uint long result = 0;
 
     iter->SeekToLast();
     if (iter->Valid())
     {
         auto keyString = iter->key();
         auto key = RepositoryUtils::DeserializeID(keyString);
-        result = key.unique();
+        till = key.unique();
     }
 
     delete iter;
-    spdlog::debug("ColumnFamily {0} last item unique is {1}", handle->GetName(), result);
-    return result;
+    UniqueRange range;
+    range.from = from;
+    range.till = till;
+    spdlog::debug("UniqueRange(from={}, till={})", from, till);
+    return range;
 }
 
-DbClient::DbClient(std::shared_ptr<Config> _cfg) : uniqueGenerator(0)
+UniqueRange DbClient::GetUniqueRangeForTS(rocksdb::ColumnFamilyHandle *handle, unsigned long fromTs, unsigned long tillTs){
+    auto iter = getDB()->NewIterator(rocksdb::ReadOptions(), handle);
+    uint long from = 0;
+    uint long till = 0;
+
+    hydrosphere::reqstore::ID keyFrom;
+    keyFrom.set_timestamp(fromTs);
+
+    char bytesFrom[16];
+    SerializeID(&keyFrom, bytesFrom);
+    auto keyFromSlice = rocksdb::Slice(bytesFrom, 16);
+    iter->SeekForPrev(keyFromSlice);
+    if (iter->Valid())
+    {
+        auto keyString = iter->key();
+        auto key = RepositoryUtils::DeserializeID(keyString);
+        from = key.unique();
+    }
+
+    hydrosphere::reqstore::ID keyTill;
+    keyTill.set_timestamp(tillTs);
+
+    char bytesTill[16];
+    SerializeID(&keyTill, bytesTill);
+    auto keyTillSlice = rocksdb::Slice(bytesTill, 16);
+    iter->SeekForPrev(keyTillSlice);
+    if (iter->Valid())
+    {
+        auto keyString = iter->key();
+        auto key = RepositoryUtils::DeserializeID(keyString);
+        till = key.unique();
+    }
+
+    delete iter;
+    UniqueRange range;
+    range.from = from;
+    range.till = till;
+    spdlog::debug("UniqueRange(from={}, till={})", from, till);
+    return range;
+}
+
+DbClient::DbClient(std::shared_ptr<Config> _cfg)
 {
     spdlog::info("DbClient::DbClient");
     cfg = _cfg;
@@ -246,7 +282,7 @@ std::vector<rocksdb::ColumnFamilyDescriptor> DbClient::GetColumnFamalies()
     return descriptors;
 }
 
-rocksdb::ColumnFamilyHandle* DbClient::GetColumnFamily(std::string &name)
+rocksdb::ColumnFamilyHandle *DbClient::GetColumnFamily(std::string &name)
 {
     std::shared_lock<std::shared_timed_mutex> readLock(lock);
     spdlog::debug("trying to find columnFamily by name: {}", name);
@@ -259,11 +295,11 @@ rocksdb::ColumnFamilyHandle* DbClient::GetColumnFamily(std::string &name)
     else
     {
         spdlog::debug("columnFamily {} been found", name);
-        return pos->second.handle;
+        return pos->second->handle;
     }
 };
 
-rocksdb::ColumnFamilyHandle* DbClient::GetOrCreateColumnFamily(std::string &name)
+rocksdb::ColumnFamilyHandle *DbClient::GetOrCreateColumnFamily(std::string &name)
 {
     auto exists = GetColumnFamily(name);
     if (exists)

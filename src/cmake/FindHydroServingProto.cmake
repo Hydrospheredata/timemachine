@@ -11,12 +11,12 @@ ExternalProject_Add(protos
         )
 
 # Specify include dir
-ExternalProject_Get_Property(spdlog source_dir)
-set(spdlog_INCLUDE_DIR ${source_dir}/include)
+ExternalProject_Get_Property(proto source_dir)
+set(protos_INCLUDE_DIR ${source_dir}/include)
 #endif()
 
 if(EXISTS "${spdlog_INCLUDE_DIR}")
-set(spdlog_FOUND 1)
+set(protos_FOUND 1)
 else()
-set(spdlog_FOUND 0)
+set(protos_FOUND 0)
 endif()

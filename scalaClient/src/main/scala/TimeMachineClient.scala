@@ -7,10 +7,14 @@ import io.grpc.ManagedChannelBuilder
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicLong
 
+
 import io.grpc.stub.StreamObserver
+import io.hydrosphere.reqstore.reqstore_service._
 
 import scala.concurrent.{Await, Future}
-import timemachine.timeMachine._
+
+
+
 
 object TimeMachineClient {
 

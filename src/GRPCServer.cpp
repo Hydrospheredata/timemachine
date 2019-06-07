@@ -21,6 +21,28 @@ GRPCServer::GRPCServer()
 }
 
 grpc::Status
+GRPCServer::PerformIfExists(std::string baseName, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)> fn){
+     try
+    {
+        auto cf = client->GetColumnFamily(baseName);
+        if(!cf){
+            spdlog::warn("Column family with name {} doesn't exists", baseName);
+            return grpc::Status(grpc::StatusCode::NOT_FOUND, "Column family with name "+ baseName +" doesn't exists");
+        }
+        auto result = fn(cf);
+        return result;
+    }
+    catch (const std::exception &e)
+    {
+        return grpc::Status(grpc::StatusCode::INTERNAL, "Ouch!, something wrong: " + std::string(e.what()));
+    }
+    catch (...)
+    {
+        return grpc::Status(grpc::StatusCode::INTERNAL, "Ouch!, something wrong");
+    }
+}
+
+grpc::Status
 GRPCServer::Perform(std::string baseName, std::function<grpc::Status(rocksdb::ColumnFamilyHandle *)> fn)
 {
 
@@ -49,7 +71,7 @@ grpc::Status GRPCServer::Save(ServerContext *context, const SaveRequest *request
 {
 
     std::function<grpc::Status(ColumnFamilyHandle * cf)> action = [&](ColumnFamilyHandle *cf) -> grpc::Status {
-        auto id = client->GenerateId();
+        auto id = client->GenerateId(request->folder(), request->timestamp());
         hydrosphere::reqstore::Data data;
 
         hydrosphere::reqstore::ID *id_ptr = &id;
@@ -89,7 +111,8 @@ grpc::Status GRPCServer::Save(ServerContext *context, const SaveRequest *request
 
 grpc::Status GRPCServer::Get(ServerContext *context, const hydrosphere::reqstore::GetRequest *request, Data *response)
 {
-    auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
+    auto status = PerformIfExists(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
+
         spdlog::debug("Get data by key ({0}, {1}) from folder {2}",
                       request->timestamp(),
                       request->unique(),
@@ -103,7 +126,7 @@ grpc::Status GRPCServer::Get(ServerContext *context, const hydrosphere::reqstore
         RepositoryUtils::SerializeID(&req_id, bytes);
         auto bynaryId = rocksdb::Slice(bytes, 16);
         rocksdb::Status getStatus = client->Get(ropt, cf, bynaryId, &data);
-        spdlog::debug("GET status is  {0}", getStatus.ToString());
+        spdlog::debug("GET status is {0}", getStatus.ToString());
         if (!getStatus.ok())
         {
             spdlog::error("GET status is  {0}", getStatus.ToString());
@@ -122,7 +145,7 @@ grpc::Status GRPCServer::Get(ServerContext *context, const hydrosphere::reqstore
 
 grpc::Status GRPCServer::GetRange(ServerContext *context, const RangeRequest *request, DataWriter *writer)
 {
-    auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
+    auto status = PerformIfExists(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
         spdlog::debug("Get range from {0} to {1}", request->from(), request->till());
 
         std::string data;
@@ -145,56 +168,79 @@ grpc::Status GRPCServer::GetRange(ServerContext *context, const RangeRequest *re
 grpc::Status GRPCServer::GetSubsample(ServerContext *ctx, const SubsampleRequest *request, DataWriter *dw)
 {
 
-    auto status = Perform(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
+    auto status = PerformIfExists(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
         int till = 0;
         int from = 0;
 
-        if (request->type().has_periodrequest())
+        if (request->type().has_period_request())
         {
-            from = request->type().periodrequest().from();
-            till = request->type().periodrequest().till();
+            auto range = client->GetUniqueRangeForTS(cf, request->type().period_request().from(), request->type().period_request().till());
+            from = range.from;
+            till = range.till;
         }
         else
         {
-            till = client->LastUnique(cf);
-            from = client->FirstUnique(cf);
+            auto range = client->GetUniqueRange(cf);
+            till = range.till;
+            from = range.till;
         }
 
-        int step = request->batchsize();
+        int step = request->batch_size();
         if (step == 0)
             step = 100;
+
         auto amount = request->amount();
-        for (auto i = amount; i > 0; i - step)
+        if (step > amount)
+        {
+            step = amount;
+        }
+
+         spdlog::debug("step: {}, amount: {}", step, amount);
+
+        for (int i = amount; i > 0; i = i - step)
         {
             int currStep = step;
-            if(currStep < amount) currStep = amount;
-            for (auto j = 0; j < currStep; j++)
+            if (currStep < i)
             {
-                auto keys = std::vector<rocksdb::Slice>(step);
-                auto result = std::vector<std::string>(step);
-                uint long random = 0;
+                currStep = i;
+            }
+
+            std::vector<rocksdb::Slice> keys;
+            std::vector<std::string> result;
+            std::vector<rocksdb::Status> statuses;
+            char key[16 * step];
+
+            for (int j = 0; j < step; j++)
+            {
+                auto r = rand();
+                unsigned long random = ((till - from) * (r / (double)RAND_MAX)) + from;
                 hydrosphere::reqstore::ID id;
                 id.set_unique(random);
-                char key[16];
-                RepositoryUtils::SerializeID(&id, key);
-                auto slice = rocksdb::Slice(key);
+                id.set_timestamp(0);
+
+                spdlog::debug("ID(ts:{}, unique:{})", id.timestamp(), id.unique());
+
+                RepositoryUtils::SerializeID(&id, &key[j*16]);
+                auto slice = rocksdb::Slice(&key[j*16], 16);
                 keys.push_back(slice);
-                auto statuses = client->GetBatch(rocksdb::ReadOptions(), cf, keys, &result);
 
-                for (int s = 0; s < statuses.size(); s++)
+            }
+
+            statuses = client->GetBatch(rocksdb::ReadOptions(), cf, keys, &result);
+
+            for (int s = 0; s < statuses.size(); s++)
+            {
+                auto status = statuses[s];
+                if (!status.ok())
                 {
-                    auto status = statuses[s];
-                    if(!status.ok())
-                    {
-                        spdlog::error("GET status is  {0}", status.ToString());
-                    }
-
-                    auto bytes = result[s];
-                    hydrosphere::reqstore::Data data;
-                    data.set_data(bytes);
-
-                    dw->Write(data);
+                    spdlog::error("GET status is  {0}", status.ToString());
                 }
+                auto bytes = result[s];
+
+                auto data = Data();
+                data.ParseFromString(bytes);
+
+                dw->Write(data);
             }
         }
 

@@ -134,6 +134,7 @@ add_executable(reqstore "reqstore.cpp"
         handlers/SaveHandler.cpp handlers/SaveHandler.h
         utils/RepositoryUtils.cpp utils/RepositoryUtils.h
         handlers/NotFoundHandler.cpp handlers/NotFoundHandler.h
+        handlers/SubsamplingHandler.cpp handlers/SubsamplingHandler.h
         handlers/GetRangeHandler.cpp handlers/GetRangeHandler.h)
 target_link_libraries(reqstore
         ${BZIP2_LIBRARIES}
