@@ -20,9 +20,3 @@ libraryDependencies ++= Seq(
 PB.targets in Compile := Seq(
   scalapb.gen() -> (sourceManaged in Compile).value
 )
-
-//lazy val log = taskKey[Unit]("Prints 'Hello World'")
-//
-//log := println(baseDirectory.value / ".." / "src" / "proto")
-//
-//PB.protoSources in Compile += baseDirectory.value / ".." / "src" / "proto"
