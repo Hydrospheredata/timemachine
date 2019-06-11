@@ -56,27 +56,13 @@ find_library(POCO_NET PocoNet)
 find_library(POCO_JSON PocoJSON)
 find_library(POCO_XML PocoXML)
 
-
 find_package(BZip2 REQUIRED)
 find_package(Snappy REQUIRED)
 
 message(STATUS "Looking for spdlog")
 find_package(spdlog REQUIRED)
 
-ExternalProject_Add(protos
-        GIT_REPOSITORY https://github.com/Hydrospheredata/hydro-serving-protos.git
-        GIT_TAG "origin/subsampling"
-        PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/proto"
-        CONFIGURE_COMMAND "" # Disable configure step
-        BUILD_COMMAND "" # Disable build step
-        INSTALL_COMMAND "" # Disable install step
-        UPDATE_COMMAND "" # Disable update step: clones the project only once
-        LOG_DOWNLOAD ON
-        )
-
 set(SPBLOG spdlog::spblog)
-#set(SPBLOG_SINKS_COLOR spdlog)
-
 
 find_program(GRPC_PLUGIN NAMES "grpc_cpp_plugin")
 
@@ -88,6 +74,16 @@ else(EXISTS ${GRPC_PLUGIN})
 endif()
 
 set(_GRPC_GRPCPP_UNSECURE gRPC::grpc++_unsecure)
+
+ExternalProject_Add(protos
+        GIT_REPOSITORY https://github.com/Hydrospheredata/hydro-serving-protos.git
+        GIT_TAG "origin/subsampling"
+        PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/proto"
+        CONFIGURE_COMMAND "" # Disable configure step
+        BUILD_COMMAND "" # Disable build step
+        INSTALL_COMMAND "" # Disable install step
+        UPDATE_COMMAND "" # Disable update step: clones the project only once
+        LOG_DOWNLOAD ON)
 
 # Proto file
 get_filename_component(tm_proto "proto/src/protos/src/hydro_serving_grpc/reqstore/reqstore_service.proto" ABSOLUTE)
@@ -106,7 +102,7 @@ add_custom_command(
         -I "${tm_proto_path}"
         --plugin=protoc-gen-grpc="${GRPC_PLUGIN}"
         "${tm_proto}"
-        DEPENDS "${tm_proto}")
+        DEPENDS spdlog protos "${tm_proto}")
 
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")

@@ -11,8 +11,6 @@
 #ifndef REQSTORE_GRPC_SERVER_H
 #define REQSTORE_GRPC_SERVER_H
 
-
-using hydrosphere::reqstore::Empty;
 using hydrosphere::reqstore::Timemachine;
 using hydrosphere::reqstore::RangeRequest;
 using hydrosphere::reqstore::Data;
