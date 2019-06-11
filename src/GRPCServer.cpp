@@ -169,6 +169,9 @@ grpc::Status GRPCServer::GetSubsample(ServerContext *ctx, const SubsampleRequest
 {
 
     auto status = PerformIfExists(request->folder(), [&](ColumnFamilyHandle *cf) -> grpc::Status {
+
+        spdlog::debug("Get subsample");
+
         int till = 0;
         int from = 0;
 
@@ -182,7 +185,7 @@ grpc::Status GRPCServer::GetSubsample(ServerContext *ctx, const SubsampleRequest
         {
             auto range = client->GetUniqueRange(cf);
             till = range.till;
-            from = range.till;
+            from = range.from;
         }
 
         int step = request->batch_size();
@@ -195,7 +198,7 @@ grpc::Status GRPCServer::GetSubsample(ServerContext *ctx, const SubsampleRequest
             step = amount;
         }
 
-         spdlog::debug("step: {}, amount: {}", step, amount);
+        spdlog::debug("step: {}, amount: {}", step, amount);
 
         for (int i = amount; i > 0; i = i - step)
         {
@@ -217,7 +220,7 @@ grpc::Status GRPCServer::GetSubsample(ServerContext *ctx, const SubsampleRequest
                 hydrosphere::reqstore::ID id;
                 id.set_unique(random);
                 id.set_timestamp(0);
-
+                spdlog::debug("random:{}, from:{}, till: {}", random, from, till);
                 spdlog::debug("ID(ts:{}, unique:{})", id.timestamp(), id.unique());
 
                 RepositoryUtils::SerializeID(&id, &key[j*16]);

@@ -20,11 +20,11 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
 
 
 
-    val saved = for(_ <- Range(0, 10)) yield {
+    val saved = for(i <- Range(0, 300)) yield {
 
 
       val data = data2save()
-      val id = Await.result(service.save(folderName, data, true), 10 seconds)
+      val id = Await.result(service.save(folderName, data, Some(i * 10000), true), 10 seconds)
 
       id.timestamp isValidLong
 
@@ -49,6 +49,37 @@ class TimeMachineClientSpec extends FlatSpec with Matchers with ReqtoreDockerKit
     lm.size shouldBe(5)
     (lm(4).id.get.timestamp < lm(0).id.get.timestamp) shouldBe(true)
 
+    val futureSample1 = Await.result(sampling(folderName, None, 3), 10 seconds)
+    futureSample1.size shouldBe(3)
+    val futureSample2 = Await.result(sampling(folderName, None, 40), 10 seconds)
+    futureSample2.size shouldBe(40)
+    val futureSample3 = Await.result(sampling(folderName, None, 20, 40), 10 seconds)
+    futureSample3.size shouldBe(20)
+    val futureSample4 = Await.result(sampling(folderName, Some(2500000, 3000000), 20), 10 seconds)
+    futureSample4.size shouldBe(20)
+
+  }
+
+  def sampling(folderName:String, period:Option[(Long, Long)], amount:Int, step:Int = 5):Future[List[Data]] = {
+    val listPromise = Promise[List[Data]]
+
+    val so = new StreamObserver[Data] {
+
+      var list = List[Data]()
+
+      override def onError(t: Throwable): Unit = {listPromise.failure(t)}
+
+      override def onCompleted(): Unit = {listPromise.success(list)}
+
+      override def onNext(value: Data): Unit = list = list :+ value
+
+    }
+
+    period.map(r => service.rangeSubsample(folderName, r._1, r._2, amount, step, so)).getOrElse{
+      service.totalSubsample(folderName, amount, step, so)
+    }
+
+    return listPromise.future
   }
 
   def rangeRequest(folderName:String,

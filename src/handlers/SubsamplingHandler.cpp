@@ -104,6 +104,7 @@ void SubsamplingHandler::handleRequest(Poco::Net::HTTPServerRequest &request,
                 id.set_timestamp(0);
 
                 spdlog::debug("ID(ts:{}, unique:{})", id.timestamp(), id.unique());
+                spdlog::debug("random:{}, from:{}, till: {}", random, from_inc, till_inc);
 
                 RepositoryUtils::SerializeID(&id, &key[j*16]);
                 auto slice = rocksdb::Slice(&key[j*16], 16);
