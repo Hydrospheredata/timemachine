@@ -1,5 +1,5 @@
 .idea
-.vscode
+.vscode/ipch
 scalaClient/.idea
 scalaClient/target
 src/cmake-build-debug

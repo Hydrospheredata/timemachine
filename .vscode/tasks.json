@@ -1,0 +1,87 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "start develop env",
+            "type": "shell",
+            "command": "docker run -it -v $(pwd):/app -p 2000:2000 --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -p 9090:9090 -p 9091:9091 -e 'AWS_BUCKET_NAME=default' -e 'DST_LOCAL_DIR=default' -e 'DST_BUCKET=default' -e 'SRC_LOCAL_DIR=default'  -e 'AWS_DEFAULT_REGION=us-west-2' -e 'AWS_SECRET_ACCESS_KEY=none' -e 'AWS_ACCESS_KEY_ID=none' -e 'BACKUP_PROVIDER=none' -e 'HTTP_PORT=9090' -e G'RPC_PORT=9091' -e 'DEBUG=1' --name devenv reqstore-dev:latest bash",
+            "problemMatcher": []
+        },
+        {
+            "label": "stop develop env",
+            "type": "shell",
+            "command": "docker rm -f devenv",
+            "problemMatcher": []
+        },
+        {
+            "label": "cmake generate",
+            "type": "shell",
+            "command": "docker exec -it devenv cmake -E env LDFLAGS='-lcurl -lssl -lcrypto -lz -lrt' cmake -DCMAKE_BUILD_TYPE=Debug ../src",
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "docker exec -it devenv cmake --build . --target -- -j4",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "docker exec -it devenv make clean",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "start-gdbserver",
+            "type": "shell",
+            "command": "docker exec -d devenv gdbserver :2000 /app/src/reqstore",
+            "problemMatcher": []
+        },
+        {
+            "label": "build develop image",
+            "type": "shell",
+            "command": "docker build -f Devdockerfile -t reqstore .",
+            "problemMatcher": []
+        },
+        {
+            "label": "run app",
+            "type": "shell",
+            "command": "docker exec -it devenv  /app/src/reqstore",
+            "problemMatcher": []
+        },
+        {
+            "label": "run app detached",
+            "type": "shell",
+            "command": "docker exec -d devenv /app/src/reqstore",
+            "problemMatcher": []
+        },
+        {
+            "label": "stop app",
+            "type": "shell",
+            "command": "docker exec -d devenv  pkill reqstore",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clang++ build active file",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
+        }
+    ]
+}
