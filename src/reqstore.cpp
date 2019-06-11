@@ -4,7 +4,7 @@
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 #include <grpcpp/security/server_credentials.h>
-#include "timeMachine.grpc.pb.h"
+#include "reqstore_service.grpc.pb.h"
 #include "rocksdb/db.h"
 #include "rocksdb/options.h"
 #include "GRPCServer.h"
@@ -40,10 +40,10 @@ using grpc::ServerContext;
 using grpc::ServerCompletionQueue;
 using grpc::Status;
 
-using timemachine::Timemachine;
+using hydrosphere::reqstore::Timemachine;
 using grpc::ServerContext;
 using grpc::ServerWriter;
-using timemachine::GRPCServer;
+using hydrosphere::reqstore::GRPCServer;
 
 using DataWriter = ServerWriter<Data>;
 
@@ -51,7 +51,7 @@ void initLogger(spdlog::level::level_enum logLevel) {
     spdlog::init_thread_pool(8192, 1);
     auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     stdout_sink->set_level(logLevel);
-    auto rotating_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("timemachine.log", 1024 * 1024 * 10, 3);
+    auto rotating_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("reqstore.log", 1024 * 1024 * 10, 3);
     rotating_sink->set_level(logLevel);
     std::vector<spdlog::sink_ptr> sinks{stdout_sink, rotating_sink};
     auto logger = std::make_shared<spdlog::async_logger>("log", sinks.begin(), sinks.end(), spdlog::thread_pool(),
@@ -77,20 +77,20 @@ void handler(int sig) {
 
 void RunServer() {
     try {
-        auto c = timemachine::Config();
-        auto cfg = std::make_shared<timemachine::Config>(c);
+        auto c = hydrosphere::reqstore::Config();
+        auto cfg = std::make_shared<hydrosphere::reqstore::Config>(c);
         initLogger(cfg->debug ? spdlog::level::debug : spdlog::level::info);
         spdlog::info("Initializing config: {}", cfg->ToString());
-        timemachine::DbClient* dbImpl;
+        hydrosphere::reqstore::DbClient* dbImpl;
         std::string backupProvider(cfg->backupProvider);
         if(backupProvider == "s3"){
-            dbImpl = new timemachine::CloudDBClient(cfg);
+            dbImpl = new hydrosphere::reqstore::CloudDBClient(cfg);
         } else if(backupProvider == "none"){
-            dbImpl = new timemachine::LocalDBClient(cfg);
+            dbImpl = new hydrosphere::reqstore::LocalDBClient(cfg);
         } else {
             throw std::runtime_error("Unknown BACKUP_PROVIDER: " + backupProvider);
         }
-        std::shared_ptr<timemachine::DbClient> dbClient(dbImpl);
+        std::shared_ptr<hydrosphere::reqstore::DbClient> dbClient(dbImpl);
         spdlog::info("dbClient initialized sucessfully");
         std::string grpc_port(cfg->gprc_port);
         std::string server_address("0.0.0.0:" + grpc_port);
@@ -102,7 +102,7 @@ void RunServer() {
         std::unique_ptr<Server> server(builder.BuildAndStart());
         grpcService.Init(dbClient);
         spdlog::info("grpc Server listening on {0}", server_address);
-        timemachine::HTTPServer httpServer;
+        hydrosphere::reqstore::HTTPServer httpServer;
         httpServer.start(dbClient);
         spdlog::info("Server is down: {0}", server_address);
 

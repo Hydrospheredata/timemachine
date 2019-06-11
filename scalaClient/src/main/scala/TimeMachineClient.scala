@@ -7,10 +7,14 @@ import io.grpc.ManagedChannelBuilder
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicLong
 
+
 import io.grpc.stub.StreamObserver
+import io.hydrosphere.reqstore.reqstore_service._
 
 import scala.concurrent.{Await, Future}
-import timemachine.timeMachine._
+
+
+
 
 object TimeMachineClient {
 
@@ -49,9 +53,10 @@ object TimeMachineClient {
 
 class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
 
-  def save(folder:String, data: Array[Byte], useWAL:Boolean = false): Future[ID] = {
+  def save(folder:String, data: Array[Byte], ts:Option[Long] = None, useWAL:Boolean = false): Future[ID] = {
 
-    val request = SaveRequest(folder=folder, useWAL = useWAL, data = ByteString.copyFrom(data))
+    val request = ts.map(t => SaveRequest(timestamp = t, folder=folder, useWAL = useWAL, data = ByteString.copyFrom(data)))
+      .getOrElse(SaveRequest(folder=folder, useWAL = useWAL, data = ByteString.copyFrom(data)))
     stub.save(request)
 
   }
@@ -70,6 +75,22 @@ class TimeMachineClient(stub: TimemachineGrpc.TimemachineStub){
                so:StreamObserver[Data]):Unit = {
     val range = RangeRequest(from.getOrElse(0), till.getOrElse(0), folder, reverse, maxMessages, maxBytes)
     stub.getRange(range, so)
+  }
+
+  def totalSubsample(folder:String, amount:Int, step:Int, so:StreamObserver[Data]): Unit = {
+    val request = SubsampleRequest(
+      amount, folder, step, Some(SubsampleRequestType.defaultInstance
+        .withTotalRequest(TotalSubsampleRequest()))
+    )
+    stub.getSubsample(request, so)
+  }
+
+  def rangeSubsample(folder:String, from:Long, till:Long, amount:Int, step:Int, so:StreamObserver[Data]): Unit = {
+    val request = SubsampleRequest(
+      amount, folder, step, Some(SubsampleRequestType.defaultInstance
+        .withPeriodRequest(PeriodSubsampleRequest(from, till)))
+    )
+    stub.getSubsample(request, so)
   }
 
 

@@ -47,7 +47,7 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
 
     val pResponseBody = PredictResponse
       .defaultInstance
-        .withInternalInfo(Map("key" -> TensorProto.defaultInstance))
+      .withOutputs(Map("key" -> TensorProto.defaultInstance))
       .toByteArray
 
     val pResponse = ByteBuffer.allocate(pResponseBody.size + 1).put(1.toByte).put(pResponseBody).array()
@@ -104,7 +104,6 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
   }
 
 
-  def bucket: String = sys.env.get("TEST_BUCKET").getOrElse("default")
   val region: String = sys.env.get("TEST_REGION").getOrElse("none")
   val awsKey: String = sys.env.get("TEST_AWS_KEY").getOrElse("none")
   val awsSecret: String = sys.env.get("TEST_AWS_SECRET").getOrElse("none")
@@ -125,14 +124,9 @@ trait ReqtoreDockerKit extends DockerKitSpotify with BeforeAndAfterAll with Scal
       grpcPort -> Some(exposedGrpcPort)
     )
     .withEnv(
-      s"DST_LOCAL_DIR=$bucket",
-      s"DST_BUCKET=$bucket",
-      s"SRC_LOCAL_DIR=$bucket",
-      s"SRC_BUCKET=$bucket",
       s"AWS_DEFAULT_REGION=$region",
       s"AWS_ACCESS_KEY_ID=$awsKey",
       s"AWS_SECRET_ACCESS_KEY=$awsSecret",
-      s"DB_NAME=$bucket",
       s"BACKUP_PROVIDER=$backupProvider",
       "DEBUG=1"
     ).withReadyChecker(

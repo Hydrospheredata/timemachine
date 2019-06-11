@@ -6,30 +6,35 @@
 #include "spdlog/spdlog.h"
 #include "Config.h"
 #include "IDComparator.h"
-#include "timeMachine.grpc.pb.h"
+#include "reqstore_service.grpc.pb.h"
 #include "DbClient.h"
 
-#ifndef TIMEMACHINE_LOCAL_DB_CLIENT_H
-#define TIMEMACHINE_LOCAL_DB_CLIENT_H
+#ifndef REQSTORE_LOCAL_DB_CLIENT_H
+#define REQSTORE_LOCAL_DB_CLIENT_H
 
-namespace timemachine {
+namespace hydrosphere
+{
+namespace reqstore
+{
 
-    class LocalDBClient : public DbClient {
+class LocalDBClient : public DbClient
+{
 
-    public:
-        LocalDBClient(LocalDBClient &&);
+public:
+    LocalDBClient(LocalDBClient &&);
 
-        LocalDBClient(std::shared_ptr<Config>);
+    LocalDBClient(std::shared_ptr<Config>);
 
-        virtual rocksdb::ColumnFamilyHandle* CreateColumnFamily(std::string &name) override;
+    virtual rocksdb::ColumnFamilyHandle *CreateColumnFamily(std::string &name) override;
 
-    protected:
-        virtual rocksdb::DB* getDB() override;
+protected:
+    virtual rocksdb::DB *getDB() override;
 
-    private:
-        rocksdb::DB* db;
-    };
+private:
+    rocksdb::DB *db;
+};
 
-}
+} // namespace reqstore
+} // namespace hydrosphere
 
 #endif

@@ -1,26 +1,33 @@
 #include "rocksdb/db.h"
 #include "utils/RepositoryUtils.h"
 
-#ifndef TIMEMACHINE_ID_COMPARATOR_H
-#define TIMEMACHINE_ID_COMPARATOR_H
+#ifndef REQSTORE_ID_COMPARATOR_H
+#define REQSTORE_ID_COMPARATOR_H
 
-namespace timemachine {
+namespace hydrosphere
+{
+namespace reqstore
+{
 
-    class IDComparator : public rocksdb::Comparator, timemachine::utils::RepositoryUtils  {
-    public:
-        virtual int Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
+class IDComparator : public rocksdb::Comparator, hydrosphere::reqstore::utils::RepositoryUtils
+{
+public:
+    virtual int Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
 
-        virtual const char *Name() const override;
+    virtual const char *Name() const override;
 
-        virtual void FindShortestSeparator(std::string *start, const rocksdb::Slice &limit) const override;
+    virtual void FindShortestSeparator(std::string *start, const rocksdb::Slice &limit) const override;
 
-        virtual void FindShortSuccessor(std::string *key) const override;
+    virtual void FindShortSuccessor(std::string *key) const override;
 
-        virtual bool Equal(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
+    virtual bool Equal(const rocksdb::Slice &a, const rocksdb::Slice &b) const override;
 
-    };
+private:
+    virtual int compareByTs(ID& first, ID& second) const;
+    virtual int compareByUnique(ID& first, ID& second) const;
+};
 
-}
+} // namespace reqstore
+} // namespace hydrosphere
 
 #endif
-

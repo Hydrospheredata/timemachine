@@ -4,23 +4,29 @@
 #include <memory>
 #include "../DbClient.h"
 
-#ifndef TIMEMACHINE_HEALTH_HANDLER_H
-#define TIMEMACHINE_HEALTH_HANDLER_H
+#ifndef REQSTORE_HEALTH_HANDLER_H
+#define REQSTORE_HEALTH_HANDLER_H
 
-namespace timemachine {
-    namespace handlers {
-        class HandlerFactory : public Poco::Net::HTTPRequestHandlerFactory {
+namespace hydrosphere
+{
+namespace reqstore
+{
+namespace handlers
+{
+class HandlerFactory : public Poco::Net::HTTPRequestHandlerFactory
+{
 
-        public:
-            HandlerFactory(std::shared_ptr<timemachine::DbClient>);
+public:
+    HandlerFactory(std::shared_ptr<hydrosphere::reqstore::DbClient>);
 
-        private:
-            Poco::Net::HTTPRequestHandler *createRequestHandler(
-                    const Poco::Net::HTTPServerRequest &request) override;
+private:
+    Poco::Net::HTTPRequestHandler *createRequestHandler(
+        const Poco::Net::HTTPServerRequest &request) override;
 
-            std::shared_ptr<timemachine::DbClient> client;
-        };
-    }
-}
+    std::shared_ptr<hydrosphere::reqstore::DbClient> client;
+};
+} // namespace handlers
+} // namespace reqstore
+} // namespace hydrosphere
 
 #endif

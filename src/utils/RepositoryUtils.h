@@ -2,27 +2,30 @@
 // Created by Dmitry Isaev on 2019-03-07.
 //
 
-#include "timeMachine.grpc.pb.h"
+#include "reqstore_service.grpc.pb.h"
 #include "rocksdb/db.h"
 #include <random>
 
-#ifndef TIMEMACHINE_REPOSITORYUTILS_H
-#define TIMEMACHINE_REPOSITORYUTILS_H
+#ifndef REQSTORE_REPOSITORYUTILS_H
+#define REQSTORE_REPOSITORYUTILS_H
 
-namespace timemachine {
+namespace hydrosphere
+{
+namespace reqstore
+{
 
-    namespace utils {
+namespace utils
+{
 
-        class RepositoryUtils {
-        public:
-            static void SerializeID(const timemachine::ID*, char*);
-            static timemachine::ID DeserializeID(const rocksdb::Slice&);
+class RepositoryUtils
+{
+public:
+    static void SerializeID(const hydrosphere::reqstore::ID *, char *);
+    static hydrosphere::reqstore::ID DeserializeID(const rocksdb::Slice &);
+};
 
-        };
+} // namespace utils
+} // namespace reqstore
+} // namespace hydrosphere
 
-    }
-}
-
-
-
-#endif //TIMEMACHINE_REPOSITORYUTILS_H
+#endif //REQSTORE_REPOSITORYUTILS_H

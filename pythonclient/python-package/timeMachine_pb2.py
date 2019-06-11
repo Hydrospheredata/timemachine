@@ -270,42 +270,42 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
   DESCRIPTOR = _EMPTY,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.Empty)
   ))
 _sym_db.RegisterMessage(Empty)
 
 ID = _reflection.GeneratedProtocolMessageType('ID', (_message.Message,), dict(
   DESCRIPTOR = _ID,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.ID)
   ))
 _sym_db.RegisterMessage(ID)
 
 Data = _reflection.GeneratedProtocolMessageType('Data', (_message.Message,), dict(
   DESCRIPTOR = _DATA,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.Data)
   ))
 _sym_db.RegisterMessage(Data)
 
 SaveRequest = _reflection.GeneratedProtocolMessageType('SaveRequest', (_message.Message,), dict(
   DESCRIPTOR = _SAVEREQUEST,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.SaveRequest)
   ))
 _sym_db.RegisterMessage(SaveRequest)
 
 GetRequest = _reflection.GeneratedProtocolMessageType('GetRequest', (_message.Message,), dict(
   DESCRIPTOR = _GETREQUEST,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.GetRequest)
   ))
 _sym_db.RegisterMessage(GetRequest)
 
 RangeRequest = _reflection.GeneratedProtocolMessageType('RangeRequest', (_message.Message,), dict(
   DESCRIPTOR = _RANGEREQUEST,
-  __module__ = 'timeMachine_pb2'
+  __module__ = 'REQSTORE_pb2'
   # @@protoc_insertion_point(class_scope:timemachine.RangeRequest)
   ))
 _sym_db.RegisterMessage(RangeRequest)

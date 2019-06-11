@@ -3,46 +3,47 @@
 //
 #include <iostream>
 
-#ifndef TIMEMACHINE_CONFIG_H
-#define TIMEMACHINE_CONFIG_H
+#ifndef REQSTORE_CONFIG_H
+#define REQSTORE_CONFIG_H
 
-namespace timemachine {
-    class Config {
+namespace hydrosphere
+{
+namespace reqstore
+{
+class Config
+{
 
-    public:
+public:
+    std::string ToString();
+    Config();
 
-        std::string ToString();
-        Config ();
+    void Init();
 
-        void Init();
+    char *keyid;
+    char *secret;
+    char *kRegion;
+    char *walProvider;
+    char *sourceLocalDir;
+    char *destinationLocalDir;
+    char *sourceBucket;
+    char *destBucket;
+    char *dbName;
+    bool useKinesis;
+    bool debug;
 
-        char *keyid;
-        char *secret;
-        char *kRegion;
-        char *walProvider;
-        char *sourceLocalDir;
-        char *destinationLocalDir;
-        char *sourceBucket;
-        char *destBucket;
-        char *dbName;
-        bool useKinesis;
-        bool debug;
+    char *backupProvider;
+    char *gprc_port = nullptr;
+    char *http_port = nullptr;
+    int http_timeout = 100000;
+    int http_max_queued = 100;
+    int http_max_threads = 4;
 
-        char *backupProvider;
-        char *gprc_port = nullptr;
-        char *http_port = nullptr;
-        int http_timeout = 100000;
-        int http_max_queued = 100;
-        int http_max_threads = 4;
+private:
+    char *getEnvironmentVariableOrDefault(const std::string &variable_name, char *default_value);
 
-    private:
+    int getEnvironmentVariableOrDefaultInt(const std::string &variable_name, int default_value);
+};
+} // namespace reqstore
+} // namespace hydrosphere
 
-        char *getEnvironmentVariableOrDefault(const std::string &variable_name, char *default_value);
-
-        int getEnvironmentVariableOrDefaultInt(const std::string &variable_name, int default_value);
-
-    };
-}
-
-
-#endif //TIMEMACHINE_CONFIG_H
+#endif //REQSTORE_CONFIG_H

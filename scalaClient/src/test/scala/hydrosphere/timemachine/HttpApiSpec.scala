@@ -9,7 +9,10 @@ import scala.concurrent.duration._
 import spray.json._
 import DefaultJsonProtocol._
 import io.grpc.stub.StreamObserver
-import timemachine.timeMachine.Data
+import org.scalatest.Matchers._
+import org.scalatest._
+import Assertions._
+
 
 import scala.concurrent.{Future, Promise}
 
@@ -21,12 +24,11 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
   override val StartContainersTimeout = 120 seconds
 
-  override def bucket: String = "otherone"
-
   val folder = "123"
 
-  val postUri = uri"http://localhost:$exposedHttpPort/$folder/put"
+  def postUri(ts:Long) = uri"http://localhost:$exposedHttpPort/$folder/put?timestamp=$ts"
   val getUri = uri"http://localhost:$exposedHttpPort/$folder/get"
+  val subsamplingUri = uri"http://localhost:$exposedHttpPort/$folder/subsampling"
   implicit val backend = HttpURLConnectionBackend()
 
 
@@ -34,13 +36,13 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
 
 
 
-    val requestPost = sttp.response(asString)
+    def requestPost(ts:Long) = sttp.response(asString)
       .body(data2save())
-      .post(postUri)
+      .post(postUri(ts))
 
-    val ids = Range(0, 10).map{_ =>
+    val ids = Range(1, 300).map{i =>
 
-      val response = requestPost.send()
+      val response = requestPost(i * 10000).send()
       val body = response.unsafeBody
 
       val jsonAst = body.parseJson
@@ -63,6 +65,33 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
     last5.size shouldBe(5)
     (last5(4).ts < last5(0).ts) shouldBe(true)
 
+    val subsampling = subsamplingRequest(3)
+    subsampling.size shouldBe(3)
+
+    val subsampling2 = subsamplingRequest(40)
+    subsampling2.size shouldBe(40)
+
+    val subsampling3 = subsamplingRequest(20, 40)
+    subsampling3.size shouldBe(20)
+
+    val subsampling4 = subsamplingRequestByTs(20,2500000, 3000000, 100)
+    subsampling4.size shouldBe(20)
+    val minIdUnique:Long = subsampling4.map(_.ts).min
+
+  }
+
+  def subsamplingRequestByTs(amount:Int, tsFrom:Long, tsTill:Long, step:Int = 5):List[Id] ={
+    val url = uri"http://localhost:$exposedHttpPort/$folder/subsampling?amount=$amount&from=$tsFrom&to=$tsTill&step=$step"
+    val requestGet = sttp.response(asByteArray).get(url)
+    val response = requestGet.send()
+    bodyToIdList(response.unsafeBody)
+  }
+
+  def subsamplingRequest(amount:Int, step:Int = 5):List[Id] = {
+    val url = uri"http://localhost:$exposedHttpPort/$folder/subsampling?amount=$amount&step=$step"
+    val requestGet = sttp.response(asByteArray).get(url)
+    val response = requestGet.send()
+    bodyToIdList(response.unsafeBody)
   }
 
   def rangeRequest(folderName:String,
@@ -85,9 +114,13 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
     val requestGet = sttp.response(asByteArray).get(url)
 
     val response2 = requestGet.send()
-
     val b = response2.unsafeBody
-    val bb = ByteBuffer.wrap(b)
+    bodyToIdList(b)
+
+  }
+
+  def bodyToIdList(byteArray:Array[Byte]):List[Id] = {
+    val bb = ByteBuffer.wrap(byteArray)
 
     var list = List[Id]()
 
@@ -106,7 +139,6 @@ class HttpApiSpec extends FlatSpec with Matchers with ReqtoreDockerKit  {
     }
 
     return list.reverse;
-
   }
 
 }
