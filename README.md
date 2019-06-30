@@ -1,4 +1,4 @@
-# timemachine
+# reqstore-cpp
 rocksdb-cloud based kv service
 
 ## Development process
@@ -25,10 +25,10 @@ all below commands works if 'start develop env' performed (dev container started
 **run app detached** subj
 
 To start development you should use:
-'build develop image' -> 'start develop env' -> 'cmake generate'
+**build develop image** -> **start develop env** -> **cmake generate**
 
 To compile:
-'build'
+**build**
 
 ## More
 
@@ -37,10 +37,9 @@ All intermidiate dockers for build in dockers folder
 All grpc endpoint implementation in src/GRPCServer.cpp 
 Http endpoints in src/handlers/... , entrypoint (router-like class) in src/handlers/HandlerFactory.cpp (more info in [POCO documentation](https://pocoproject.org/))
 
-There are 2 implementations of DbClient (client to rocksdb-cloud)
+There are 2 implementations of DbClient (client to rocksdb-cloud):
 - src/CloudDBClient.cpp uses rocksdb-client tools with aws s3
 - src/LocalDBClient.cpp uses plain old rocksdb functionality without s3 (local mode)
-
 
 configuration in src/Config.cpp
 
@@ -53,6 +52,6 @@ Where DOCKER_IMAGE image with app you want to test.
 - HttpApiSpec.scala for http endpoints
 - TimeMachineClientSpec.scala for grpc
 
-TODO list
+## TODO list
 - build info endpoint
 
