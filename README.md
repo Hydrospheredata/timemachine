@@ -46,7 +46,8 @@ configuration in src/Config.cpp
 ## Tests
 
 in scalaClient folder you'll find sbt projects with e2e tests. To make it works localy (without s3) you should use env like that:
-DOCKER_IMAGE=reqstore-cpp:latest;TEST_REGION=none;BACKUP_PROVIDER=none;TEST_AWS_KEY=none;DEBUG=1;TEST_AWS_SECRET=none
+
+**DOCKER_IMAGE=reqstore-cpp:latest;TEST_REGION=none;BACKUP_PROVIDER=none;TEST_AWS_KEY=none;DEBUG=1;TEST_AWS_SECRET=none**
 Where DOCKER_IMAGE image with app you want to test.
 
 - HttpApiSpec.scala for http endpoints
